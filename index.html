@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#113a44">
+  <meta name="description" content="A bilingual, photo-first identification guide for fish of Punta Chivato and the Sea of Cortez. Catch locations are not assumed.">
+  <title>Punta Chivato Fish ID</title>
+  <style>
+:root{--bg:#f3f4ef;--ink:#17353a;--sub:#64787b;--deep:#103b45;--aqua:#087c82;--gold:#d9aa5f;--line:#d9e1de;--white:#fff;--pale:#e6efec;--warn:#75502d}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}button,input,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{outline:3px solid #dd9a3d;outline-offset:2px}a{color:var(--aqua)}.masthead{height:72px;background:var(--deep);color:white;display:flex;align-items:center;justify-content:space-between;padding:12px max(20px,calc((100% - 1140px)/2));gap:12px;position:sticky;top:0;z-index:15;box-shadow:0 4px 18px #102e3420}.brand{display:flex;align-items:center;gap:11px}.brand-mark{width:39px;height:39px;display:grid;place-items:center;background:#ffffff19;border:1px solid #ffffff40;border-radius:12px;color:#b6e3db;font-size:25px}.brand strong{display:block;letter-spacing:.01em;font-size:18px}.brand small{display:block;font-size:10px;letter-spacing:.19em;color:#b9d1d0;margin-top:3px}.menu-link{border:1px solid #91adaa;border-radius:22px;color:#fff;background:transparent;font-size:13px;padding:10px 15px;font-weight:700}main{max-width:1140px;margin:auto;padding:24px 20px 120px}.hero{background:linear-gradient(118deg,#113a44 5%,#17636b 100%);border-radius:24px;padding:32px 28px;color:#fff;position:relative;overflow:hidden}.hero:after{content:"";position:absolute;border:1px solid #ffffff25;border-radius:50%;width:310px;height:310px;right:-110px;top:-130px;box-shadow:0 0 0 65px #ffffff0b,0 0 0 130px #ffffff05;pointer-events:none}.eyebrow{font-size:11px;letter-spacing:.15em;font-weight:800;text-transform:uppercase;color:#7ac6c5}.hero .eyebrow{color:#b3d6cd}.hero h1{font-size:clamp(32px,5.5vw,55px);line-height:1.07;letter-spacing:-.045em;margin:14px 0}.hero h1 em{font-style:normal;color:#e5c28b}.hero p{color:#c8dddd;max-width:580px;line-height:1.6;font-size:15px;margin:0}.hero-foot{display:flex;flex-wrap:wrap;gap:9px;margin-top:25px}.hero-chip{font-size:12px;border:1px solid #a6cecc70;padding:9px 12px;border-radius:40px;color:#dfefea}.searchrow{display:flex;gap:12px;margin:23px 0;flex-wrap:wrap}.search-box{position:relative;flex:1;min-width:200px}.search-box input{width:100%;padding:17px 18px 17px 47px;border:1px solid var(--line);border-radius:15px;background:white;font-size:16px;color:var(--ink)}.search-box span{position:absolute;left:17px;top:14px;font-size:25px;color:var(--aqua)}.action{border:0;border-radius:14px;color:white;background:var(--aqua);padding:15px 19px;font-weight:750;min-height:52px}.action:hover{background:#05666c}.action.alt{background:#e4efec;color:#0e4a51}.filterrow{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:18px 0 16px}.sectiontitle{font-size:23px;letter-spacing:-.035em;margin:0}.hint{font-size:13px;color:var(--sub)}.check{display:flex;align-items:center;gap:9px;font-weight:600;color:var(--sub);font-size:13px}.check input{height:18px;width:18px;accent-color:var(--aqua)}.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.fish-card{background:#fff;border-radius:19px;overflow:hidden;box-shadow:0 2px 16px #143a3c0c;border:1px solid #e4eae7;transition:transform .15s,box-shadow .15s}.fish-card:hover{transform:translateY(-2px);box-shadow:0 6px 23px #173d4016}.card-photo{height:270px;width:100%;border:0;display:block;position:relative;padding:0;background:#dce8e4;overflow:hidden}.card-photo img{width:100%;height:100%;object-fit:cover;display:block}.placeholder{background:linear-gradient(145deg,#d5e3df,#eaf0e8 57%,#cbdad4);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:#416870;width:100%;height:100%;text-align:center;padding:18px}.camera{font-size:34px;line-height:1}.placeholder strong{font-size:13px}.placeholder small{font-size:11px;opacity:.77}.mini-pill{position:absolute;left:15px;top:15px;background:#fffef1;color:#6f512c;border-radius:20px;font-weight:800;padding:7px 10px;font-size:11px;box-shadow:0 2px 10px #0000000d}.card-content{padding:18px 20px 21px}.fish-title{font-weight:850;font-size:23px;letter-spacing:-.03em;margin:0 0 1px}.fish-spanish{font-size:19px;color:#07818a;font-weight:750;margin:0 0 13px}.detail-meta{display:flex;gap:9px;flex-wrap:wrap;font-size:12px;color:#60767a}.detail-meta span{background:#f0f4f1;border-radius:12px;padding:7px 10px}.card-bottom{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:15px}.go-link{background:none;border:0;color:#006e78;font-weight:850;font-size:14px;padding:10px 0}.photo-count{color:var(--sub);font-size:12px}.leadpanel{border:1px solid #cde0dc;border-radius:18px;background:#e4f0ec;padding:20px 22px;margin:22px 0}.leadpanel h2{margin:0 0 6px;font-size:20px}.leadpanel p{margin:0;color:#49696c;line-height:1.55;font-size:14px}.leadpanel button{margin-top:12px}.groups{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:16px}.group{border:1px solid var(--line);border-radius:15px;background:white;padding:18px;display:flex;justify-content:space-between;gap:12px;align-items:center;min-height:91px;text-align:left;color:var(--ink)}.group strong{display:block;font-size:16px}.group small{display:block;color:var(--sub);font-size:12px;margin-top:5px}.group b{display:grid;place-items:center;border-radius:100%;background:#e6efeb;color:#175960;width:35px;height:35px;flex-shrink:0}.group:hover{border-color:#5b9fa0}.empty{padding:26px;background:#fff;border:1px dashed #b9ccc7;border-radius:15px;margin:16px 0;text-align:center}.empty h3{font-size:17px}.empty p{color:var(--sub);font-size:14px}.back{background:none;border:0;color:var(--aqua);font-size:14px;font-weight:750;padding:5px 0 20px}.detail-head h1{font-size:clamp(31px,5vw,50px);margin:5px 0 0;letter-spacing:-.045em}.detail-spanish{color:#04818b;font-weight:700;font-size:clamp(22px,4vw,31px);margin:1px 0 14px}.tag{display:inline-block;font-size:12px;font-weight:700;border-radius:10px;padding:8px 11px;color:#785527;background:#fff2d6}.tag.neutral{color:#37676d;background:#e4efeb}.species-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:22px;margin-top:23px}.gallery{border-radius:18px;overflow:hidden;background:white;border:1px solid var(--line)}.gallery-track{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;scrollbar-width:none}.gallery-track::-webkit-scrollbar{display:none}.slide{position:relative;min-width:100%;height:390px;scroll-snap-align:start;background:#dae7e2}.slide img{height:100%;width:100%;object-fit:contain;background:#153b42}.slide .placeholder{height:100%}.attach{position:absolute;bottom:16px;left:50%;transform:translateX(-50%);white-space:nowrap;border:1px solid #b4d0ce;padding:11px 15px;border-radius:23px;background:#fff;color:var(--deep);font-size:13px;font-weight:800;box-shadow:0 3px 10px #0002}.gallery-nav{display:flex;justify-content:space-between;align-items:center;padding:12px 17px;gap:8px}.gallery-nav button{border:1px solid #d2ddda;background:#fff;border-radius:12px;padding:9px 12px;color:var(--ink);font-weight:800}.dots{display:flex;gap:7px}.dot{width:9px;height:9px;border-radius:50%;background:#c5d5cf}.dot.active{background:var(--aqua)}.smallnote{font-size:12px;color:var(--sub);padding:0 18px 15px;line-height:1.55}.info-card{padding:22px;background:#fff;border:1px solid var(--line);border-radius:17px;margin-bottom:15px}.info-card h2{margin:0 0 14px;font-size:19px;letter-spacing:-.02em}.info-card p{line-height:1.65;color:#41585d;font-size:14px;margin:0 0 8px}.info-card ul{margin:0;padding-left:20px;color:#40585c;line-height:1.65;font-size:14px}.kv{display:grid;grid-template-columns:1fr 1.5fr;gap:8px;padding:10px 0;border-bottom:1px solid #e8eeeb;font-size:14px}.kv:last-child{border:0}.kv dt{color:var(--sub)}.kv dd{margin:0;font-weight:650}.sources a{display:block;line-height:1.45;margin:9px 0;font-size:14px}.finder-header{background:var(--deep);border-radius:22px;padding:27px;color:white}.finder-header h1{margin:7px 0;font-size:33px}.finder-header p{color:#c6dcda;line-height:1.6;font-size:14px;max-width:620px}.finder-fields{display:grid;grid-template-columns:repeat(2,1fr);gap:15px;margin:22px 0}.field{display:flex;flex-direction:column;gap:8px;color:var(--ink);font-weight:750;font-size:14px}.field select{width:100%;border:1px solid #cddbd6;border-radius:13px;background:#fff;padding:15px;font-size:16px;color:var(--ink)}.result-item{display:flex;align-items:center;justify-content:space-between;gap:12px;text-align:left;background:#fff;border:1px solid var(--line);border-radius:15px;padding:15px;width:100%;margin:10px 0}.result-item strong{font-size:16px}.result-item small{display:block;margin:5px 0 0;color:var(--sub)}.result-item b{color:#087c82}.footnote{margin-top:26px;padding:15px 0;color:#6c8180;font-size:12px;line-height:1.6;border-top:1px solid var(--line)}.bottom-nav{display:none}.note{border-left:3px solid #d1a35a;padding:9px 12px;background:#fffaef;color:#6b563e;font-size:13px;line-height:1.6;margin-top:12px}.pill-list{display:flex;gap:6px;flex-wrap:wrap}.pill-list span{border-radius:30px;padding:7px 10px;background:#e7efeb;color:#35666a;font-size:12px}.section-gap{margin-top:30px}@media(max-width:700px){.masthead{height:67px;padding:10px 17px}.brand strong{font-size:16px}.brand small{font-size:9px}.menu-link{font-size:12px;padding:9px 12px}main{padding:15px 14px 108px}.hero{border-radius:19px;padding:28px 20px 27px}.hero h1{font-size:36px}.hero:after{right:-210px}.searchrow{margin:16px 0}.searchrow .action{width:100%}.cards{grid-template-columns:1fr;gap:14px}.card-photo{height:265px}.card-content{padding:16px 18px}.groups{grid-template-columns:1fr;gap:9px}.group{min-height:77px}.sectiontitle{font-size:22px}.species-grid{grid-template-columns:1fr;gap:15px}.slide{height:340px}.gallery{margin:0 -4px}.info-card{padding:19px}.finder-fields{grid-template-columns:1fr}.finder-header{padding:23px}.bottom-nav{display:flex;position:fixed;z-index:18;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #d8e5de;padding:9px max(10px,env(safe-area-inset-left)) calc(8px + env(safe-area-inset-bottom));justify-content:space-evenly;box-shadow:0 -3px 18px #00000012}.bottom-nav button{min-width:90px;border:0;background:transparent;color:#4b676b;display:flex;align-items:center;gap:4px;flex-direction:column;font-size:11px;padding:4px;font-weight:750}.bottom-nav button span{font-size:24px;line-height:24px}.bottom-nav button.active{color:#00757b}.kv{grid-template-columns:1fr 1.4fr}.detail-head h1{font-size:34px}.detail-spanish{font-size:24px}}@media(max-width:380px){.card-photo{height:225px}.slide{height:280px}.hero h1{font-size:32px}}
+/* Small extensions for the application views. */
+.page-heading{font-size:clamp(31px,4vw,42px);letter-spacing:-.045em;margin:4px 0 13px}
+.muted-intro{color:var(--sub);line-height:1.6;font-size:15px}
+.quiet-btn{background:#e4efec;color:#16545a;border:1px solid #c8ddda;border-radius:12px;padding:10px 14px;font-weight:750}
+.micro-title{font-weight:750;margin-top:17px!important;font-size:12px!important;color:var(--sub)!important}
+.gallery-track{touch-action:pan-x pan-y}
+@media(min-width:701px){.card-photo{height:290px}}
+
+</style>
+
+
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/svg+xml" href="icon.svg">
+</head>
+<body>
+  <header class="masthead">
+    <div class="brand"><span class="brand-mark" aria-hidden="true">◈</span><div><strong>Punta Chivato</strong><small>FISH ID · SEA OF CORTEZ</small></div></div>
+    <button class="menu-link" id="resetNav" type="button">All fish</button>
+  </header>
+  <main id="app" aria-live="polite"></main>
+  <nav class="bottom-nav" aria-label="Main navigation">
+    <button type="button" data-nav="explore"><span aria-hidden="true">⌕</span> Explore</button>
+    <button type="button" data-nav="appearance"><span aria-hidden="true">◎</span> Appearance</button>
+    <button type="button" data-nav="groups"><span aria-hidden="true">▦</span> Categories</button>
+  </nav>
+  <input id="photoInput" type="file" accept="image/*" hidden>
+  <script>
+/* Punta Chivato Fish ID — original, independent fish guide. No catch data is inferred. */
+'use strict';
+const CATEGORIES = [
+  'Jacks & Roosterfish',
+  'Groupers & Sea Bass',
+  'Snappers',
+  'Tunas, Bonitos & Mackerels',
+  'Dorado & Billfish',
+  'Other Reef & Bottom Fish',
+  'Sharks & Rays',
+  'Small Fish & Baitfish'
+];
+const FISH = [
+  {
+    id:'leopard-grouper', english:'Leopard Grouper', spanish:'Cabrilla',
+    other:['Cabrilla sardinera','Cabrilla rosa','Leopard grouper'],
+    category:'Groupers & Sea Bass', scientific:'Mycteroperca rosacea', status:'tentative',
+    statusNote:'The reference species is established, but this catch has not been independently identified from its photos. The two images may show different individuals.',
+    shots:2, localPhotos:['photos/leopard-grouper-1.jpg','photos/leopard-grouper-2.jpg'],
+    shape:'stout',color:'brown',marking:'spotted',tail:'straight',openWater:false,
+    features:['Robust, elongated grouper body and large mouth','Many small brown spots on a gray-brown or green-brown body','Often darker patches along the upper back separated by pale markings','Adults generally have a nearly straight tail edge'],
+    similar:'Other regional groupers, especially Gulf grouper (Mycteroperca jordani). Compare the density of spots and dark bars; confirm using clear side-on images and fin details.',
+    catchDate:'October 12, 2026', dateNote:null, method:'Spearfishing', lure:null,
+    catchNote:'Two photos of spotted grouper; whether they show the same individual is unknown.',
+    sourceName:'Smithsonian — Leopard grouper', sourceUrl:'https://biogeodb.stri.si.edu/sftep/en/thefishes/species/1134'
+  },
+  {
+    id:'snook',english:'Snook',spanish:'Róbalo',other:['Robalo','Snook'],
+    category:'Other Reef & Bottom Fish',scientific:null,status:'unconfirmed',
+    statusNote:'Snook is a common-name group, not a verified species identification. Several eastern Pacific Centropomus species look similar. The category is just a browsing location, not a claim that snook is a reef fish.',
+    shots:1,localPhotos:['photos/snook-1.jpg'],shape:'slender',color:'silver',marking:'stripe',tail:'forked',openWater:false,
+    features:['Elongated, silver-sided body','Distinctive dark horizontal lateral line','Large mouth with a projecting lower jaw','Compare fin proportions and head profile for species-level identification'],
+    similar:'Black snook (Centropomus nigrescens), armed snook (C. armatus), and yellowfin snook (C. robalito). The dark stripe alone cannot establish a species.',
+    catchDate:'September 22',dateNote:'Year not confirmed',method:'Shore fishing',lure:'Casting an artificial lure',
+    catchNote:'One photo of a silver fish with a dark lateral stripe.',
+    sourceName:'Smithsonian — Little snook and comparable snooks',sourceUrl:'https://biogeodb.stri.si.edu/sftep/en/thefishes/species/1089'
+  },
+  {
+    id:'barred-pargo',english:'Barred Pargo',spanish:'Pargo mulato',other:['Mexican barred snapper','Pargo dientón','Pargo mulato'],
+    category:'Snappers',scientific:'Hoplopagrus guentherii',status:'tentative',
+    statusNote:'The scientific name belongs to barred pargo in standard references. The striped fish in the catch photo still needs independent identification. The partially visible silver fish is NOT identified.',
+    shots:1,localPhotos:['photos/barred-pargo-1.jpg'],shape:'deep',color:'brown',marking:'bars',tail:'straight',openWater:false,
+    features:['Fairly deep, laterally flattened body','Multiple conspicuous dark vertical bars','Large head and strong jaws; adults have crushing teeth','Brownish-green back, often pinkish toward the belly'],
+    similar:'Other snappers including mullet snapper and juvenile snapper species. Check the dark bars, deep body and head shape carefully.',
+    catchDate:'September 20, 2026',dateNote:null,method:'Shore fishing',lure:'Casting an artificial lure',
+    catchNote:'One image shows the striped fish next to a partially visible silver fish. Silver fish remains unidentified.',
+    sourceName:'Smithsonian — Barred pargo',sourceUrl:'https://biogeodb.stri.si.edu/sftep/en/thefishes/species/1311'
+  },
+  {
+    id:'mahi-mahi',english:'Mahi-mahi',spanish:'Dorado',other:['Dolphinfish','Dolphin fish','Mahi mahi','Dolphin','Dorado'],
+    category:'Dorado & Billfish',scientific:'Coryphaena hippurus',status:'reference',
+    statusNote:'The scientific name is verified for the species called mahi-mahi/dorado. The identification of the particular pictured catch has not yet been checked against the original photo.',
+    shots:1,localPhotos:['photos/mahi-mahi-1.jpg'],shape:'slender',color:'bright',marking:'spotted',tail:'forked',openWater:true,
+    features:['Long body with brilliant green, blue and gold coloration','Long, continuous dorsal fin extending toward the tail','Deeply forked tail','Often blue speckles; colors may fade after capture'],
+    similar:'Pompano dolphinfish (Coryphaena equiselis) is a similar species. Accurate comparison needs body depth and other anatomy.',
+    catchDate:'June 21, 2026',dateNote:null,method:'Trolling',lure:'Feather lure',
+    catchNote:'One photo of an angler holding the fish.',
+    sourceName:'NOAA Fisheries — Pacific mahimahi',sourceUrl:'https://www.fisheries.noaa.gov/species/pacific-mahimahi'
+  }
+];
+const app=document.getElementById('app');
+const state={view:'explore',id:null,category:null,search:'',openWater:false,appearance:{shape:'',color:'',marking:'',tail:''},imageUrls:new Map(),livePhotoSlots:new Set(),currentPhoto:0};
+let dbPromise;
+const reqStore='fish-photos-v1';
+function openDB(){
+ if(!('indexedDB' in window)) return Promise.resolve(null);
+ if(!dbPromise) dbPromise=new Promise(resolve=>{
+  try{const request=indexedDB.open('punta-chivato-fish-id',1);
+   request.onupgradeneeded=()=>{if(!request.result.objectStoreNames.contains(reqStore))request.result.createObjectStore(reqStore)};
+   request.onsuccess=()=>resolve(request.result);request.onerror=()=>resolve(null);
+  }catch(_){resolve(null)}
+ });
+ return dbPromise;
+}
+async function readPhoto(key){const db=await openDB();if(!db)return null;return new Promise(resolve=>{try{const t=db.transaction(reqStore,'readonly'),r=t.objectStore(reqStore).get(key);r.onsuccess=()=>resolve(r.result||null);r.onerror=()=>resolve(null)}catch(_){resolve(null)}})}
+async function savePhoto(key,blob){const db=await openDB();if(!db)return false;return new Promise(resolve=>{try{const t=db.transaction(reqStore,'readwrite');t.objectStore(reqStore).put(blob,key);t.oncomplete=()=>resolve(true);t.onerror=()=>resolve(false)}catch(_){resolve(false)}})}
+async function preloadPhotos(){
+ for(const fish of FISH)for(let n=0;n<fish.shots;n++){
+  const key=`${fish.id}-${n}`;
+  const blob=await readPhoto(key);
+  if(blob){state.imageUrls.set(key,URL.createObjectURL(blob));state.livePhotoSlots.add(key)}
+  else if(await bundledExists(fish.localPhotos[n]))state.imageUrls.set(key,fish.localPhotos[n]);
+ }
+ render();
+}
+async function bundledExists(url){try{const response=await fetch(url,{method:'HEAD'});return response.ok&&response.headers.get('content-type')?.startsWith('image/')}catch(_){return false}}
+function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function norm(s){return String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim()}
+function keyFor(fish,index){return `${fish.id}-${index}`}
+function fishPhoto(fish,index=0){return state.imageUrls.get(keyFor(fish,index))||null}
+function imageArea(fish,index,opts={}){
+ const src=fishPhoto(fish,index);const text=fish.shots>1?`Photo ${index+1} of ${fish.shots}`:'Catch photo';
+ return src?`<img loading="lazy" src="${esc(src)}" alt="${esc(fish.english)} — ${esc(text)}">`:
+ `<div class="placeholder"><span class="camera" aria-hidden="true">▧</span><strong>${esc(text)} not added yet</strong><small>Use your original photo — no stock images</small></div>`;
+}
+function tag(fish){return fish.status==='reference'?'Reference species named · photo pending verification':fish.status==='unconfirmed'?'Exact species unconfirmed':'Tentative identification'}
+function card(fish){
+ const got=Array.from({length:fish.shots},(_,n)=>fishPhoto(fish,n)).filter(Boolean).length;
+ return `<article class="fish-card"><button class="card-photo" type="button" data-fish="${fish.id}" aria-label="View ${esc(fish.english)} details">
+ ${imageArea(fish,0)}<span class="mini-pill">${fish.status==='reference'?'Photo ID unchecked':'ID needs verification'}</span></button>
+ <div class="card-content"><h3 class="fish-title">${esc(fish.english)}</h3><p class="fish-spanish">${esc(fish.spanish)}</p>
+ <div class="detail-meta"><span>${esc(fish.category)}</span><span>${esc(fish.catchDate)}</span></div>
+ <div class="card-bottom"><button class="go-link" type="button" data-fish="${fish.id}">View fish details →</button><span class="photo-count">${got} / ${fish.shots} photos</span></div></div></article>`
+}
+function footer(){return `<footer class="footnote">Punta Chivato Fish ID · Independent from the beach-launch and tide project.<br>Regional reference guide, not proof of catch location. No fish lengths, exact catch locations, trip counts, angler counts or success rates have been assumed.<br>Personal photos added in this browser remain on this device until separately published with the app.</footer>`}
+function home(){
+ const q=norm(state.search);
+ let matches=FISH.filter(f=>!q||norm([f.english,f.spanish,f.scientific,...f.other].join(' ')).includes(q));
+ if(state.category)matches=matches.filter(f=>f.category===state.category);
+ if(state.openWater)matches=matches.filter(f=>f.openWater);
+ const title=state.category||'Your fish guide';
+ return `${!state.category?`<section class="hero"><span class="eyebrow">Your local guide · Version 1</span><h1>Know your fish.<br><em>Conoce tu pesca.</em></h1><p>Real catch photos, English and local names, and a quick way to narrow down a fish by its appearance.</p><div class="hero-foot"><span class="hero-chip">4 fish records</span><span class="hero-chip">5 photo slots</span><span class="hero-chip">8 categories</span></div></section>`:`<button class="back" data-nav="groups" type="button">← All categories</button><h1 class="page-heading">${esc(state.category)}</h1>`}
+ <div class="searchrow"><label class="search-box"><span aria-hidden="true">⌕</span><input id="fishSearch" type="search" placeholder="Search cabrilla, dorado, dolphinfish…" value="${esc(state.search)}" aria-label="Search fish in English, Spanish or alternate names"></label><button type="button" class="action" data-nav="appearance">Not sure? Find by appearance</button></div>
+ ${!state.category?`<section class="leadpanel"><h2>Not sure what you caught?</h2><p>Choose a body shape, color, markings, or tail shape. Get suggestions from the fish already in your guide — not a definitive identification.</p><button type="button" class="action alt" data-nav="appearance">Find by appearance →</button></section>`:''}
+ <div class="filterrow"><h2 class="sectiontitle">${esc(title)} <span class="hint">(${matches.length})</span></h2><label class="check"><input id="openWater" type="checkbox" ${state.openWater?'checked':''}> Open-water fish only</label></div>
+ ${matches.length?`<section class="cards">${matches.map(card).join('')}</section>`:`<div class="empty"><h3>${state.category&&!q&&!state.openWater?'Photos haven’t been added yet':'No matching fish yet'}</h3><p>${state.category&&!q&&!state.openWater?'This category is ready for photos and confirmed catches.':'Try another name, turn off the open-water filter, or browse the categories.'}</p>${state.category?'<button class="action alt" data-nav="groups" type="button">See all categories</button>':''}</div>`}
+ ${footer()}`;
+}
+function groups(){return `<button class="back" data-nav="explore">← Explore fish</button><div class="eyebrow">Browse the guide</div><h1 class="page-heading">Eight fish categories</h1><p class="muted-intro">Categories with no catch photos are intentionally empty. We're not adding stock fish pictures.</p><div class="groups">${CATEGORIES.map(name=>{const n=FISH.filter(x=>x.category===name).length;return `<button type="button" class="group" data-category="${esc(name)}"><div><strong>${esc(name)}</strong><small>${n?`${n} fish record${n===1?'':'s'}`:'Photos haven’t been added yet'}</small></div><b>${n}</b></button>`}).join('')}</div><p class="note">Snook is grouped under “Other Reef & Bottom Fish” for navigation only; this does not imply that snook is a reef species.</p>${footer()}`}
+function dataPair(title,value){return `<div class="kv"><dt>${esc(title)}</dt><dd>${esc(value)}</dd></div>`}
+function detail(fish){
+ const localImgs=Array.from({length:fish.shots},(_,i)=>fishPhoto(fish,i)).filter(Boolean).length;
+ return `<button class="back" data-nav="explore" type="button">← All fish</button><section class="detail-head"><div class="eyebrow">${esc(fish.category)}</div><h1>${esc(fish.english)}</h1><p class="detail-spanish">${esc(fish.spanish)}</p><span class="tag">${esc(tag(fish))}</span></section>
+ <div class="species-grid"><section><div class="gallery"><div class="gallery-track" id="galleryTrack" aria-label="${esc(fish.english)} photo gallery">${Array.from({length:fish.shots},(_,i)=>`<div class="slide" id="slide-${i}">${imageArea(fish,i)}<button class="attach" type="button" data-photo="${fish.id}" data-slot="${i}">${fishPhoto(fish,i)?'Replace this photo':`Add photo ${i+1}`}</button></div>`).join('')}</div>
+ <div class="gallery-nav"><button type="button" data-slide="previous" aria-label="Previous photo">‹ Previous</button><div class="dots" id="galleryDots">${Array.from({length:fish.shots},(_,i)=>`<span class="dot${i===0?' active':''}" aria-hidden="true"></span>`).join('')}</div><button type="button" data-slide="next" aria-label="Next photo">Next ›</button></div>
+ <div class="smallnote">Swipe the image to move between photos. ${localImgs}/${fish.shots} photos available. Adding photos here stores them on <strong>this browser only</strong>, not Render or GitHub.</div></div>
+ <div class="info-card section-gap"><h2>How to recognize it</h2><ul>${fish.features.map(v=>`<li>${esc(v)}</li>`).join('')}</ul></div>
+ <div class="info-card"><h2>Similar fish</h2><p>${esc(fish.similar)}</p></div></section>
+ <aside><div class="info-card"><h2>Species identification</h2>${dataPair('English name',fish.english)}${dataPair('Local / Spanish',fish.spanish)}${dataPair('Scientific name',fish.scientific?`${fish.scientific} (${fish.status==='tentative'?'tentative for this catch':'reference species'})`:'Not confirmed')}
+ <div class="note">${esc(fish.statusNote)}</div>${fish.other.length?`<p class="micro-title">Also searchable as</p><div class="pill-list">${fish.other.map(n=>`<span>${esc(n)}</span>`).join('')}</div>`:''}</div>
+ <div class="info-card"><h2>Reported catch details</h2>${dataPair('Date',fish.catchDate)}${fish.dateNote?dataPair('Date note',fish.dateNote):''}${dataPair('Method',fish.method)}${fish.lure?dataPair('Lure',fish.lure):''}${dataPair('Exact location','Unknown')}${dataPair('Size','Unknown')}<p class="note">${esc(fish.catchNote)}</p></div>
+ <div class="info-card sources"><h2>Check the reference</h2><p>These sources describe the reference species; they do not verify this particular catch photo.</p><a target="_blank" rel="noopener noreferrer" href="${esc(fish.sourceUrl)}">${esc(fish.sourceName)} ↗</a></div></aside></div>${footer()}`;
+}
+const CHOICES={
+ shape:[['','Any body shape'],['stout','Robust / grouper-shaped'],['slender','Long and narrow'],['deep','Deep / rounded body']],
+ color:[['','Any color'],['brown','Brown / gray-brown'],['silver','Silver'],['bright','Bright green / blue / gold']],
+ marking:[['','Any markings'],['spotted','Spots'],['stripe','Long horizontal stripe'],['bars','Vertical bars']],
+ tail:[['','Any tail shape'],['straight','Straight / squared edge'],['forked','Forked / notched']]
+};
+function appearance(){
+ const labels={shape:'Body shape',color:'Color',marking:'Markings',tail:'Tail shape'};
+ const choices=Object.keys(CHOICES).map(k=>`<label class="field">${labels[k]}<select data-appearance="${k}">${CHOICES[k].map(([v,n])=>`<option value="${esc(v)}" ${state.appearance[k]===v?'selected':''}>${esc(n)}</option>`).join('')}</select></label>`).join('');
+ const selected=Object.entries(state.appearance).filter(([k,v])=>v);
+ let ranked=FISH.map(f=>({fish:f,score:selected.reduce((n,[k,v])=>n+(f[k]===v?1:0),0)}));
+ ranked=selected.length?ranked.filter(x=>x.score>0).sort((a,b)=>b.score-a.score):ranked;
+ const perfect=ranked.filter(x=>x.score===selected.length);
+ return `<button type="button" class="back" data-nav="explore">← Explore fish</button><section class="finder-header"><span class="eyebrow">Visual fish finder</span><h1>Find by appearance</h1><p>Start with what you can see. Choose one or more details. Results compare only the four fish currently in this guide; they are suggestions, not verified identifications.</p></section>
+ <div class="finder-fields">${choices}</div><div class="filterrow"><h2 class="sectiontitle">${selected.length?'Possible matches':'All four fish'} <span class="hint">(${ranked.length})</span></h2><button class="quiet-btn" type="button" id="clearAppearance">Clear filters</button></div>
+ ${ranked.length?ranked.map(item=>`<button class="result-item" type="button" data-fish="${item.fish.id}"><div><strong>${esc(item.fish.english)} — ${esc(item.fish.spanish)}</strong><small>${esc(item.fish.category)} · ${esc(tag(item.fish))}</small></div><b>${selected.length?`${item.score}/${selected.length} features`:'View ›'}</b></button>`).join(''):`<div class="empty"><h3>No appearance matches among the four records</h3><p>This does not mean your fish isn't local. Try fewer features, or wait for more species to be added.</p></div>`}
+ ${selected.length&&perfect.length===0?'<p class="note">These are partial appearance matches only, not confirmed identifications.</p>':''}${footer()}`;
+}
+function render(){
+ app.innerHTML=state.view==='detail'?detail(FISH.find(f=>f.id===state.id)||FISH[0]):state.view==='appearance'?appearance():state.view==='groups'?groups():home();
+ document.querySelectorAll('[data-nav]').forEach(b=>{b.classList.toggle('active',b.dataset.nav===state.view||(state.view==='detail'&&b.dataset.nav==='explore'))});
+ if(state.view==='detail')setupGallery();
+}
+function route(view,id=null,category=null,keepSearch=false){
+ state.view=view;state.id=id;state.category=category;state.currentPhoto=0;
+ if(!keepSearch)state.search='';state.openWater=false;
+ const hash=view==='detail'?`#fish/${id}`:view==='explore'&&category?`#category/${encodeURIComponent(category)}`:`#${view}`;
+ if(location.hash!==hash)history.pushState(null,'',hash);
+ render();window.scrollTo(0,0);
+}
+function fromHash(){
+ const hash=decodeURIComponent(location.hash.replace(/^#/,''));
+ if(hash.startsWith('fish/')&&FISH.some(x=>x.id===hash.slice(5))){state.view='detail';state.id=hash.slice(5);state.category=null}
+ else if(hash.startsWith('category/')&&CATEGORIES.includes(hash.slice(9))){state.view='explore';state.category=hash.slice(9);state.id=null}
+ else if(hash==='appearance'||hash==='groups'){state.view=hash;state.id=null;state.category=null}
+ else{state.view='explore';state.id=null;state.category=null}
+ state.currentPhoto=0;render();
+}
+function setupGallery(){const track=document.getElementById('galleryTrack');if(!track)return;
+ const update=()=>{state.currentPhoto=Math.min(track.children.length-1,Math.max(0,Math.round(track.scrollLeft/Math.max(1,track.clientWidth))));
+  document.querySelectorAll('#galleryDots .dot').forEach((d,i)=>d.classList.toggle('active',i===state.currentPhoto))};
+ track.addEventListener('scroll',update,{passive:true});
+}
+function moveSlide(direction){const track=document.getElementById('galleryTrack');if(!track)return;
+ const count=track.children.length;state.currentPhoto=Math.min(count-1,Math.max(0,state.currentPhoto+(direction==='next'?1:-1)));
+ track.scrollTo({left:track.clientWidth*state.currentPhoto,behavior:'smooth'});
+ document.querySelectorAll('#galleryDots .dot').forEach((d,i)=>d.classList.toggle('active',i===state.currentPhoto));
+}
+let uploadTarget=null;
+document.addEventListener('click',e=>{
+ const fishBtn=e.target.closest('[data-fish]');if(fishBtn){route('detail',fishBtn.dataset.fish);return}
+ const cat=e.target.closest('[data-category]');if(cat){route('explore',null,cat.dataset.category);return}
+ const nav=e.target.closest('[data-nav]');if(nav){route(nav.dataset.nav);return}
+ const slide=e.target.closest('[data-slide]');if(slide){moveSlide(slide.dataset.slide);return}
+ const photo=e.target.closest('[data-photo]');if(photo){uploadTarget={id:photo.dataset.photo,slot:Number(photo.dataset.slot)};const input=document.getElementById('photoInput');input.value='';input.click();return}
+ if(e.target.closest('#clearAppearance')){state.appearance={shape:'',color:'',marking:'',tail:''};render()}
+});
+document.addEventListener('input',e=>{
+ if(e.target.id==='fishSearch'){
+  const el=e.target;state.search=el.value;
+  // Only refresh results, preserving the active input so typing works smoothly.
+  const q=norm(state.search);let fish=FISH.filter(f=>(!q||norm([f.english,f.spanish,f.scientific,...f.other].join(' ')).includes(q))&&(!state.category||f.category===state.category)&&(!state.openWater||f.openWater));
+  const cards=document.querySelector('.cards');const empty=document.querySelector('.empty');
+  const content=fish.length?`<section class="cards">${fish.map(card).join('')}</section>`:`<div class="empty"><h3>No matching fish yet</h3><p>Try another name, or turn off the open-water filter.</p></div>`;
+  (cards||empty)?.insertAdjacentHTML('afterend',content);(cards||empty)?.remove();
+  const count=document.querySelector('.filterrow .hint');if(count)count.textContent=`(${fish.length})`;
+ }
+ if(e.target.id==='openWater'){state.openWater=e.target.checked;render();const input=document.getElementById('fishSearch');if(input&&state.search)input.focus()}
+});
+document.addEventListener('change',e=>{const k=e.target.dataset.appearance;if(k){state.appearance[k]=e.target.value;render()}});
+document.getElementById('photoInput').addEventListener('change',async e=>{
+ const file=e.target.files?.[0];if(!file||!uploadTarget)return;
+ if(!file.type.startsWith('image/')){alert('Please choose an image file.');return}
+ if(file.size>30*1024*1024){alert('Please use a photo under 30 MB.');return}
+ const key=`${uploadTarget.id}-${uploadTarget.slot}`;
+ const saved=await savePhoto(key,file);
+ const prev=state.imageUrls.get(key);if(prev?.startsWith('blob:'))URL.revokeObjectURL(prev);
+ state.imageUrls.set(key,URL.createObjectURL(file));state.livePhotoSlots.add(key);
+ render();
+ alert(saved?'Photo added on this device. To make it visible on the published website, it still needs to be added to the app files.':'Photo displayed for this session only; persistent storage is unavailable in this browser. It still must be published separately.');
+});
+document.getElementById('resetNav').addEventListener('click',()=>route('explore'));
+window.addEventListener('popstate',fromHash);window.addEventListener('hashchange',fromHash);
+fromHash();preloadPhotos();
+if('serviceWorker' in navigator && location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{}));
+
+</script>
+</body>
+</html>
