@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: punta-chivato-fish-id
+    runtime: static
+    buildCommand: echo "No build required"
+    staticPublishPath: .
