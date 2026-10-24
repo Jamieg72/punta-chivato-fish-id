@@ -1,0 +1,19 @@
+{
+  "id": "./",
+  "name": "Punta Chivato Fish ID",
+  "short_name": "Chivato Fish",
+  "description": "Bilingual Sea of Cortez fish identification guide",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f3f4ef",
+  "theme_color": "#113a44",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
