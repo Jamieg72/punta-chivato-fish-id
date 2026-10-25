@@ -116,6 +116,19 @@
 }
 @media(max-width:380px){.id-photo-frame img{max-height:245px}.catches-gallery .slide-visual{height:300px}}
 
+
+/* Expand a category's species list on the home screen instead of creating a separate page */
+.category-entry{min-width:0}
+.category-expanded{background:#f8faf7;border:1px solid #ceded7;border-top:none;border-radius:0 0 15px 15px;padding:7px 10px 10px;margin-top:-9px}
+.category-entry:has(.category-expanded)>.category-tile{border-radius:17px 17px 0 0}
+.category-species{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid #dce7e1;border-radius:11px;padding:8px 11px;width:100%;margin-top:7px;text-align:left;color:var(--ink)}
+.category-species-image{width:64px;height:64px;flex-shrink:0;display:grid;place-items:center;background:#e4ede8;border-radius:8px;overflow:hidden}
+.category-species-image img{width:100%;height:100%;object-fit:cover}
+.category-species-name{display:flex;flex:1;flex-direction:column;gap:4px;min-width:0}
+.category-species-name strong{font-size:14px;line-height:1.3}
+.category-species-name small{font-size:13px;color:var(--aqua);line-height:1.3}
+.category-empty{margin:12px 5px;font-size:13px;color:var(--sub)}
+
 </style>
 
 
@@ -186,6 +199,19 @@ const FISH = [
     sourceName:'Smithsonian — Barred pargo',sourceUrl:'https://biogeodb.stri.si.edu/sftep/en/thefishes/species/1311'
   },
   {
+    id:'dogtooth-snapper', english:'Dogtooth Snapper', spanish:'Pargo (nombre local sin confirmar)',
+    other:['Dogtooth snapper','Pacific dog snapper (comparison)','Pargo prieto (reference name only)'],
+    category:'Snappers', scientific:null, status:'unconfirmed',
+    statusNote:'“Dogtooth Snapper” is the reported name, not a verified species identification. The Pacific dog snapper (Lutjanus novemfasciatus) occurs in the eastern Pacific, but the reddish fish pictured could also resemble a Colorado snapper (Lutjanus colorado). A clear mouth/teeth, lateral-line scale pattern and fin view would help verify it. The Spanish/local name is not yet confirmed for this catch.',
+    shots:1,idPhoto:'photos/IMG_8698.jpeg',localPhotos:['photos/IMG_8698.jpeg'],
+    shape:'deep',color:'orange',marking:'plain',tail:'unknown',openWater:false,
+    features:['Orange-red body with a darker gray-brown upper back in this photo','Large snapper-like head and mouth; individual teeth need closer examination','Examine the shape of the dorsal and anal fins to compare similar Pacific snappers','Confirm species with scale-row pattern above the lateral line and mouth teeth'],
+    similar:'Pacific dog snapper (Lutjanus novemfasciatus), Colorado snapper (Lutjanus colorado), and other reddish eastern Pacific Lutjanus snappers. The photo alone does not reliably distinguish these.',
+    catchDate:'Not reported',dateNote:'Month and year not supplied',method:'Not reported',lure:null,catchWeight:null,
+    catchNote:'One orange-red snapper photo supplied and labeled “Dogtooth Snapper.” No catch date, fishing method, size, weight or angler details were reported; the visible lure is not proof of the method used.',
+    sourceName:'Smithsonian — Pacific dog snapper (comparison, not photo verification)',sourceUrl:'https://biogeodb.stri.si.edu/sftep/en/thefishes/species/1320'
+  },
+  {
     id:'mahi-mahi',english:'Mahi-mahi',spanish:'Dorado',other:['Dolphinfish','Dolphin fish','Mahi mahi','Dolphin','Dorado'],
     category:'Dorado & Billfish',scientific:'Coryphaena hippurus',status:'reference',
     statusNote:'The scientific name is verified for the species called mahi-mahi/dorado. The identification of the particular pictured catch has not yet been checked against the original photo.',
@@ -218,7 +244,7 @@ async function refreshDraftPhotoThumbs(){
  '<p class="hint">Draft photo storage is unavailable in this browser.</p>';
 }
 const app=document.getElementById('app');
-const state={view:'explore',month:'all',id:null,category:null,search:'',openWater:false,appearance:{shape:'',color:'',marking:'',tail:''},imageUrls:new Map(),idImageUrls:new Map(),livePhotoSlots:new Set(),currentPhoto:0};
+const state={view:'explore',month:'all',expandedCategory:null,id:null,category:null,search:'',openWater:false,appearance:{shape:'',color:'',marking:'',tail:''},imageUrls:new Map(),idImageUrls:new Map(),livePhotoSlots:new Set(),currentPhoto:0};
 let dbPromise;
 const reqStore='fish-photos-v1';
 function openDB(){
@@ -283,11 +309,12 @@ function home(){
 
 function monthsPage(){
  const chosen=state.month;
- const selected=FISH.filter(f=>chosen==='all'||reportedMonth(f)===Number(chosen));
+ const selected=FISH.filter(f=>reportedMonth(f)>0&&(chosen==='all'||reportedMonth(f)===Number(chosen)));
+ const undated=FISH.filter(f=>reportedMonth(f)===0);
  const title=chosen==='all'?'All months':MONTHS[Number(chosen)-1];
  return `<section class="finder-header"><span class="eyebrow">Community catch history</span><h1>What was caught by month?</h1><p>Browse dated catch reports and see how each fish was caught. This is a small sample of reported catches, not proof of what is normally or most commonly caught in a month.</p></section>
  <div class="month-picker" aria-label="Filter catch reports by month">
- <button type="button" data-month="all" class="${chosen==='all'?'selected':''}">All months<small>${FISH.length} reports</small></button>
+ <button type="button" data-month="all" class="${chosen==='all'?'selected':''}">All months<small>${FISH.filter(f=>reportedMonth(f)>0).length} dated reports</small></button>
  ${MONTHS.map((name,i)=>{const count=FISH.filter(f=>reportedMonth(f)===i+1).length;return `<button type="button" data-month="${i+1}" class="${chosen===String(i+1)?'selected':''}">${name.slice(0,3)}<small>${count?count+' report'+(count===1?'':'s'):'No reports'}</small></button>`}).join('')}</div>
  <h2 class="sectiontitle">${title} <span class="hint">(${selected.length} reported catch record${selected.length===1?'':'s'})</span></h2>
  ${selected.length?selected.map(f=>`<article class="month-report"><button type="button" class="month-image" data-fish="${esc(f.id)}" aria-label="See ${esc(f.english)}">${imageArea(f,0)}</button>
@@ -296,7 +323,7 @@ function monthsPage(){
  <p><strong>How:</strong> ${esc(f.method)}${f.lure?' · '+esc(f.lure):''}</p>
  <button type="button" class="go-link" data-fish="${esc(f.id)}">View catch →</button></div></article>`).join(''):
  '<div class="empty"><h3>No catch reports added for this month yet</h3><p>This means no reports are in this guide, not that these fish are absent from local waters.</p></div>'}
- <p class="note"><strong>Interpretation:</strong> Each listing is one reported catch record, not necessarily one fish, trip, or distinct angler. Multiple photos do not establish multiple fish. The Róbalo report is dated September 22, 2026. Fishing method reports are not success rates.</p>
+ <p class="note"><strong>Interpretation:</strong> Each listing is one reported catch record, not necessarily one fish, trip, or distinct angler. Multiple photos do not establish multiple fish. The Róbalo report is dated September 22, 2026. Fishing method reports are not success rates. ${undated.length?`${undated.length} undated photo record(s) are kept out of month counts until the catch date is known.`:''}</p>
  <button type="button" class="action" data-nav="share">Share a catch (private draft) →</button>${footer()}`;
 }
 function sharePage(){
@@ -324,7 +351,6 @@ function sharePage(){
  <p class="muted-intro">When public participation is enabled, submissions should be checked before being shown in the guide. Identifications can remain tentative, and precise catch spots should be optional rather than assumed or required.</p>${footer()}`;
 }
 function groups(){
- const filled=FISH.filter(f=>f.localPhotos.some(Boolean)).length;
  return `<section class="hero categories-hero"><span class="eyebrow">Punta Chivato · Fish ID</span>
  <h1>Find your fish.<br><em>Busca tu pescado.</em></h1>
  <p>Choose a fish category to see identification photos, English and local names, and reported catches from Punta Chivato.</p></section>
@@ -333,15 +359,27 @@ function groups(){
  <section class="category-tiles" aria-label="Fish categories">
  ${CATEGORIES.map(name=>{
    const fish=FISH.filter(f=>f.category===name),example=fish[0],image=example?identificationPhoto(example):null;
-   return `<button type="button" class="category-tile" ${fish.length===1?`data-fish="${esc(example.id)}"`:`data-category="${esc(name)}"`} aria-label="${fish.length===1?`Identify ${esc(example.english)} — ${esc(example.spanish)}`:`Open ${esc(name)} category`}">
-    <div class="category-tile-photo">
+   const expanded=state.expandedCategory===name;
+   return `<div class="category-entry">
+    <button type="button" class="category-tile" ${fish.length===1?`data-fish="${esc(example.id)}"`:`data-category="${esc(name)}" aria-expanded="${expanded}"`} aria-label="${fish.length===1?`Identify ${esc(example.english)} — ${esc(example.spanish)}`:`Browse ${esc(name)} category`}">
+     <div class="category-tile-photo">
      ${image?`<img loading="lazy" src="${esc(image)}" alt="${esc(example.english)} in ${esc(name)}">`:
       `<span class="category-tile-placeholder" aria-hidden="true">${fish.length?'▧':'◇'}</span>`}
-    </div>
-    <div class="category-tile-body"><strong>${esc(name)}</strong><span class="category-tile-desc">${fish.length?`${fish.length} fish record${fish.length===1?'':'s'} · ${esc(example.english)} — ${esc(example.spanish)}`:'Photos haven’t been added yet'}</span></div>
-    <span class="category-tile-arrow" aria-hidden="true">›</span></button>`
+     </div>
+     <div class="category-tile-body"><strong>${esc(name)}</strong><span class="category-tile-desc">${fish.length?`${fish.length} fish records`:'Photos haven’t been added yet'}</span></div>
+     <span class="category-tile-arrow" aria-hidden="true">${fish.length!==1&&expanded?'⌄':'›'}</span>
+    </button>
+    ${expanded&&fish.length!==1?`<div class="category-expanded">
+     ${fish.length?fish.map(f=>{
+       const pic=identificationPhoto(f);
+       return `<button class="category-species" type="button" data-fish="${esc(f.id)}">
+        <span class="category-species-image">${pic?`<img loading="lazy" src="${esc(pic)}" alt="${esc(f.english)}">`:'▧'}</span>
+        <span class="category-species-name"><strong>${esc(f.english)}</strong><small>${esc(f.spanish)}</small></span><span aria-hidden="true">›</span>
+       </button>`}).join(''):'<p class="category-empty">Photos haven’t been added yet.</p>'}
+    </div>`:''}
+   </div>`
  }).join('')}</section>
- <div class="leadpanel"><h2>What was caught this month?</h2><p>Browse reported catches by month and fishing method. Reports are observations, not fishing success rates.</p><button type="button" class="action alt" data-nav="months">Browse catch months →</button></div>${footer()}`;
+ <div class="leadpanel"><h2>Browse catches by month</h2><p>See dated reports and their fishing methods. Reports alone are not seasonal abundance or success-rate statistics.</p><button type="button" class="action alt" data-nav="months">Browse months →</button></div>${footer()}`;
 }
 function dataPair(title,value){return `<div class="kv"><dt>${esc(title)}</dt><dd>${esc(value)}</dd></div>`}
 function detail(fish){
@@ -390,8 +428,8 @@ function catchGallery(fish){
 }
 const CHOICES={
  shape:[['','Any body shape'],['stout','Robust / grouper-shaped'],['slender','Long and narrow'],['deep','Deep / rounded body']],
- color:[['','Any color'],['brown','Brown / gray-brown'],['silver','Silver'],['bright','Bright green / blue / gold']],
- marking:[['','Any markings'],['spotted','Spots'],['stripe','Long horizontal stripe'],['bars','Vertical bars']],
+ color:[['','Any color'],['brown','Brown / gray-brown'],['silver','Silver'],['bright','Bright green / blue / gold'],['orange','Orange / reddish']],
+ marking:[['','Any markings'],['spotted','Spots'],['stripe','Long horizontal stripe'],['bars','Vertical bars'],['plain','Mostly plain / no strong bars']],
  tail:[['','Any tail shape'],['straight','Straight / squared edge'],['forked','Forked / notched']]
 };
 function appearance(){
@@ -426,7 +464,7 @@ function fromHash(){
  else if(hash.startsWith('category/')&&CATEGORIES.includes(hash.slice(9))){
   const category=hash.slice(9),fishInCategory=FISH.filter(f=>f.category===category);
   if(fishInCategory.length===1){state.view='detail';state.id=fishInCategory[0].id;state.category=null;history.replaceState(null,'',`#fish/${fishInCategory[0].id}`)}
-  else{state.view='explore';state.category=category;state.id=null}
+  else{state.view='groups';state.expandedCategory=category;state.category=null;state.id=null;history.replaceState(null,'','#groups')}
  }
  else if(['appearance','groups','months','share','explore'].includes(hash)){state.view=hash;state.id=null;state.category=null}
  else{state.view='groups';state.id=null;state.category=null}
@@ -447,9 +485,12 @@ document.addEventListener('click',e=>{
  const catchBtn=e.target.closest('[data-catches]');if(catchBtn){route('catches',catchBtn.dataset.catches);return}
  const fishBtn=e.target.closest('[data-fish]');if(fishBtn){route('detail',fishBtn.dataset.fish);return}
  const cat=e.target.closest('[data-category]');if(cat){
-  const fishInCategory=FISH.filter(f=>f.category===cat.dataset.category);
+  const name=cat.dataset.category,fishInCategory=FISH.filter(f=>f.category===name);
   if(fishInCategory.length===1){route('detail',fishInCategory[0].id);return}
-  route('explore',null,cat.dataset.category);return
+  state.expandedCategory=state.expandedCategory===name&&state.view==='groups'?null:name;
+  if(state.view==='groups')render();
+  else route('groups');
+  return
  }
  const month=e.target.closest('[data-month]');if(month){state.month=month.dataset.month;render();return}
  const nav=e.target.closest('[data-nav]');if(nav){route(nav.dataset.nav);return}
