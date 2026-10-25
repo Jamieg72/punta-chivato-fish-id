@@ -169,6 +169,144 @@
  .categories-hero h1{font-size:clamp(32px,9.5vw,42px)}
 }
 
+
+/* BEACH-BAR THEME v1 — Baja sand, whitewashed cards and sea-glass turquoise.
+   Presentation-only: no changes to species, photos, or catch records. */
+:root {
+  --bg:#f7efdf;
+  --ink:#203e42;
+  --sub:#596d70;
+  --deep:#115b65;
+  --aqua:#117f8c;
+  --gold:#e8ad59;
+  --line:#d8e4dc;
+  --white:#fffdf8;
+  --pale:#edf7f1;
+  --coral:#e98861;
+  --sand:#fbf3e4;
+  --palm:#76956f;
+}
+body {
+  background:linear-gradient(180deg,#fff9ee 0%,#f7efdf 52%,#f3ebdc 100%);
+  color:var(--ink);
+}
+.masthead {
+  background:linear-gradient(110deg,#0f5360,#167887);
+  border-bottom:2px solid rgba(255,230,175,.32);
+  box-shadow:0 5px 22px rgba(13,62,68,.16);
+}
+.brand-mark {
+  color:#ffe3a9;
+  background:rgba(255,248,231,.14);
+  border-color:rgba(255,235,186,.46);
+  transform:rotate(-7deg);
+}
+.brand strong {font-family:"Trebuchet MS",system-ui,sans-serif;letter-spacing:.03em}
+.brand small {color:#e5f3ef}
+.menu-link {background:rgba(255,255,255,.12);border-color:rgba(255,250,231,.55)}
+.menu-link:hover {background:rgba(255,255,255,.22)}
+.categories-hero {
+  border:2px solid rgba(255,249,222,.66);
+  border-radius:24px;
+  box-shadow:0 12px 28px rgba(58,79,76,.19);
+  background-image:
+    linear-gradient(90deg,rgba(5,44,55,.77) 0%,rgba(5,48,59,.52) 53%,rgba(5,48,59,.24) 100%),
+    url('photos/IMG_1591.jpeg');
+  background-position:center 54%;
+  min-height:280px;
+}
+.categories-hero .eyebrow {
+  display:inline-block;
+  width:fit-content;
+  padding:6px 12px;
+  background:rgba(8,80,90,.43);
+  border:1px solid rgba(255,246,217,.42);
+  border-radius:30px;
+  color:#fff5da;
+  letter-spacing:.13em;
+}
+.categories-hero h1 {
+  font-family:"Trebuchet MS","Arial Rounded MT Bold",system-ui,sans-serif;
+  font-weight:900;
+  letter-spacing:-.035em;
+  line-height:1.08;
+  text-shadow:0 2px 9px rgba(1,31,39,.44),0 1px 0 rgba(255,235,184,.25);
+}
+.categories-hero h1 em {color:#ffdb9f;font-style:italic}
+.categories-hero p {color:#fff9eb;text-shadow:0 1px 4px rgba(1,31,39,.42)}
+.sectiontitle,.page-heading,.detail-head h1 {
+  font-family:"Trebuchet MS",system-ui,sans-serif;
+  color:#214e55;
+}
+.category-title-row {
+  border-bottom:2px solid #dfb87d;
+  padding-bottom:9px;
+}
+.category-actions .action,.action {
+  background:#0e8893;
+  border:1px solid rgba(255,255,255,.38);
+  box-shadow:0 4px 12px rgba(10,92,101,.13);
+}
+.action:hover {background:#0a707e}
+.action.alt,.quiet-btn {
+  background:#ffeccc;
+  color:#74502b;
+  border:1px solid #e5ca9d;
+  box-shadow:none;
+}
+.action.alt:hover,.quiet-btn:hover {background:#ffe2ad}
+.category-tile,.subcategory-fish,.fish-card {
+  background:
+    repeating-linear-gradient(2deg,rgba(162,133,90,.028) 0 2px,transparent 2px 13px),
+    linear-gradient(180deg,#fffdfa,#fff9ef);
+  border:2px solid #ebe0cc;
+  box-shadow:0 5px 16px rgba(63,79,71,.09);
+}
+.category-tile:hover,.subcategory-fish:hover,.fish-card:hover {
+  border-color:#81c4c3;
+  box-shadow:0 9px 22px rgba(48,101,102,.15);
+}
+.category-tile-photo {
+  background:#d5e9e5;
+  border-right:3px solid rgba(255,255,255,.9);
+}
+.category-tile-body strong,.subcategory-text strong {
+  color:#205964;
+  font-family:"Trebuchet MS",system-ui,sans-serif;
+}
+.category-tile-desc,.subcategory-status {color:#687b75}
+.category-tile-arrow,.subcategory-arrow {color:#d17c50}
+.subcategory-photo {background:#e9f4ee}
+.fish-spanish,.detail-spanish,.subcategory-text small {color:#007f86}
+.leadpanel {
+  background:linear-gradient(125deg,#eff8ef,#e3f4f0 60%,#fff1d7);
+  border:1px solid #cfe5dc;
+  box-shadow:0 5px 14px rgba(60,89,79,.05);
+}
+.leadpanel h2 {color:#215964}
+.info-card,.gallery,.share-form,.month-report,.result-item {
+  background:#fffdf8;
+  border-color:#e7dfcf;
+  box-shadow:0 4px 14px rgba(74,80,60,.055);
+}
+.finder-header {
+  background:linear-gradient(125deg,#11606e,#11919a);
+}
+.search-box input,.field select,.share-form input,.share-form textarea {
+  background:#fffefa;
+}
+.bottom-nav {
+  background:rgba(255,253,247,.97);
+  border-top:2px solid #dfd9c4;
+}
+.bottom-nav button.active {color:#0b7e88}
+.footnote {border-top-color:#dbd9cc;color:#697875}
+@media(max-width:700px){
+  .categories-hero {min-height:270px;padding:28px 20px}
+  .categories-hero h1 {font-size:clamp(34px,9vw,42px)}
+  .category-tile {border-radius:16px}
+}
+
 </style>
 
 
