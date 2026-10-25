@@ -483,6 +483,21 @@ body{
  background:linear-gradient(115deg,#f5a981,#f6c58e);
 }
 
+
+/* Coastal styled table-quality information on species profiles */
+.edibility-card{background:linear-gradient(160deg,#fffef9,#fff5e8);border-color:#e6d8ba}
+.edibility-card h2{display:flex;align-items:center;gap:7px}
+.edibility-card h2 span{font-size:20px}
+.edibility-grade{display:inline-block;margin:4px 0 10px;padding:7px 12px;background:#e4f2e9;color:#285b52;border:1px solid #c8ddce;border-radius:18px;font-size:13px;font-weight:850}
+.edibility-description{font-size:14px;line-height:1.6;margin:0 0 11px;color:#365657}
+.edibility-method{font-size:13px;line-height:1.55;margin:0;color:#3f5c5b}
+.edibility-note{margin:10px 0 0;font-size:12px;color:#76664f;line-height:1.5}
+.edibility-foot{border-top:1px solid #e8daca;margin-top:15px;padding-top:11px;font-size:12px}
+.edibility-foot>a,.edibility-safety a{color:#087981}
+.edibility-safety{margin-top:10px;color:#5f706d}
+.edibility-safety summary{color:#51665f;cursor:pointer;font-weight:700}
+.edibility-safety p{margin:8px 0;line-height:1.5}
+
 </style>
 
 
@@ -839,6 +854,83 @@ function categoryPage(category){
  ${footer()}`;
 }
 function dataPair(title,value){return `<div class="kv"><dt>${esc(title)}</dt><dd>${esc(value)}</dd></div>`}
+/* Species eating-quality descriptions and reference sources. */
+const EDIBILITY_GUIDE = {
+  "rosy-jack": {
+    "grade": "Not yet rated",
+    "flavor": "The name “Rosy Jack” has not been matched to a confirmed species in this photo, so its eating quality is not rated.",
+    "cook": "Confirm the identification before relying on a species-specific cooking guide.",
+    "source": "https://www.fda.gov/food/consumers/advice-about-eating-fish"
+  },
+  "yellowtail-jack": {
+    "grade": "Excellent table fish",
+    "flavor": "Yellowtail jack is known for rich, buttery flesh and a firm texture.",
+    "cook": "Grill, sear or bake.",
+    "note": "This description is for yellowtail jack in general; the photographed catch has not been verified to species.",
+    "source": "https://caseagrant.ucsd.edu/seafood-profiles/yellowtail"
+  },
+  "huachinango-pargo": {
+    "grade": "Popular food fish",
+    "flavor": "Huachinango and red snappers are valued as food fish, generally with mild, flaky flesh.",
+    "cook": "Grill whole, bake or pan-fry after confirming the fish's identity.",
+    "note": "Huachinango is a local name used for more than one species; this catch is not yet confirmed.",
+    "source": "https://www.fda.gov/food/consumers/advice-about-eating-fish"
+  },
+  "golden-trevally": {
+    "grade": "Edible",
+    "flavor": "Golden trevally is commercially caught and farmed for food, sold fresh, dried or salted.",
+    "cook": "Commonly grilled, baked or pan-seared.",
+    "source": "https://www.georgiaaquarium.org/animal/golden-trevally/"
+  },
+  "leopard-grouper": {
+    "grade": "Popular food fish",
+    "flavor": "Leopard grouper (cabrilla) is a food fish, with the firm white flesh typical of groupers.",
+    "cook": "Grill, bake or pan-sear.",
+    "note": "The identification of the photographed fish is tentative.",
+    "source": "https://www.fishbase.se/FieldGuide/FieldGuideSummary.php?c_code=484&genusname=Mycteroperca&speciesname=rosacea"
+  },
+  "snook": {
+    "grade": "Excellent table fish",
+    "flavor": "Snook (róbalo) is valued for firm, white flesh with a mild flavor.",
+    "cook": "Grill, bake or pan-fry skinless fillets.",
+    "note": "The exact snook species in the photograph is unconfirmed.",
+    "source": "https://www.seafoodsherpa.com/fp-snook"
+  },
+  "barred-pargo": {
+    "grade": "Edible",
+    "flavor": "Barred pargo is harvested and sold fresh as a food fish.",
+    "cook": "Grill, bake or pan-fry.",
+    "note": "The photographed striped fish has not been independently verified as barred pargo.",
+    "source": "https://www.fishbase.se/FieldGuide/FieldGuideSummary.php?c_code=591&genusname=Hoplopagrus&speciesname=guentherii"
+  },
+  "dogtooth-snapper": {
+    "grade": "Not yet rated",
+    "flavor": "This catch is called Dogtooth Snapper, but its exact species has not been established from the photograph.",
+    "cook": "Confirm species identification before using a table-quality rating or cooking guide.",
+    "source": "https://www.fda.gov/food/consumers/advice-about-eating-fish"
+  },
+  "mahi-mahi": {
+    "grade": "Excellent table fish",
+    "flavor": "Mild, slightly sweet flesh with large, moist flakes and a firm texture.",
+    "cook": "Grill, pan-sear or bake without overcooking.",
+    "source": "https://www.fisheries.noaa.gov/species/atlantic-mahi-mahi"
+  }
+};
+function edibilityCard(fish){
+ const e=EDIBILITY_GUIDE[fish.id]||{grade:'Not yet rated',flavor:'Eating quality has not been reviewed for this species yet.',cook:'Check a reliable species-specific food reference first.',source:'https://www.fda.gov/food/consumers/advice-about-eating-fish'};
+ return `<div class="info-card edibility-card">
+  <h2><span aria-hidden="true">🍽</span> Edibility</h2>
+  <p class="edibility-grade">${esc(e.grade)}</p>
+  <p class="edibility-description">${esc(e.flavor)}</p>
+  <p class="edibility-method"><strong>Preparation:</strong> ${esc(e.cook)}</p>
+  ${e.note?`<p class="edibility-note">${esc(e.note)}</p>`:""}
+  <div class="edibility-foot"><a target="_blank" rel="noopener noreferrer" href="${esc(e.source)}">Eating-quality reference ↗</a>
+   <details class="edibility-safety"><summary>Eating wild-caught fish safely</summary><p>Confirm the fish identification and check local seafood advisories. Some larger reef fish, including groupers, snappers and jacks, can carry ciguatera toxins; cooking does not remove them. Mercury can also accumulate in some fish.</p>
+   <a target="_blank" rel="noopener noreferrer" href="https://www.cdc.gov/yellow-book/hcp/environmental-hazards-risks/food-poisoning-from-marine-toxins.html">CDC: marine fish toxins ↗</a> · <a target="_blank" rel="noopener noreferrer" href="https://www.fda.gov/food/consumers/advice-about-eating-fish">FDA: advice on eating fish ↗</a></details>
+  </div>
+ </div>`;
+}
+
 function detail(fish){
  const photo=identificationPhoto(fish);
  return `<button class="back" ${FISH.filter(f=>f.category===fish.category).length===1?'data-nav="groups"':`data-category="${esc(fish.category)}"`} type="button">← ${FISH.filter(f=>f.category===fish.category).length===1?'All categories':esc(fish.category)}</button>
@@ -856,6 +948,7 @@ function detail(fish){
     ${fish.other.length?`<p class="micro-title">Other names</p><div class="pill-list">${fish.other.map(n=>`<span>${esc(n)}</span>`).join('')}</div>`:''}
    </div>
    <div class="info-card"><h2>How to recognize it</h2><ul>${fish.features.map(v=>`<li>${esc(v)}</li>`).join('')}</ul></div>
+   ${edibilityCard(fish)}
    <div class="info-card"><h2>Similar fish</h2><p>${esc(fish.similar)}</p></div>
    <div class="info-card sources"><h2>Check the reference</h2><a target="_blank" rel="noopener noreferrer" href="${esc(fish.sourceUrl)}">Open species reference ↗</a></div>
    <button type="button" class="action id-gallery-link" data-catches="${esc(fish.id)}">Next: View catch gallery →</button>
