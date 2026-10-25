@@ -109,13 +109,13 @@ const FISH = [
     id:'leopard-grouper', english:'Leopard Grouper', spanish:'Cabrilla',
     other:['Cabrilla sardinera','Cabrilla rosa','Leopard grouper'],
     category:'Groupers & Sea Bass', scientific:'Mycteroperca rosacea', status:'tentative',
-    statusNote:'The reference species is established, but this catch has not been independently identified from its photos. The two images may show different individuals.',
-    shots:2, localPhotos:['photos/leopard-grouper-1.jpg','photos/leopard-grouper-2.jpg'],
+    statusNote:'The reference species is established, but this catch has not been independently identified from its photos. The displayed image has not yet been independently verified to species.',
+    shots:1, localPhotos:['photos/leopard-grouper-1.svg'],
     shape:'stout',color:'brown',marking:'spotted',tail:'straight',openWater:false,
     features:['Robust, elongated grouper body and large mouth','Many small brown spots on a gray-brown or green-brown body','Often darker patches along the upper back separated by pale markings','Adults generally have a nearly straight tail edge'],
     similar:'Other regional groupers, especially Gulf grouper (Mycteroperca jordani). Compare the density of spots and dark bars; confirm using clear side-on images and fin details.',
-    catchDate:'October 12, 2026', dateNote:null, method:'Spearfishing', lure:null,
-    catchNote:'Two photos of spotted grouper; whether they show the same individual is unknown.',
+    catchDate:'October 12, 2026', dateNote:null, method:'Spearfishing', lure:null, catchWeight:'6.84 lbs',
+    catchNote:'One submitted photograph, temporarily serving as the identification picture and gallery image. Reported weight: 6.84 lbs. Species-level identification remains tentative.',
     sourceName:'Smithsonian — Leopard grouper', sourceUrl:'https://biogeodb.stri.si.edu/sftep/en/thefishes/species/1134'
   },
   {
@@ -223,7 +223,7 @@ function home(){
  if(state.category)matches=matches.filter(f=>f.category===state.category);
  if(state.openWater)matches=matches.filter(f=>f.openWater);
  const title=state.category||'Your fish guide';
- return `${!state.category?`<section class="hero"><span class="eyebrow">Your local guide · Version 1</span><h1>Know your fish.<br><em>Conoce tu pesca.</em></h1><p>Real catch photos, English and local names, and a quick way to narrow down a fish by its appearance.</p><div class="hero-foot"><span class="hero-chip">4 fish records</span><span class="hero-chip">5 photo slots</span><span class="hero-chip">8 categories</span></div></section>`:`<button class="back" data-nav="groups" type="button">← All categories</button><h1 class="page-heading">${esc(state.category)}</h1>`}
+ return `${!state.category?`<section class="hero"><span class="eyebrow">Your local guide · Version 1</span><h1>Know your fish.<br><em>Conoce tu pesca.</em></h1><p>Real catch photos, English and local names, and a quick way to narrow down a fish by its appearance.</p><div class="hero-foot"><span class="hero-chip">4 fish records</span><span class="hero-chip">4 photo slots</span><span class="hero-chip">8 categories</span></div></section>`:`<button class="back" data-nav="groups" type="button">← All categories</button><h1 class="page-heading">${esc(state.category)}</h1>`}
  <div class="searchrow"><label class="search-box"><span aria-hidden="true">⌕</span><input id="fishSearch" type="search" placeholder="Search cabrilla, dorado, dolphinfish…" value="${esc(state.search)}" aria-label="Search fish in English, Spanish or alternate names"></label><button type="button" class="action" data-nav="appearance">Not sure? Find by appearance</button></div>
  ${!state.category?`<section class="leadpanel"><h2>Not sure what you caught?</h2><p>Choose a body shape, color, markings, or tail shape. Get suggestions from the fish already in your guide — not a definitive identification.</p><button type="button" class="action alt" data-nav="appearance">Find by appearance →</button></section>`:''}
  <div class="filterrow"><h2 class="sectiontitle">${esc(title)} <span class="hint">(${matches.length})</span></h2><label class="check"><input id="openWater" type="checkbox" ${state.openWater?'checked':''}> Open-water fish only</label></div>
@@ -243,7 +243,7 @@ function monthsPage(){
  ${selected.length?selected.map(f=>`<article class="month-report"><button type="button" class="month-image" data-fish="${esc(f.id)}" aria-label="See ${esc(f.english)}">${imageArea(f,0)}</button>
  <div class="month-content"><h3>${esc(f.english)}</h3><div class="local">${esc(f.spanish)}</div>
  <p><strong>Reported:</strong> ${esc(f.catchDate)}${f.dateNote?' — '+esc(f.dateNote):''}</p>
- <p><strong>How:</strong> ${esc(f.method)}${f.lure?' · '+esc(f.lure):''}</p><p><strong>Area:</strong> Punta Chivato</p>
+ <p><strong>How:</strong> ${esc(f.method)}${f.lure?' · '+esc(f.lure):''}</p>
  <button type="button" class="go-link" data-fish="${esc(f.id)}">View catch →</button></div></article>`).join(''):
  '<div class="empty"><h3>No catch reports added for this month yet</h3><p>This means no reports are in this guide, not that these fish are absent from local waters.</p></div>'}
  <p class="note"><strong>Interpretation:</strong> Each listing is one reported catch record, not necessarily one fish, trip, or distinct angler. Multiple photos do not establish multiple fish. September’s snook report has no confirmed year. Fishing method reports are not success rates.</p>
@@ -263,7 +263,7 @@ function sharePage(){
  <label class="field">Fishing method<select name="method"><option value="">Choose a method</option>${opts(['Shore casting','Spearfishing','Trolling','Jigging','Bottom fishing','Kayak fishing','Other / unknown'],d.method)}</select></label>
  <label class="field">Bait / lure (optional)<input name="lure" value="${v('lure')}" maxlength="120" placeholder="Feather lure, jig, bait…"></label>
  <label class="field">Number of fish (optional)<input name="fishCount" type="number" min="1" max="999" value="${v('fishCount')}" placeholder="Only if known"></label>
- <label class="field">Area<input name="area" value="Punta Chivato" readonly aria-readonly="true"></label>
+ <input type="hidden" name="area" value="Punta Chivato">
  <label class="field">Name to credit (optional)<input name="angler" value="${v('angler')}" maxlength="100" placeholder="First name or nickname"></label></div>
  <label class="field">Catch notes (optional)<textarea name="notes" maxlength="800" placeholder="Color, depth, conditions, identification uncertainty…">${v('notes')}</textarea></label>
  <label class="field">Your photos (up to five)
@@ -281,15 +281,15 @@ function detail(fish){
  <div class="species-grid"><section><div class="gallery"><div class="gallery-track" id="galleryTrack" aria-label="${esc(fish.english)} photo gallery">${Array.from({length:fish.shots},(_,i)=>`<div class="slide" id="slide-${i}">
  <div class="slide-visual">${imageArea(fish,i)}<button class="attach" type="button" data-photo="${fish.id}" data-slot="${i}">${fishPhoto(fish,i)?'Replace this photo':`Add photo ${i+1}`}</button></div>
  <div class="slide-caption"><div class="slide-caption-top"><div><span class="slide-caption-name">${esc(fish.english)}</span><span class="slide-caption-local">${esc(fish.spanish)}</span></div><span class="slide-caption-index">Photo ${i+1} / ${fish.shots}</span></div>
- <div class="slide-caption-fields"><div><b>Reported date</b>${esc(fish.catchDate)}${fish.dateNote?' · '+esc(fish.dateNote):''}</div><div><b>How caught</b>${esc(fish.method)}${fish.lure?' · '+esc(fish.lure):''}</div><div><b>Area</b>Punta Chivato</div><div><b>Exact fishing spot</b>Not recorded</div></div>
- <div class="slide-caption-warning">${esc(tag(fish))}${fish.id==='leopard-grouper'?' · The two photos may show different individual fish.':''}</div></div></div>`).join('')}</div>
+ <div class="slide-caption-fields"><div><b>Reported date</b>${esc(fish.catchDate)}${fish.dateNote?' · '+esc(fish.dateNote):''}</div><div><b>How caught</b>${esc(fish.method)}${fish.lure?' · '+esc(fish.lure):''}</div><div><b>Weight</b>${esc(fish.catchWeight||'Not reported')}</div><div><b>Identification</b>${esc(tag(fish))}</div></div>
+ <div class="slide-caption-warning">${esc(tag(fish))}</div></div></div>`).join('')}</div>
  <div class="gallery-nav"><button type="button" data-slide="previous" aria-label="Previous photo">‹ Previous</button><div class="dots" id="galleryDots">${Array.from({length:fish.shots},(_,i)=>`<span class="dot${i===0?' active':''}" aria-hidden="true"></span>`).join('')}</div><button type="button" data-slide="next" aria-label="Next photo">Next ›</button></div>
  <div class="smallnote">Swipe the image to move between photos. ${localImgs}/${fish.shots} photos available. Adding photos here stores them on <strong>this browser only</strong>, not Render or GitHub.</div></div>
  <div class="info-card section-gap"><h2>How to recognize it</h2><ul>${fish.features.map(v=>`<li>${esc(v)}</li>`).join('')}</ul></div>
  <div class="info-card"><h2>Similar fish</h2><p>${esc(fish.similar)}</p></div></section>
  <aside><div class="info-card"><h2>Species identification</h2>${dataPair('English name',fish.english)}${dataPair('Local / Spanish',fish.spanish)}${dataPair('Scientific name',fish.scientific?`${fish.scientific} (${fish.status==='tentative'?'tentative for this catch':'reference species'})`:'Not confirmed')}
  <div class="note">${esc(fish.statusNote)}</div>${fish.other.length?`<p class="micro-title">Also searchable as</p><div class="pill-list">${fish.other.map(n=>`<span>${esc(n)}</span>`).join('')}</div>`:''}</div>
- <div class="info-card"><h2>Reported catch details</h2>${dataPair('Date',fish.catchDate)}${fish.dateNote?dataPair('Date note',fish.dateNote):''}${dataPair('Method',fish.method)}${fish.lure?dataPair('Lure',fish.lure):''}${dataPair('Area','Punta Chivato')}${dataPair('Exact fishing spot','Not recorded')}${dataPair('Size','Unknown')}<p class="note">${esc(fish.catchNote)}</p></div>
+ <div class="info-card"><h2>Reported catch details</h2>${dataPair('Date',fish.catchDate)}${fish.dateNote?dataPair('Date note',fish.dateNote):''}${dataPair('Method',fish.method)}${fish.lure?dataPair('Lure',fish.lure):''}${fish.catchWeight?dataPair('Weight',fish.catchWeight):''}${dataPair('Size','Unknown')}<p class="note">${esc(fish.catchNote)}</p></div>
  <div class="info-card sources"><h2>Check the reference</h2><p>These sources describe the reference species; they do not verify this particular catch photo.</p><a target="_blank" rel="noopener noreferrer" href="${esc(fish.sourceUrl)}">${esc(fish.sourceName)} ↗</a></div></aside></div>${footer()}`;
 }
 const CHOICES={
