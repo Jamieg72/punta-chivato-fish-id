@@ -468,6 +468,21 @@ body{
 .catch-form-title small{font-size:13px;color:#5a8587;font-weight:650;white-space:nowrap}
 .catch-voluntary-intro{margin:0 0 20px;color:#4f6d6d;background:#ebf7f4;border-left:4px solid #15a2a3;padding:13px 15px;border-radius:9px;font-size:13px;line-height:1.55}
 
+
+/* Home page upload shortcut — below the two find-fish actions */
+.category-actions .upload-catch-action{
+ grid-column:1/-1;
+ background:linear-gradient(115deg,#ef996f,#efbd80);
+ color:#432d27;
+ border:1px solid #e4a171;
+ font-weight:850;
+ padding:15px 18px;
+ box-shadow:0 5px 14px rgba(166,100,68,.17);
+}
+.category-actions .upload-catch-action:hover{
+ background:linear-gradient(115deg,#f5a981,#f6c58e);
+}
+
 </style>
 
 
@@ -785,7 +800,7 @@ function groups(){
  <div class="beach-wave-divider" aria-hidden="true">
  <svg viewBox="0 0 1200 48" preserveAspectRatio="none" focusable="false"><path fill="#d3eee6" d="M0,19 C90,42 165,0 266,23 S443,44 544,22 S734,1 846,20 S1048,45 1200,18 L1200,48 L0,48 Z"/><path fill="#f8f0e0" d="M0,32 C118,8 183,46 305,31 S475,6 604,30 S810,46 928,28 S1114,9 1200,30 L1200,48 L0,48 Z"/><path d="M0 30 C118 7 183 45 305 29 S475 5 604 29 S810 43 928 27 S1114 7 1200 29" stroke="#e4a271" stroke-width="2.5" fill="none" opacity=".7"/></svg>
  </div>
- <div class="category-actions"><button type="button" class="action" data-nav="explore">⌕ Search fish by name</button><button type="button" class="action alt" data-nav="appearance">Not sure? Find by appearance</button></div>
+ <div class="category-actions"><button type="button" class="action" data-nav="explore">⌕ Search fish by name</button><button type="button" class="action alt" data-nav="appearance">Not sure? Find by appearance</button><button type="button" class="action upload-catch-action" data-nav="share">＋ Upload Your Catch!</button></div>
  <div class="category-title-row"><h2 class="sectiontitle"><span class="category-heading-sun" aria-hidden="true">☀</span> Browse fish categories</h2><span class="hint">8 categories</span></div>
  <section class="category-tiles" aria-label="Fish categories">
  ${CATEGORIES.map(name=>{
