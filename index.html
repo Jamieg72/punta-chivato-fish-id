@@ -374,7 +374,7 @@ function catchGallery(fish){
  <p class="muted-intro">Currently showing one reported catch record. Multiple photos of one catch, if added later, do not mean multiple fish or anglers.</p>
  <div class="catches-gallery"><div class="gallery"><div class="gallery-track" id="galleryTrack" aria-label="${esc(fish.english)} catch photo gallery">
  ${Array.from({length:fish.shots},(_,i)=>`<div class="slide" id="slide-${i}">
- <div class="slide-visual">${imageArea(fish,i)}<button class="attach" type="button" data-photo="${fish.id}" data-slot="${i}">${fishPhoto(fish,i)?'Replace on this device':'Add photo on this device'}</button></div>
+ <div class="slide-visual">${imageArea(fish,i)}</div>
  <div class="slide-caption"><div class="slide-caption-top"><div><span class="slide-caption-name">${esc(fish.english)}</span><span class="slide-caption-local">${esc(fish.spanish)}</span></div><span class="slide-caption-index">Photo ${i+1} / ${fish.shots}</span></div>
  <div class="slide-caption-fields"><div><b>Date</b>${esc(fish.catchDate)}${fish.dateNote?' · '+esc(fish.dateNote):''}</div><div><b>Method</b>${esc(fish.method)}${fish.lure?' · '+esc(fish.lure):''}</div><div><b>Weight</b>${esc(fish.catchWeight||'Not reported')}</div></div>
  <div class="slide-caption-warning">${esc(tag(fish))}</div>
@@ -383,7 +383,7 @@ function catchGallery(fish){
  <div class="gallery-nav"><button type="button" data-slide="previous" aria-label="Previous catch photo">‹ Previous</button>
  <div class="dots" id="galleryDots">${Array.from({length:fish.shots},(_,i)=>`<span class="dot${i===0?' active':''}" aria-hidden="true"></span>`).join('')}</div>
  <button type="button" data-slide="next" aria-label="Next catch photo">Next ›</button></div>
- <div class="smallnote">${available}/${fish.shots} photos available. Swipe when multiple photos are added. Photos selected here stay in this browser, not in the public website.</div>
+ <div class="smallnote">${available}/${fish.shots} photos available. Swipe when multiple photos have been published.</div>
  </div></div>
  <p class="note">Catch details are reported observations, not proof of species identification or fishing success rates.</p>
  <button class="action alt" type="button" data-fish="${esc(fish.id)}">← Back to species identification</button>${footer()}`;
