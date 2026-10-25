@@ -538,13 +538,13 @@ const FISH = [
   {
     id:'rosy-jack', english:'Almaco Jack / Rose Amberjack', spanish:'Jurel',
     other:['Rosey Jack','Rosy Jack','Jurel (nombre genérico)'],
-    category:'Jacks & Roosterfish',scientific:null,status:'unconfirmed',
+    category:'Jacks & Roosterfish',scientific:'Seriola rivoliana',status:'unconfirmed',
     statusNote:'Rosy Jack is the name reported with this catch. The exact scientific species is not established from the photograph or common name.',
     shots:1,idPhoto:'photos/f6f3d811-891b-406e-9717-c3ae37e1d80a.jpeg',
     localPhotos:['photos/f6f3d811-891b-406e-9717-c3ae37e1d80a.jpeg'],
     shape:'slender',color:'silver',marking:'plain',tail:'forked',openWater:true,
-    features:['Silver-gray fish with a darker back in the photograph','Large eye and tapered head','Elongated, laterally compressed body','Tail is outside the photograph; fin and mouth details are needed for an exact species identification'],
-    similar:'Amberjacks, yellowtails and other jacks can look similar. This record retains the reported Rosy Jack name without assigning an unsupported scientific species.',
+    features:['A deep-bodied jack with a taller profile and a strongly sickle-shaped second dorsal fin.','Coloration: Usually olive-bronze to dusky brown, sometimes with a faint rose or lavender cast.','Key marking: A dark diagonal band runs from the snout, through the eye, toward the dorsal fin.','Notes: This fish is thicker and deeper-bodied than a yellowtail and has a more pronounced dark eye bar.'],
+    similar:'Other amberjacks can look similar; compare the deeper body, tall sickle-shaped second dorsal fin, and pronounced dark eye bar.',
     catchDate:'January 6, 2026',dateNote:null,method:'Offshore jigging',lure:null,catchWeight:'Unknown',
     catchNote:'One photographed catch called Rosy Jack, dated January 6, 2026. Method: offshore jigging. Weight unknown.',
     sourceName:'Smithsonian — Eastern Pacific fish identification',sourceUrl:'https://biogeodb.stri.si.edu/sftep/en/findafish/dofind'
@@ -858,10 +858,7 @@ function dataPair(title,value){return `<div class="kv"><dt>${esc(title)}</dt><dd
 /* Species eating-quality descriptions and reference sources. */
 const EDIBILITY_GUIDE = {
   "rosy-jack": {
-    "grade": "Not yet rated",
-    "flavor": "The name “Rosy Jack” has not been matched to a confirmed species in this photo, so its eating quality is not rated.",
-    "cook": "Confirm the identification before relying on a species-specific cooking guide.",
-    "source": "https://www.fda.gov/food/consumers/advice-about-eating-fish"
+    "grade": "Generally not good"
   },
   "yellowtail-jack": {
     "grade": "Excellent table fish",
@@ -922,14 +919,14 @@ function edibilityCard(fish){
  return `<div class="info-card edibility-card">
   <h2><span aria-hidden="true">🍽</span> Edibility</h2>
   <p class="edibility-grade">${esc(e.grade)}</p>
-  <p class="edibility-description">${esc(e.flavor)}</p>
-  <p class="edibility-method"><strong>Preparation:</strong> ${esc(e.cook)}</p>
+  ${e.flavor?`<p class="edibility-description">${esc(e.flavor)}</p>`:""}
+  ${e.cook?`<p class="edibility-method"><strong>Preparation:</strong> ${esc(e.cook)}</p>`:""}
   ${e.tip?`<p class="edibility-tip"><strong>Fishing tip:</strong> ${esc(e.tip)}</p>`:""}
   ${e.note?`<p class="edibility-note">${esc(e.note)}</p>`:""}
-  <div class="edibility-foot"><a target="_blank" rel="noopener noreferrer" href="${esc(e.source)}">Eating-quality reference ↗</a>
+  ${fish.id==='rosy-jack'?'':`<div class="edibility-foot"><a target="_blank" rel="noopener noreferrer" href="${esc(e.source)}">Eating-quality reference ↗</a>
    <details class="edibility-safety"><summary>Eating wild-caught fish safely</summary><p>Confirm the fish identification and check local seafood advisories. Some larger reef fish, including groupers, snappers and jacks, can carry ciguatera toxins; cooking does not remove them. Mercury can also accumulate in some fish.</p>
    <a target="_blank" rel="noopener noreferrer" href="https://www.cdc.gov/yellow-book/hcp/environmental-hazards-risks/food-poisoning-from-marine-toxins.html">CDC: marine fish toxins ↗</a> · <a target="_blank" rel="noopener noreferrer" href="https://www.fda.gov/food/consumers/advice-about-eating-fish">FDA: advice on eating fish ↗</a></details>
-  </div>
+  </div>`}
  </div>`;
 }
 
@@ -945,7 +942,7 @@ function detail(fish){
    <div class="info-card"><h2>Species identification</h2>
     ${dataPair('English name',fish.english)}
     ${dataPair('Spanish / local name',fish.spanish)}
-    ${fish.scientific?dataPair(fish.status==='reference'?'Scientific name':'Possible scientific name',fish.scientific):''}
+    ${fish.scientific?dataPair((fish.status==='reference'||fish.id==='rosy-jack')?'Scientific name':'Possible scientific name',fish.scientific):''}
     
     ${fish.other.length?`<p class="micro-title">Other names</p><div class="pill-list">${fish.other.map(n=>`<span>${esc(n)}</span>`).join('')}</div>`:''}
    </div>
