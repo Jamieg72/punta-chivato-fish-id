@@ -536,6 +536,19 @@ const CATEGORIES = [
 ];
 const FISH = [
   {
+    id:'golden-grouper',english:'Golden Grouper',spanish:'Cabrilla sardinera (dorada)',
+    other:['Golden Leopard Grouper','Golden-phase Leopard Grouper','Leopard Grouper','Cabrilla dorada'],
+    category:'Groupers & Sea Bass',scientific:'Mycteroperca rosacea',status:'reference',
+    statusNote:'Golden grouper is the naturally occurring golden color form of leopard grouper (Mycteroperca rosacea), not a different species.',
+    shots:1,idPhoto:'photos/IMG_9214.jpeg',localPhotos:['photos/IMG_9214.jpeg'],
+    shape:'stout',color:'bright',marking:'plain',tail:'straight',openWater:false,
+    features:['Rare golden-yellow color form of the Leopard Grouper (Cabrilla sardinera)','Robust, elongated grouper body and large mouth','Mostly golden coloration, sometimes with a few darker spots or patches','Typical adult leopard grouper has a nearly straight tail edge'],
+    similar:'The ordinary brown-and-spotted Leopard Grouper is the same species in a different color form.',
+    catchDate:'October 24, 2026',dateNote:null,method:'Not reported',lure:null,catchWeight:'4 lbs',
+    catchNote:'Golden Grouper catch submitted for the Punta Chivato area. Caught October 24, 2026, weighing 4 lbs. Fishing method not reported.',
+    sourceName:'Smithsonian — Leopard Grouper (rare golden color form)',sourceUrl:'https://biogeodb.stri.si.edu/sftep/en/thefishes/species/1134'
+  },
+  {
     id:'rosy-jack', english:'Almaco Jack / Rose Amberjack', spanish:'Jurel',
     other:['Rosey Jack','Rosy Jack','Jurel (nombre genérico)'],
     category:'Jacks & Roosterfish',scientific:'Seriola rivoliana',status:'unconfirmed',
@@ -857,6 +870,12 @@ function categoryPage(category){
 function dataPair(title,value){return `<div class="kv"><dt>${esc(title)}</dt><dd>${esc(value)}</dd></div>`}
 /* Species eating-quality descriptions and reference sources. */
 const EDIBILITY_GUIDE = {
+  "golden-grouper": {
+    "grade": "Popular food fish",
+    "flavor": "Firm, moist flesh with a mild, slightly rich flavor, similar to other leopard grouper.",
+    "cook": "Grill, pan-sear or bake.",
+    "source": "https://www.montereyfish.com/golden-leopard-grouper"
+  },
   "rosy-jack": {
     "grade": "Generally not good"
   },
