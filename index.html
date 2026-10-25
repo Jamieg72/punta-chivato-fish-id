@@ -155,7 +155,7 @@ const FISH = [
     other:['Cabrilla sardinera','Cabrilla rosa','Leopard grouper'],
     category:'Groupers & Sea Bass', scientific:'Mycteroperca rosacea', status:'tentative',
     statusNote:'The reference species is established, but this catch has not been independently identified from its photos. The displayed image has not yet been independently verified to species.',
-    shots:1, localPhotos:['photos/IMG_9199.png'],
+    shots:1, idPhoto:'photos/IMG_9199.png',localPhotos:['photos/IMG_9199.png'],
     shape:'stout',color:'brown',marking:'spotted',tail:'straight',openWater:false,
     features:['Robust, elongated grouper body and large mouth','Many small brown spots on a gray-brown or green-brown body','Often darker patches along the upper back separated by pale markings','Adults generally have a nearly straight tail edge'],
     similar:'Other regional groupers, especially Gulf grouper (Mycteroperca jordani). Compare the density of spots and dark bars; confirm using clear side-on images and fin details.',
@@ -167,29 +167,29 @@ const FISH = [
     id:'snook',english:'Snook',spanish:'Róbalo',other:['Robalo','Snook'],
     category:'Other Reef & Bottom Fish',scientific:null,status:'unconfirmed',
     statusNote:'Snook is a common-name group, not a verified species identification. Several eastern Pacific Centropomus species look similar. The category is just a browsing location, not a claim that snook is a reef fish.',
-    shots:1,localPhotos:['photos/snook-1.jpg'],shape:'slender',color:'silver',marking:'stripe',tail:'forked',openWater:false,
+    shots:1,idPhoto:'photos/snook-id.jpeg',localPhotos:['photos/snook-catch.jpeg'],shape:'slender',color:'silver',marking:'stripe',tail:'forked',openWater:false,
     features:['Elongated, silver-sided body','Distinctive dark horizontal lateral line','Large mouth with a projecting lower jaw','Compare fin proportions and head profile for species-level identification'],
     similar:'Black snook (Centropomus nigrescens), armed snook (C. armatus), and yellowfin snook (C. robalito). The dark stripe alone cannot establish a species.',
-    catchDate:'September 22',dateNote:'Year not confirmed',method:'Shore fishing',lure:'Casting an artificial lure',
-    catchNote:'One photo of a silver fish with a dark lateral stripe.',
+    catchDate:'September 22, 2026',dateNote:null,method:'Shore casting',lure:'Artificial lure',catchWeight:'10 lbs',
+    catchNote:'One reported catch, with a separate species-identification photo and catch-gallery photo. The exact snook species remains unconfirmed.',
     sourceName:'Smithsonian — Little snook and comparable snooks',sourceUrl:'https://biogeodb.stri.si.edu/sftep/en/thefishes/species/1089'
   },
   {
     id:'barred-pargo',english:'Barred Pargo',spanish:'Pargo mulato',other:['Mexican barred snapper','Pargo dientón','Pargo mulato'],
     category:'Snappers',scientific:'Hoplopagrus guentherii',status:'tentative',
     statusNote:'The scientific name belongs to barred pargo in standard references. The striped fish in the catch photo still needs independent identification. The partially visible silver fish is NOT identified.',
-    shots:1,localPhotos:['photos/barred-pargo-1.jpg'],shape:'deep',color:'brown',marking:'bars',tail:'straight',openWater:false,
+    shots:1,idPhoto:'photos/barred-pargo-id.jpeg',localPhotos:['photos/barred-pargo-id.jpeg'],shape:'deep',color:'brown',marking:'bars',tail:'straight',openWater:false,
     features:['Fairly deep, laterally flattened body','Multiple conspicuous dark vertical bars','Large head and strong jaws; adults have crushing teeth','Brownish-green back, often pinkish toward the belly'],
     similar:'Other snappers including mullet snapper and juvenile snapper species. Check the dark bars, deep body and head shape carefully.',
     catchDate:'September 20, 2026',dateNote:null,method:'Shore fishing',lure:'Casting an artificial lure',
-    catchNote:'One image shows the striped fish next to a partially visible silver fish. Silver fish remains unidentified.',
+    catchNote:'One image shows the striped fish next to a partially visible silver fish, which remains unidentified. Weight was not reported.',
     sourceName:'Smithsonian — Barred pargo',sourceUrl:'https://biogeodb.stri.si.edu/sftep/en/thefishes/species/1311'
   },
   {
     id:'mahi-mahi',english:'Mahi-mahi',spanish:'Dorado',other:['Dolphinfish','Dolphin fish','Mahi mahi','Dolphin','Dorado'],
     category:'Dorado & Billfish',scientific:'Coryphaena hippurus',status:'reference',
     statusNote:'The scientific name is verified for the species called mahi-mahi/dorado. The identification of the particular pictured catch has not yet been checked against the original photo.',
-    shots:1,localPhotos:['photos/mahi-mahi-1.jpg'],shape:'slender',color:'bright',marking:'spotted',tail:'forked',openWater:true,
+    shots:1,idPhoto:'photos/mahi-mahi-1.jpg',localPhotos:['photos/mahi-mahi-1.jpg'],shape:'slender',color:'bright',marking:'spotted',tail:'forked',openWater:true,
     features:['Long body with brilliant green, blue and gold coloration','Long, continuous dorsal fin extending toward the tail','Deeply forked tail','Often blue speckles; colors may fade after capture'],
     similar:'Pompano dolphinfish (Coryphaena equiselis) is a similar species. Accurate comparison needs body depth and other anatomy.',
     catchDate:'June 21, 2026',dateNote:null,method:'Trolling',lure:'Feather lure',
@@ -218,7 +218,7 @@ async function refreshDraftPhotoThumbs(){
  '<p class="hint">Draft photo storage is unavailable in this browser.</p>';
 }
 const app=document.getElementById('app');
-const state={view:'explore',month:'all',id:null,category:null,search:'',openWater:false,appearance:{shape:'',color:'',marking:'',tail:''},imageUrls:new Map(),livePhotoSlots:new Set(),currentPhoto:0};
+const state={view:'explore',month:'all',id:null,category:null,search:'',openWater:false,appearance:{shape:'',color:'',marking:'',tail:''},imageUrls:new Map(),idImageUrls:new Map(),livePhotoSlots:new Set(),currentPhoto:0};
 let dbPromise;
 const reqStore='fish-photos-v1';
 function openDB(){
@@ -234,11 +234,15 @@ function openDB(){
 async function readPhoto(key){const db=await openDB();if(!db)return null;return new Promise(resolve=>{try{const t=db.transaction(reqStore,'readonly'),r=t.objectStore(reqStore).get(key);r.onsuccess=()=>resolve(r.result||null);r.onerror=()=>resolve(null)}catch(_){resolve(null)}})}
 async function savePhoto(key,blob){const db=await openDB();if(!db)return false;return new Promise(resolve=>{try{const t=db.transaction(reqStore,'readwrite');t.objectStore(reqStore).put(blob,key);t.oncomplete=()=>resolve(true);t.onerror=()=>resolve(false)}catch(_){resolve(false)}})}
 async function preloadPhotos(){
- for(const fish of FISH)for(let n=0;n<fish.shots;n++){
-  const key=`${fish.id}-${n}`;
-  const blob=await readPhoto(key);
-  if(blob){state.imageUrls.set(key,URL.createObjectURL(blob));state.livePhotoSlots.add(key)}
-  else if(await bundledExists(fish.localPhotos[n]))state.imageUrls.set(key,fish.localPhotos[n]);
+ for(const fish of FISH){
+  // Identification photos are species-guide assets, independent from catch-gallery photos.
+  if(fish.idPhoto && await bundledExists(fish.idPhoto))state.idImageUrls.set(fish.id,fish.idPhoto);
+  for(let n=0;n<fish.shots;n++){
+   const key=`${fish.id}-${n}`;
+   const blob=await readPhoto(key);
+   if(blob){state.imageUrls.set(key,URL.createObjectURL(blob));state.livePhotoSlots.add(key)}
+   else if(fish.localPhotos[n] && await bundledExists(fish.localPhotos[n]))state.imageUrls.set(key,fish.localPhotos[n]);
+  }
  }
  render();
 }
@@ -247,8 +251,9 @@ function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&l
 function norm(s){return String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/[^a-z0-9]+/g,' ').trim()}
 function keyFor(fish,index){return `${fish.id}-${index}`}
 function fishPhoto(fish,index=0){return state.imageUrls.get(keyFor(fish,index))||null}
+function identificationPhoto(fish){return state.idImageUrls.get(fish.id)||fishPhoto(fish,0)||null}
 function imageArea(fish,index,opts={}){
- const src=fishPhoto(fish,index);const text=fish.shots>1?`Photo ${index+1} of ${fish.shots}`:'Catch photo';
+ const src=opts.kind==='identification'?identificationPhoto(fish):fishPhoto(fish,index);const text=opts.kind==='identification'?'Identification photo':fish.shots>1?`Photo ${index+1} of ${fish.shots}`:'Catch photo';
  return src?`<img loading="lazy" src="${esc(src)}" alt="${esc(fish.english)} — ${esc(text)}">`:
  `<div class="placeholder"><span class="camera" aria-hidden="true">▧</span><strong>${esc(text)} not added yet</strong><small>Use your original photo — no stock images</small></div>`;
 }
@@ -256,7 +261,7 @@ function tag(fish){return fish.status==='reference'?'Reference species named · 
 function card(fish){
  const got=Array.from({length:fish.shots},(_,n)=>fishPhoto(fish,n)).filter(Boolean).length;
  return `<article class="fish-card"><button class="card-photo" type="button" data-fish="${fish.id}" aria-label="View ${esc(fish.english)} details">
- ${imageArea(fish,0)}<span class="mini-pill">${fish.status==='reference'?'Photo ID unchecked':'ID needs verification'}</span></button>
+ ${imageArea(fish,0,{kind:'identification'})}<span class="mini-pill">${fish.status==='reference'?'Photo ID unchecked':'ID needs verification'}</span></button>
  <div class="card-content"><h3 class="fish-title">${esc(fish.english)}</h3><p class="fish-spanish">${esc(fish.spanish)}</p>
  <div class="detail-meta"><span>${esc(fish.category)}</span><span>${esc(fish.catchDate)}</span></div>
  <div class="card-bottom"><button class="go-link" type="button" data-fish="${fish.id}">View fish details →</button><span class="photo-count">${got} / ${fish.shots} photos</span></div></div></article>`
@@ -291,7 +296,7 @@ function monthsPage(){
  <p><strong>How:</strong> ${esc(f.method)}${f.lure?' · '+esc(f.lure):''}</p>
  <button type="button" class="go-link" data-fish="${esc(f.id)}">View catch →</button></div></article>`).join(''):
  '<div class="empty"><h3>No catch reports added for this month yet</h3><p>This means no reports are in this guide, not that these fish are absent from local waters.</p></div>'}
- <p class="note"><strong>Interpretation:</strong> Each listing is one reported catch record, not necessarily one fish, trip, or distinct angler. Multiple photos do not establish multiple fish. September’s snook report has no confirmed year. Fishing method reports are not success rates.</p>
+ <p class="note"><strong>Interpretation:</strong> Each listing is one reported catch record, not necessarily one fish, trip, or distinct angler. Multiple photos do not establish multiple fish. The Róbalo report is dated September 22, 2026. Fishing method reports are not success rates.</p>
  <button type="button" class="action" data-nav="share">Share a catch (private draft) →</button>${footer()}`;
 }
 function sharePage(){
@@ -327,7 +332,7 @@ function groups(){
  <div class="category-title-row"><h2 class="sectiontitle">Browse fish categories</h2><span class="hint">8 categories</span></div>
  <section class="category-tiles" aria-label="Fish categories">
  ${CATEGORIES.map(name=>{
-   const fish=FISH.filter(f=>f.category===name),example=fish[0],image=example?fishPhoto(example,0):null;
+   const fish=FISH.filter(f=>f.category===name),example=fish[0],image=example?identificationPhoto(example):null;
    return `<button type="button" class="category-tile" ${fish.length===1?`data-fish="${esc(example.id)}"`:`data-category="${esc(name)}"`} aria-label="${fish.length===1?`Identify ${esc(example.english)} — ${esc(example.spanish)}`:`Open ${esc(name)} category`}">
     <div class="category-tile-photo">
      ${image?`<img loading="lazy" src="${esc(image)}" alt="${esc(example.english)} in ${esc(name)}">`:
@@ -340,11 +345,11 @@ function groups(){
 }
 function dataPair(title,value){return `<div class="kv"><dt>${esc(title)}</dt><dd>${esc(value)}</dd></div>`}
 function detail(fish){
- const photo=fishPhoto(fish,0);
+ const photo=identificationPhoto(fish);
  return `<button class="back" ${FISH.filter(f=>f.category===fish.category).length===1?'data-nav="groups"':`data-category="${esc(fish.category)}"`} type="button">← ${FISH.filter(f=>f.category===fish.category).length===1?'All categories':esc(fish.category)}</button>
  <section class="detail-head"><div class="eyebrow">Species identification · Punta Chivato</div><h1>${esc(fish.english)}</h1><p class="detail-spanish">${esc(fish.spanish)}</p><span class="tag">${esc(tag(fish))}</span></section>
  <div class="id-profile">
-  <section class="id-photo-section"><div class="id-photo-frame">${imageArea(fish,0)}</div>
+  <section class="id-photo-section"><div class="id-photo-frame">${imageArea(fish,0,{kind:'identification'})}</div>
   <p class="smallnote id-photo-note">${photo?'Identification photo from a reported catch. Species-level identification is not established by this photo alone.':'Identification photograph hasn’t been added yet; no stock photographs are being used.'}</p>
   <button type="button" class="action id-gallery-link" data-catches="${esc(fish.id)}">Next: View ${esc(fish.spanish)} catch gallery →</button></section>
   <section class="id-info-stack">
