@@ -498,6 +498,7 @@ body{
 .edibility-safety summary{color:#51665f;cursor:pointer;font-weight:700}
 .edibility-safety p{margin:8px 0;line-height:1.5}
 
+.edibility-tip{margin:12px 0 0;font-size:13px;line-height:1.55;color:#8a553a;font-weight:650}
 </style>
 
 
@@ -864,8 +865,9 @@ const EDIBILITY_GUIDE = {
   },
   "yellowtail-jack": {
     "grade": "Excellent table fish",
-    "flavor": "Yellowtail jack is known for rich, buttery flesh and a firm texture.",
-    "cook": "Grill, sear or bake.",
+    "flavor": "Firm texture.",
+    "cook": "Excellent for sashimi and sushi (hamachi-style); also delicious seared or smoked.",
+    "tip": "Bleeding this fish well helps the flavor immensely.",
     "note": "This description is for yellowtail jack in general; the photographed catch has not been verified to species.",
     "source": "https://caseagrant.ucsd.edu/seafood-profiles/yellowtail"
   },
@@ -923,6 +925,7 @@ function edibilityCard(fish){
   <p class="edibility-grade">${esc(e.grade)}</p>
   <p class="edibility-description">${esc(e.flavor)}</p>
   <p class="edibility-method"><strong>Preparation:</strong> ${esc(e.cook)}</p>
+  ${e.tip?`<p class="edibility-tip"><em>* ${esc(e.tip)}</em></p>`:""}
   ${e.note?`<p class="edibility-note">${esc(e.note)}</p>`:""}
   <div class="edibility-foot"><a target="_blank" rel="noopener noreferrer" href="${esc(e.source)}">Eating-quality reference ↗</a>
    <details class="edibility-safety"><summary>Eating wild-caught fish safely</summary><p>Confirm the fish identification and check local seafood advisories. Some larger reef fish, including groupers, snappers and jacks, can carry ciguatera toxins; cooking does not remove them. Mercury can also accumulate in some fish.</p>
