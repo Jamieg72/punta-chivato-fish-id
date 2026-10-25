@@ -752,7 +752,7 @@ function sharePage(){
    <p>Only submit photos you own or have permission to share. No fishing technique, lure, or specific fishing location needs to be disclosed.</p>
  </section>
  <div class="catch-draft-info"><strong>Public uploads are not connected yet.</strong> This form currently saves a private draft on your own device. Nothing is submitted to the public gallery or site owner until an upload and review service is connected.</div>
- <form id="communityDraftForm" class="share-form">
+ <form id="communityDraftForm" class="share-form" data-public-upload="yes" action="https://formsubmit.app/f/vbxhh8rqtc" method="POST" enctype="multipart/form-data">
  <label class="catch-agree"><input type="checkbox" name="agreeRules" value="yes" required><span><strong>I agree to both photo rules.</strong> The catch is from 2026 or later and from the Punta Chivato fishing area described above.</span></label>
  <h2 class="catch-form-title">Your catch details <small>(voluntary)</small></h2><p class="catch-voluntary-intro">Only the photo, catch date, and agreement to the two rules are required. Every other question is optional, including species, fishing method, lure, weight, and general fishing area.</p>
  <div class="share-grid">
@@ -770,7 +770,7 @@ function sharePage(){
  </div>
  <label class="field">Catch notes (optional)<textarea name="notes" maxlength="800" placeholder="Anything else about this fish or catch">${v('notes')}</textarea></label>
  <label class="field catch-photo-label">Add your catch photos <small>At least one photo · Up to 5 · 20 MB each</small>
- <input id="communityPhotoInput" type="file" accept="image/*" multiple aria-describedby="catchPhotoInfo"></label>
+ <input id="communityPhotoInput" type="file" name="photos" accept="image/*" multiple required aria-describedby="catchPhotoInfo"></label>
  <div id="draftPhotoPreview" aria-live="polite"><p class="hint">Select one to five photos of your catch.</p></div>
  <p id="catchPhotoInfo" class="catch-photo-privacy">Photos are stored privately in this browser during this draft stage, not posted publicly.</p>
  <button type="submit" class="action">Save catch &amp; photos as private draft</button>
@@ -963,6 +963,14 @@ document.getElementById('photoInput').addEventListener('change',async e=>{
 
 document.addEventListener('submit',e=>{
  if(e.target.id!=='communityDraftForm')return;
+ if(e.target.dataset.publicUpload==='yes'){
+  const files=Array.from(e.target.querySelector('#communityPhotoInput').files||[]);
+  if(files.length<1||files.length>5||files.some(f=>f.size>4000000)||files.reduce((sum,f)=>sum+f.size,0)>4500000){
+   e.preventDefault();const status=document.getElementById('draftStatus');
+   if(status)status.textContent='Choose 1–5 photos totaling under 4.5 MB (each under 4 MB). Large photos need resizing before upload.';
+  }
+  return;
+ }
  e.preventDefault();
  const f=e.target;
  const status=document.getElementById('draftStatus');
