@@ -44,3 +44,20 @@ Attribution/name and general catch area should remain optional. Never publish pr
 ## Planned future feature: Seasons by month (do not build yet)
 
 User requirement (October 2026): **Every catch photo must belong to a dated catch report and be retrievable by catch month**, so a future **Seasons** tab can show species caught in January–December and how they were caught. Preserve full catch date when known; derive month from that date rather than from upload date or image file timestamp. If year/day is unknown, record only the confirmed components without inventing a year. Photos of the same catch are grouped under one report, not counted as independent fish, trips or anglers. Track fish count, unique trip count, and distinct anglers separately when eventually supported, and never treat method reports as success rates. The Seasons tab and seasonal conclusions are **deferred** until sufficient real catch reports have accumulated. Existing month-view reports are a small sample, not evidence of normal/likely seasonal catches.
+
+## Current photo assignments (October 25, 2026)
+
+For each fish, the **species identification page** has its own reference photo separate from the **Catch Gallery** photo. Both are photographs of reported catches, not stock images. Files live in the `photos/` directory. The app automatically discovers the following filenames if/when they are committed to GitHub:
+
+| Species | Identification page | Catch gallery |
+|---|---|---|
+| Cabrilla / Leopard Grouper | `photos/IMG_9199.png` (already committed) | Same photo |
+| Róbalo / Snook | `photos/B4E7FF9D-1CBA-464E-BAF6-41F05AA99640.jpeg` | `photos/IMG_8710.jpeg` |
+| Pargo mulato / Barred Pargo | `photos/IMG_8677.jpeg` | Same photo until another is provided |
+| Dorado / Mahi-mahi | Not yet supplied | Not yet supplied |
+
+**Important:** As of this version, the three Róbalo/Pargo files above are referenced in the site code but have **not yet been uploaded to GitHub**. The corresponding UI shows placeholders until each file exists. A photo uploaded only in ChatGPT does not automatically become a GitHub asset.
+
+Róbalo: September 22, **2026**, 10 lbs, shore casting using an artificial lure; exact species unconfirmed. Pargo mulato: September 20, 2026, shore casting with artificial lure; weight unknown and identification tentative. The partially visible silver fish in the pargo photo remains unidentified. Do not infer a weight or additional catch from it.
+
+If users upload original photographs, remove or avoid EXIF location metadata when publishing, as exact fishing spots should not be exposed without explicit consent.
