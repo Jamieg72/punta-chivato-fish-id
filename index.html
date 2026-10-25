@@ -16,6 +16,43 @@
 .gallery-track{touch-action:pan-x pan-y}
 @media(min-width:701px){.card-photo{height:290px}}
 
+
+/* Catch history and community draft screens */
+.month-picker{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:18px 0 20px}
+.month-picker button{background:white;border:1px solid var(--line);border-radius:12px;padding:13px 4px;text-align:center;font-size:13px;font-weight:750;color:var(--ink)}
+.month-picker button small{display:block;color:var(--sub);font-size:11px;font-weight:500;margin-top:3px}
+.month-picker button.selected{background:#0b727a;color:#fff;border-color:#0b727a}
+.month-picker button.selected small{color:#e1f2f0}
+.month-report{background:white;border:1px solid var(--line);border-radius:16px;overflow:hidden;margin:12px 0;display:grid;grid-template-columns:minmax(0,180px) minmax(0,1fr)}
+.month-image{border:0;background:#d4e3de;padding:0;height:190px;width:100%;overflow:hidden}
+.month-image img{height:100%;width:100%;object-fit:cover}
+.month-content{padding:18px}
+.month-content h3{margin:0 0 2px;font-size:21px}
+.month-content p{margin:7px 0;color:var(--sub);font-size:13px;line-height:1.5}
+.month-content .local{font-size:18px;color:var(--aqua);font-weight:750}
+.month-content .go-link{margin-top:6px}
+.share-form{background:white;border:1px solid var(--line);border-radius:17px;padding:20px;margin:18px 0}
+.share-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px}
+.share-form .field{margin-bottom:16px;min-width:0}
+.share-form input,.share-form select,.share-form textarea{width:100%;padding:13px;border-radius:12px;border:1px solid #cddbd6;background:white;font-size:16px;color:var(--ink)}
+.share-form input[type=file]{padding:10px;font-size:13px}
+.share-form textarea{min-height:86px;resize:vertical}
+.share-form .action{width:100%}
+.share-status{padding:10px 13px;border-radius:11px;background:#e9f1ed;font-size:13px;color:#315c62;line-height:1.5}
+.draft-thumbs{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.draft-thumbs img{width:88px;height:88px;object-fit:cover;border-radius:10px;border:1px solid #bcd2cd}
+@media(max-width:700px){
+.bottom-nav button{min-width:0;flex:1;font-size:10px;gap:3px}
+.bottom-nav button span{font-size:21px;line-height:22px}
+.month-picker{grid-template-columns:repeat(3,minmax(0,1fr))}
+.month-report{grid-template-columns:minmax(0,122px) minmax(0,1fr)}
+.month-image{height:190px}
+.month-content{padding:13px}
+.month-content h3{font-size:17px}
+.month-content .local{font-size:16px}
+.share-grid{grid-template-columns:1fr}
+}
+
 </style>
 
 
@@ -32,6 +69,8 @@
     <button type="button" data-nav="explore"><span aria-hidden="true">⌕</span> Explore</button>
     <button type="button" data-nav="appearance"><span aria-hidden="true">◎</span> Appearance</button>
     <button type="button" data-nav="groups"><span aria-hidden="true">▦</span> Categories</button>
+    <button type="button" data-nav="months"><span aria-hidden="true">▤</span> Months</button>
+    <button type="button" data-nav="share"><span aria-hidden="true">＋</span> Share</button>
   </nav>
   <input id="photoInput" type="file" accept="image/*" hidden>
   <script>
@@ -95,8 +134,28 @@ const FISH = [
     sourceName:'NOAA Fisheries — Pacific mahimahi',sourceUrl:'https://www.fisheries.noaa.gov/species/pacific-mahimahi'
   }
 ];
+const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+function reportedMonth(f){return MONTHS.findIndex(m=>f.catchDate.startsWith(m))+1}
+const COMMUNITY_DRAFT_KEY='punta-chivato-community-draft-v1';
+function readCommunityDraft(){try{const v=JSON.parse(localStorage.getItem(COMMUNITY_DRAFT_KEY)||'{}');return v&&typeof v==='object'?v:{}}catch(_){return {}}}
+function writeCommunityDraft(v){try{localStorage.setItem(COMMUNITY_DRAFT_KEY,JSON.stringify(v));return true}catch(_){return false}}
+let localDraftPhotoURLs=[];
+function clearDraftPhotoURLs(){for(const u of localDraftPhotoURLs)URL.revokeObjectURL(u);localDraftPhotoURLs=[]}
+async function refreshDraftPhotoThumbs(){
+ if(state.view!=='share')return;
+ const slot=document.getElementById('draftPhotoPreview');if(!slot)return;
+ const d=readCommunityDraft(),count=Math.min(Number(d.photoCount)||0,5);
+ if(!count){slot.innerHTML='<p class="hint">No photos saved in this draft.</p>';return}
+ const photos=[];
+ for(let i=0;i<count;i++){const b=await readPhoto('community-draft-'+i);if(b&&b.type?.startsWith('image/'))photos.push(URL.createObjectURL(b))}
+ if(state.view!=='share'){photos.forEach(u=>URL.revokeObjectURL(u));return}
+ clearDraftPhotoURLs();localDraftPhotoURLs=photos;
+ const here=document.getElementById('draftPhotoPreview');if(here)here.innerHTML=photos.length?
+ '<div class="draft-thumbs">'+photos.map((u,i)=>'<img alt="Private draft photo '+(i+1)+'" src="'+esc(u)+'">').join('')+'</div><p class="hint">'+photos.length+' photo(s) saved only on this device. They are not public uploads.</p>':
+ '<p class="hint">Draft photo storage is unavailable in this browser.</p>';
+}
 const app=document.getElementById('app');
-const state={view:'explore',id:null,category:null,search:'',openWater:false,appearance:{shape:'',color:'',marking:'',tail:''},imageUrls:new Map(),livePhotoSlots:new Set(),currentPhoto:0};
+const state={view:'explore',month:'all',id:null,category:null,search:'',openWater:false,appearance:{shape:'',color:'',marking:'',tail:''},imageUrls:new Map(),livePhotoSlots:new Set(),currentPhoto:0};
 let dbPromise;
 const reqStore='fish-photos-v1';
 function openDB(){
@@ -153,6 +212,49 @@ function home(){
  ${matches.length?`<section class="cards">${matches.map(card).join('')}</section>`:`<div class="empty"><h3>${state.category&&!q&&!state.openWater?'Photos haven’t been added yet':'No matching fish yet'}</h3><p>${state.category&&!q&&!state.openWater?'This category is ready for photos and confirmed catches.':'Try another name, turn off the open-water filter, or browse the categories.'}</p>${state.category?'<button class="action alt" data-nav="groups" type="button">See all categories</button>':''}</div>`}
  ${footer()}`;
 }
+
+function monthsPage(){
+ const chosen=state.month;
+ const selected=FISH.filter(f=>chosen==='all'||reportedMonth(f)===Number(chosen));
+ const title=chosen==='all'?'All months':MONTHS[Number(chosen)-1];
+ return `<section class="finder-header"><span class="eyebrow">Community catch history</span><h1>What was caught by month?</h1><p>Browse dated catch reports and see how each fish was caught. This is a small sample of reported catches, not proof of what is normally or most commonly caught in a month.</p></section>
+ <div class="month-picker" aria-label="Filter catch reports by month">
+ <button type="button" data-month="all" class="${chosen==='all'?'selected':''}">All months<small>${FISH.length} reports</small></button>
+ ${MONTHS.map((name,i)=>{const count=FISH.filter(f=>reportedMonth(f)===i+1).length;return `<button type="button" data-month="${i+1}" class="${chosen===String(i+1)?'selected':''}">${name.slice(0,3)}<small>${count?count+' report'+(count===1?'':'s'):'No reports'}</small></button>`}).join('')}</div>
+ <h2 class="sectiontitle">${title} <span class="hint">(${selected.length} reported catch record${selected.length===1?'':'s'})</span></h2>
+ ${selected.length?selected.map(f=>`<article class="month-report"><button type="button" class="month-image" data-fish="${esc(f.id)}" aria-label="See ${esc(f.english)}">${imageArea(f,0)}</button>
+ <div class="month-content"><h3>${esc(f.english)}</h3><div class="local">${esc(f.spanish)}</div>
+ <p><strong>Reported:</strong> ${esc(f.catchDate)}${f.dateNote?' — '+esc(f.dateNote):''}</p>
+ <p><strong>How:</strong> ${esc(f.method)}${f.lure?' · '+esc(f.lure):''}</p>
+ <button type="button" class="go-link" data-fish="${esc(f.id)}">View catch →</button></div></article>`).join(''):
+ '<div class="empty"><h3>No catch reports added for this month yet</h3><p>This means no reports are in this guide, not that these fish are absent from local waters.</p></div>'}
+ <p class="note"><strong>Interpretation:</strong> Each listing is one reported catch record, not necessarily one fish, trip, or distinct angler. Multiple photos do not establish multiple fish. September’s snook report has no confirmed year. Fishing method reports are not success rates.</p>
+ <button type="button" class="action" data-nav="share">Share a catch (private draft) →</button>${footer()}`;
+}
+function sharePage(){
+ const d=readCommunityDraft();
+ const v=(k)=>esc(d[k]||'');
+ const opts=(a,current)=>a.map(x=>`<option value="${esc(x)}" ${current===x?'selected':''}>${esc(x)}</option>`).join('');
+ return `<section class="finder-header"><span class="eyebrow">Help build the local guide</span><h1>Share your catch</h1><p>Add your fish photo and reported details by species. Public community submissions are not connected yet. This form saves a private draft on this device only.</p></section>
+ <div class="note"><strong>Not a public upload yet.</strong> Your draft and selected photos are kept locally where possible. No one else can see them; they are not sent to GitHub, Render, or other users. A reviewed community submission system is the next phase.</div>
+ <form id="communityDraftForm" class="share-form">
+ <div class="share-grid"><label class="field">Fish / species
+ <select name="species"><option value="">Choose a species</option>${opts(FISH.map(f=>f.english+' — '+f.spanish),d.species)}<option value="Unidentified fish" ${d.species==='Unidentified fish'?'selected':''}>Unidentified fish</option><option value="Other fish" ${d.species==='Other fish'?'selected':''}>Other fish (enter a name below)</option></select></label>
+ <label class="field">Other/local fish name (optional)<input name="otherName" value="${v('otherName')}" maxlength="100" placeholder="Local or suspected name"></label>
+ <label class="field">Catch date (if known)<input type="date" name="date" value="${v('date')}" max="2100-12-31"></label>
+ <label class="field">Fishing method<select name="method"><option value="">Choose a method</option>${opts(['Shore casting','Spearfishing','Trolling','Jigging','Bottom fishing','Kayak fishing','Other / unknown'],d.method)}</select></label>
+ <label class="field">Bait / lure (optional)<input name="lure" value="${v('lure')}" maxlength="120" placeholder="Feather lure, jig, bait…"></label>
+ <label class="field">Number of fish (optional)<input name="fishCount" type="number" min="1" max="999" value="${v('fishCount')}" placeholder="Only if known"></label>
+ <label class="field">General area (optional)<input name="area" value="${v('area')}" maxlength="120" placeholder="Only what you want shared"></label>
+ <label class="field">Name to credit (optional)<input name="angler" value="${v('angler')}" maxlength="100" placeholder="First name or nickname"></label></div>
+ <label class="field">Catch notes (optional)<textarea name="notes" maxlength="800" placeholder="Color, depth, conditions, identification uncertainty…">${v('notes')}</textarea></label>
+ <label class="field">Your photos (up to five)
+ <input id="communityPhotoInput" type="file" accept="image/*" multiple>
+ </label><div id="draftPhotoPreview" aria-live="polite"><p class="hint">Photos are for your private draft only.</p></div>
+ <button type="submit" class="action">Save private draft on this device</button>
+ <p id="draftStatus" role="status" class="share-status">Public submission is not yet enabled. Saving a draft is not the same as uploading or publishing.</p></form>
+ <p class="muted-intro">When public participation is enabled, submissions should be checked before being shown in the guide. Identifications can remain tentative, and precise catch spots should be optional rather than assumed or required.</p>${footer()}`;
+}
 function groups(){return `<button class="back" data-nav="explore">← Explore fish</button><div class="eyebrow">Browse the guide</div><h1 class="page-heading">Eight fish categories</h1><p class="muted-intro">Categories with no catch photos are intentionally empty. We're not adding stock fish pictures.</p><div class="groups">${CATEGORIES.map(name=>{const n=FISH.filter(x=>x.category===name).length;return `<button type="button" class="group" data-category="${esc(name)}"><div><strong>${esc(name)}</strong><small>${n?`${n} fish record${n===1?'':'s'}`:'Photos haven’t been added yet'}</small></div><b>${n}</b></button>`}).join('')}</div><p class="note">Snook is grouped under “Other Reef & Bottom Fish” for navigation only; this does not imply that snook is a reef species.</p>${footer()}`}
 function dataPair(title,value){return `<div class="kv"><dt>${esc(title)}</dt><dd>${esc(value)}</dd></div>`}
 function detail(fish){
@@ -187,9 +289,10 @@ function appearance(){
  ${selected.length&&perfect.length===0?'<p class="note">These are partial appearance matches only, not confirmed identifications.</p>':''}${footer()}`;
 }
 function render(){
- app.innerHTML=state.view==='detail'?detail(FISH.find(f=>f.id===state.id)||FISH[0]):state.view==='appearance'?appearance():state.view==='groups'?groups():home();
+ app.innerHTML=state.view==='detail'?detail(FISH.find(f=>f.id===state.id)||FISH[0]):state.view==='appearance'?appearance():state.view==='groups'?groups():state.view==='months'?monthsPage():state.view==='share'?sharePage():home();
  document.querySelectorAll('[data-nav]').forEach(b=>{b.classList.toggle('active',b.dataset.nav===state.view||(state.view==='detail'&&b.dataset.nav==='explore'))});
  if(state.view==='detail')setupGallery();
+ if(state.view==='share')refreshDraftPhotoThumbs();
 }
 function route(view,id=null,category=null,keepSearch=false){
  state.view=view;state.id=id;state.category=category;state.currentPhoto=0;
@@ -202,7 +305,7 @@ function fromHash(){
  const hash=decodeURIComponent(location.hash.replace(/^#/,''));
  if(hash.startsWith('fish/')&&FISH.some(x=>x.id===hash.slice(5))){state.view='detail';state.id=hash.slice(5);state.category=null}
  else if(hash.startsWith('category/')&&CATEGORIES.includes(hash.slice(9))){state.view='explore';state.category=hash.slice(9);state.id=null}
- else if(hash==='appearance'||hash==='groups'){state.view=hash;state.id=null;state.category=null}
+ else if(['appearance','groups','months','share'].includes(hash)){state.view=hash;state.id=null;state.category=null}
  else{state.view='explore';state.id=null;state.category=null}
  state.currentPhoto=0;render();
 }
@@ -220,6 +323,7 @@ let uploadTarget=null;
 document.addEventListener('click',e=>{
  const fishBtn=e.target.closest('[data-fish]');if(fishBtn){route('detail',fishBtn.dataset.fish);return}
  const cat=e.target.closest('[data-category]');if(cat){route('explore',null,cat.dataset.category);return}
+ const month=e.target.closest('[data-month]');if(month){state.month=month.dataset.month;render();return}
  const nav=e.target.closest('[data-nav]');if(nav){route(nav.dataset.nav);return}
  const slide=e.target.closest('[data-slide]');if(slide){moveSlide(slide.dataset.slide);return}
  const photo=e.target.closest('[data-photo]');if(photo){uploadTarget={id:photo.dataset.photo,slot:Number(photo.dataset.slot)};const input=document.getElementById('photoInput');input.value='';input.click();return}
@@ -249,6 +353,34 @@ document.getElementById('photoInput').addEventListener('change',async e=>{
  render();
  alert(saved?'Photo added on this device. To make it visible on the published website, it still needs to be added to the app files.':'Photo displayed for this session only; persistent storage is unavailable in this browser. It still must be published separately.');
 });
+
+document.addEventListener('submit',e=>{
+ if(e.target.id!=='communityDraftForm')return;
+ e.preventDefault();
+ const f=e.target, d=Object.fromEntries(new FormData(f).entries());
+ delete d.files;
+ const prior=readCommunityDraft();d.photoCount=prior.photoCount||0;
+ const ok=writeCommunityDraft(d);
+ const status=document.getElementById('draftStatus');
+ if(status)status.textContent=ok?'Private draft saved in this browser. It has NOT been uploaded or shared with other anglers.':'Draft could not be saved in this browser. Nothing has been published.';
+});
+document.addEventListener('change',async e=>{
+ if(e.target.id!=='communityPhotoInput')return;
+ const files=Array.from(e.target.files||[]);
+ const status=document.getElementById('draftStatus');
+ if(files.length>5||files.some(f=>!f.type.startsWith('image/')||f.size>20*1024*1024)){
+  if(status)status.textContent='Choose up to five image files, each under 20 MB. No photos were saved.';return;
+ }
+ if(!files.length)return;
+ let success=true;
+ for(let i=0;i<files.length;i++)success=(await savePhoto('community-draft-'+i,files[i]))&&success;
+ const current=readCommunityDraft();
+ const count=success?files.length:0;
+ if(success)writeCommunityDraft({...current,photoCount:count});
+ if(status)status.textContent=success?'Photos saved privately on this device. They are NOT uploaded or visible to other anglers.':'Photo storage is unavailable on this device. Nothing was uploaded.';
+ await refreshDraftPhotoThumbs();
+});
+
 document.getElementById('resetNav').addEventListener('click',()=>route('explore'));
 window.addEventListener('popstate',fromHash);window.addEventListener('hashchange',fromHash);
 fromHash();preloadPhotos();
