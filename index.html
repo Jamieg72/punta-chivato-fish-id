@@ -656,6 +656,15 @@ async function refreshDraftPhotoThumbs(){
  clearDraftPhotoURLs();
  const preview=document.getElementById('draftPhotoPreview');
  if(preview)preview.innerHTML='<p class="hint">No photos selected yet. Choose your catch pictures above.</p>';
+ // Erase legacy on-device draft photos; active submissions are sent to FormSubmit.
+ try{localStorage.removeItem(COMMUNITY_DRAFT_KEY)}catch(_){}
+ const db=await openDB();
+ if(!db)return;
+ try{
+  const tx=db.transaction(reqStore,'readwrite');
+  const store=tx.objectStore(reqStore);
+  for(let i=0;i<5;i++)store.delete('community-draft-'+i);
+ }catch(_){}
 }
 
 const app=document.getElementById('app');
@@ -746,7 +755,7 @@ function monthsPage(){
  <button type="button" class="action" data-nav="share">Share a catch (private draft) →</button>${footer()}`;
 }
 function sharePage(){
- const d=readCommunityDraft();
+ const d={};
  const v=(k)=>esc(d[k]||'');
  const opts=(a,current)=>a.map(x=>`<option value="${esc(x)}" ${current===x?'selected':''}>${esc(x)}</option>`).join('');
  const today=new Date();
