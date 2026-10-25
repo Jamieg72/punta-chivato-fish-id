@@ -307,6 +307,143 @@ body {
   .category-tile {border-radius:16px}
 }
 
+
+/* BAJA COASTAL ACCENTS v2 — visible, playful details without cluttering fish photos */
+body{
+ background:
+   radial-gradient(circle at 98% 400px,rgba(244,180,119,.13),transparent 390px),
+   radial-gradient(circle at 0 920px,rgba(84,187,174,.10),transparent 460px),
+   linear-gradient(180deg,#fff9ee 0%,#f8f0e0 52%,#f6ebd8 100%);
+}
+.categories-hero{
+ position:relative;
+ min-height:310px;
+ padding:36px 34px 42px;
+ border-radius:25px 25px 13px 13px;
+ overflow:hidden;
+}
+.categories-hero .eyebrow::before{
+ content:"☀";
+ font-size:15px;
+ margin-right:7px;
+ color:#ffd785;
+ vertical-align:-1px;
+}
+.baja-sun-stamp{
+ position:absolute;
+ top:26px;
+ right:31px;
+ z-index:2;
+ width:72px;
+ height:72px;
+ border-radius:50%;
+ border:2px solid rgba(255,239,186,.78);
+ display:flex;
+ flex-direction:column;
+ align-items:center;
+ justify-content:center;
+ color:#fff0c3;
+ background:rgba(21,98,104,.28);
+ box-shadow:0 0 0 4px rgba(255,255,255,.12);
+ transform:rotate(11deg);
+ text-shadow:0 1px 4px #204447;
+ pointer-events:none;
+}
+.baja-sun-stamp>span{font-size:28px;line-height:1}
+.baja-sun-stamp small{font-size:10px;letter-spacing:.16em;font-weight:900}
+.beach-wave-divider{
+ height:41px;
+ margin:-17px 3px 0;
+ position:relative;
+ z-index:2;
+ pointer-events:none;
+ overflow:hidden;
+}
+.beach-wave-divider svg{width:100%;height:100%;display:block}
+.category-heading-sun{
+ display:inline-block;
+ color:#e4895a;
+ text-shadow:0 1px 0 #fff;
+ margin-right:6px;
+ font-size:.93em;
+ transform:rotate(-12deg);
+}
+.category-title-row{border-bottom:0;position:relative;padding-bottom:14px}
+.category-title-row::after{
+ content:"";
+ width:110px;
+ height:4px;
+ border-radius:20px;
+ position:absolute;
+ bottom:3px;
+ left:0;
+ background:linear-gradient(90deg,#f08e65 0 33%,#ffd18e 33% 66%,#4ebcba 66% 100%);
+}
+.category-actions .action.alt{
+ background:linear-gradient(130deg,#e98b63,#ffba84);
+ color:#452e27;
+ border:1px solid #f2b184;
+ box-shadow:0 5px 16px rgba(201,115,81,.16);
+}
+.category-actions .action.alt:hover{background:linear-gradient(130deg,#f2976f,#ffc99a)}
+.category-actions .action:first-child{
+ background:linear-gradient(120deg,#117988,#19a0a6);
+}
+.category-tiles{gap:16px}
+.category-tile{
+ position:relative;
+ border-color:#e9dcc8;
+ border-bottom:4px solid #eab982;
+ box-shadow:0 6px 16px rgba(88,90,70,.09), inset 0 2px 0 rgba(255,255,255,.85);
+ transition:transform .17s ease,box-shadow .17s ease,border-color .17s ease;
+}
+.category-tile:hover{
+ transform:translateY(-2px);
+ border-bottom-color:#e98b63;
+}
+.category-tile-photo{border-right:3px solid rgba(255,255,255,.93)}
+.category-tile-body strong{letter-spacing:.005em}
+.category-tile-arrow{font-weight:900;color:#d98257}
+.leadpanel{
+ position:relative;
+ overflow:hidden;
+ border-bottom:4px solid #eec597;
+}
+.leadpanel::after{
+ content:"🌴";
+ position:absolute;
+ font-size:42px;
+ right:18px;
+ top:10px;
+ opacity:.23;
+ transform:rotate(10deg);
+ pointer-events:none;
+}
+.leadpanel h2,.leadpanel p,.leadpanel button{position:relative;z-index:1}
+.info-card h2::before{
+ content:"";
+ width:5px;
+ height:17px;
+ display:inline-block;
+ background:#e8a46d;
+ margin-right:9px;
+ border-radius:6px;
+ vertical-align:-3px;
+}
+@media(max-width:700px){
+ .categories-hero{min-height:275px;padding:24px 20px 34px}
+ .baja-sun-stamp{width:48px;height:48px;right:15px;top:15px}
+ .baja-sun-stamp>span{font-size:20px}
+ .baja-sun-stamp small{font-size:8px}
+ .categories-hero h1{font-size:clamp(32px,9vw,40px);padding-right:3px}
+ .beach-wave-divider{height:32px;margin-top:-14px}
+ .category-tiles{gap:13px}
+ .category-tile{border-bottom-width:3px}
+ .leadpanel::after{font-size:33px}
+}
+@media(max-width:340px){.baja-sun-stamp{display:none}}
+@media(prefers-reduced-motion:reduce){.category-tile{transition:none}}
+
 </style>
 
 
@@ -546,9 +683,13 @@ function sharePage(){
 function groups(){
  return `<section class="hero categories-hero"><span class="eyebrow">Punta Chivato · Fish ID</span>
  <h1>Know your fish.<br><em>Conoce tus peces.</em></h1>
- <p>Choose a fish category to browse its species and identification photos.</p></section>
+ <p>Choose a fish category to browse its species and identification photos.</p>
+ <span class="baja-sun-stamp" aria-hidden="true"><span>☼</span><small>BAJA</small></span></section>
+ <div class="beach-wave-divider" aria-hidden="true">
+ <svg viewBox="0 0 1200 48" preserveAspectRatio="none" focusable="false"><path fill="#d3eee6" d="M0,19 C90,42 165,0 266,23 S443,44 544,22 S734,1 846,20 S1048,45 1200,18 L1200,48 L0,48 Z"/><path fill="#f8f0e0" d="M0,32 C118,8 183,46 305,31 S475,6 604,30 S810,46 928,28 S1114,9 1200,30 L1200,48 L0,48 Z"/><path d="M0 30 C118 7 183 45 305 29 S475 5 604 29 S810 43 928 27 S1114 7 1200 29" stroke="#e4a271" stroke-width="2.5" fill="none" opacity=".7"/></svg>
+ </div>
  <div class="category-actions"><button type="button" class="action" data-nav="explore">⌕ Search fish by name</button><button type="button" class="action alt" data-nav="appearance">Not sure? Find by appearance</button></div>
- <div class="category-title-row"><h2 class="sectiontitle">Browse fish categories</h2><span class="hint">8 categories</span></div>
+ <div class="category-title-row"><h2 class="sectiontitle"><span class="category-heading-sun" aria-hidden="true">☀</span> Browse fish categories</h2><span class="hint">8 categories</span></div>
  <section class="category-tiles" aria-label="Fish categories">
  ${CATEGORIES.map(name=>{
    const fish=FISH.filter(f=>f.category===name),example=fish[0],image=state.categoryImageUrls.get(name)||(example?identificationPhoto(example):null);
