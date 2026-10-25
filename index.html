@@ -168,6 +168,8 @@
   <script>
 /* Punta Chivato Fish ID — original, independent fish guide. No catch data is inferred. */
 'use strict';
+// Category artwork can be an illustrative user photo without adding a species or catch record.
+const CATEGORY_PHOTOS = {'Small Fish & Baitfish':'photos/2714c27f-3313-4d2d-899f-1a27f3b05641.jpeg'};
 const CATEGORIES = [
   'Jacks & Roosterfish',
   'Groupers & Sea Bass',
@@ -260,7 +262,7 @@ async function refreshDraftPhotoThumbs(){
  '<p class="hint">Draft photo storage is unavailable in this browser.</p>';
 }
 const app=document.getElementById('app');
-const state={view:'explore',month:'all',id:null,category:null,search:'',openWater:false,appearance:{shape:'',color:'',marking:'',tail:''},imageUrls:new Map(),idImageUrls:new Map(),livePhotoSlots:new Set(),currentPhoto:0};
+const state={view:'explore',month:'all',id:null,category:null,search:'',openWater:false,appearance:{shape:'',color:'',marking:'',tail:''},imageUrls:new Map(),idImageUrls:new Map(),categoryImageUrls:new Map(),livePhotoSlots:new Set(),currentPhoto:0};
 let dbPromise;
 const reqStore='fish-photos-v1';
 function openDB(){
@@ -276,6 +278,9 @@ function openDB(){
 async function readPhoto(key){const db=await openDB();if(!db)return null;return new Promise(resolve=>{try{const t=db.transaction(reqStore,'readonly'),r=t.objectStore(reqStore).get(key);r.onsuccess=()=>resolve(r.result||null);r.onerror=()=>resolve(null)}catch(_){resolve(null)}})}
 async function savePhoto(key,blob){const db=await openDB();if(!db)return false;return new Promise(resolve=>{try{const t=db.transaction(reqStore,'readwrite');t.objectStore(reqStore).put(blob,key);t.oncomplete=()=>resolve(true);t.onerror=()=>resolve(false)}catch(_){resolve(false)}})}
 async function preloadPhotos(){
+ for(const [category,path] of Object.entries(CATEGORY_PHOTOS)){
+  if(await bundledExists(path))state.categoryImageUrls.set(category,path);
+ }
  for(const fish of FISH){
   // Identification photos are species-guide assets, independent from catch-gallery photos.
   if(fish.idPhoto && await bundledExists(fish.idPhoto))state.idImageUrls.set(fish.id,fish.idPhoto);
@@ -374,13 +379,13 @@ function groups(){
  <div class="category-title-row"><h2 class="sectiontitle">Browse fish categories</h2><span class="hint">8 categories</span></div>
  <section class="category-tiles" aria-label="Fish categories">
  ${CATEGORIES.map(name=>{
-   const fish=FISH.filter(f=>f.category===name),example=fish[0],image=example?identificationPhoto(example):null;
+   const fish=FISH.filter(f=>f.category===name),example=fish[0],image=state.categoryImageUrls.get(name)||(example?identificationPhoto(example):null);
    return `<button type="button" class="category-tile" ${fish.length===1?`data-fish="${esc(example.id)}"`:`data-category="${esc(name)}"`} aria-label="${fish.length===1?`Identify ${esc(example.english)} — ${esc(example.spanish)}`:`Open ${esc(name)} category page`}">
      <span class="category-tile-photo">
-       ${image?`<img loading="lazy" src="${esc(image)}" alt="${esc(example.english)} identification photo">`:
+       ${image?`<img loading="lazy" src="${esc(image)}"  alt="${esc(name==='Small Fish & Baitfish'?'Category illustration; fish not identified':example?.english||name)}">`:
        `<span class="category-tile-placeholder" aria-hidden="true">◇</span>`}
      </span>
-     <span class="category-tile-body"><strong>${esc(name)}</strong><span class="category-tile-desc">${fish.length?`${fish.length} species in the guide`:'Photos haven’t been added yet'}</span></span>
+     <span class="category-tile-body"><strong>${esc(name)}</strong><span class="category-tile-desc">${fish.length?`${fish.length} species in the guide`:(image?'Category photo · species not added yet':'Photos haven’t been added yet')}</span></span>
      <span class="category-tile-arrow" aria-hidden="true">›</span>
    </button>`
  }).join('')}</section>
