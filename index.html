@@ -751,7 +751,7 @@ function sharePage(){
    </ol>
    <p>Only submit photos you own or have permission to share. No fishing technique, lure, or specific fishing location needs to be disclosed.</p>
  </section>
- <div class="catch-draft-info"><strong>Public uploads are not connected yet.</strong> This form currently saves a private draft on your own device. Nothing is submitted to the public gallery or site owner until an upload and review service is connected.</div>
+ <div class="catch-draft-info"><strong>Submissions go privately to the owner for review.</strong> Nothing is published in the fish gallery automatically.</div>
  <form id="communityDraftForm" class="share-form" data-public-upload="yes" action="https://formsubmit.app/f/vbxhh8rqtc" method="POST" enctype="multipart/form-data">
  <label class="catch-agree"><input type="checkbox" name="agreeRules" value="yes" required><span><strong>I agree to both photo rules.</strong> The catch is from 2026 or later and from the Punta Chivato fishing area described above.</span></label>
  <h2 class="catch-form-title">Your catch details <small>(voluntary)</small></h2><p class="catch-voluntary-intro">Only the photo, catch date, and agreement to the two rules are required. Every other question is optional, including species, fishing method, lure, weight, and general fishing area.</p>
@@ -769,12 +769,12 @@ function sharePage(){
  <label class="field">Number of fish (optional)<input name="fishCount" type="number" min="1" max="999" step="1" value="${v('fishCount')}" placeholder="If known"></label>
  </div>
  <label class="field">Catch notes (optional)<textarea name="notes" maxlength="800" placeholder="Anything else about this fish or catch">${v('notes')}</textarea></label>
- <label class="field catch-photo-label">Add your catch photos <small>At least one photo · Up to 5 · 20 MB each</small>
+ <label class="field catch-photo-label">Add your catch photos <small>At least one · Up to 5 · Photos resized automatically</small>
  <input id="communityPhotoInput" type="file" name="photos" accept="image/*" multiple required aria-describedby="catchPhotoInfo"></label>
  <div id="draftPhotoPreview" aria-live="polite"><p class="hint">Select one to five photos of your catch.</p></div>
- <p id="catchPhotoInfo" class="catch-photo-privacy">Photos are stored privately in this browser during this draft stage, not posted publicly.</p>
- <button type="submit" class="action">Save catch &amp; photos as private draft</button>
- <p id="draftStatus" role="status" class="share-status">Not a public upload yet. Once we connect an upload service, catches can be submitted for review before appearing in the gallery.</p>
+ <p id="catchPhotoInfo" class="catch-photo-privacy">Your photos are sent to the site owner for review and won't appear on the public guide without approval.</p>
+ <button type="submit" class="action">Submit your catch for review</button>
+ <p id="draftStatus" role="status" class="share-status">Your catch will be emailed to the owner for review. You'll see a confirmation after submitting.</p>
  </form>${footer()}`;
 }
 function groups(){
