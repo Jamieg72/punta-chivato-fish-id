@@ -965,9 +965,9 @@ document.addEventListener('submit',e=>{
  if(e.target.id!=='communityDraftForm')return;
  if(e.target.dataset.publicUpload==='yes'){
   const files=Array.from(e.target.querySelector('#communityPhotoInput').files||[]);
-  if(files.length<1||files.length>5||files.some(f=>f.size>4000000)||files.reduce((sum,f)=>sum+f.size,0)>4500000){
+  if(files.length<1||files.length>5||files.some(f=>f.size>10000000)){
    e.preventDefault();const status=document.getElementById('draftStatus');
-   if(status)status.textContent='Choose 1–5 photos totaling under 4.5 MB (each under 4 MB). Large photos need resizing before upload.';
+   if(status)status.textContent='Choose up to five photos, each smaller than 10 MB. Please use a smaller copy of any oversized photo.';
   }
   return;
  }
