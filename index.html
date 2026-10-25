@@ -53,6 +53,24 @@
 .share-grid{grid-template-columns:1fr}
 }
 
+
+/* Photo slide with reported catch details */
+.slide{height:auto;min-height:0;display:flex;flex-direction:column;background:#fff}
+.slide-visual{height:340px;flex-shrink:0;position:relative;background:#dae7e2}
+.slide-visual img{display:block;width:100%;height:100%;object-fit:contain;background:#153b42}
+.slide-visual .placeholder{height:100%}
+.slide-visual .attach{bottom:13px}
+.slide-caption{background:#fff;padding:16px 18px 18px;flex:1}
+.slide-caption-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.slide-caption-name{font-size:19px;font-weight:850;line-height:1.25;color:var(--ink)}
+.slide-caption-local{display:block;font-size:18px;font-weight:750;color:var(--aqua)}
+.slide-caption-index{border-radius:25px;background:#e8f0ed;font-size:11px;color:#507074;padding:6px 9px;white-space:nowrap}
+.slide-caption-fields{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:13px}
+.slide-caption-fields div{border-radius:11px;background:#f0f4f1;padding:10px;font-size:12px;line-height:1.4}
+.slide-caption-fields b{display:block;color:#677c7e;font-size:10px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px}
+.slide-caption-warning{font-size:11px;color:#75502d;background:#fff5e5;border-radius:9px;margin-top:10px;padding:9px 10px;line-height:1.5}
+@media(max-width:700px){.slide-visual{height:305px}.slide-caption{padding:14px}.slide-caption-fields{gap:7px}}
+@media(max-width:380px){.slide-visual{height:245px}}
 </style>
 
 
@@ -225,7 +243,7 @@ function monthsPage(){
  ${selected.length?selected.map(f=>`<article class="month-report"><button type="button" class="month-image" data-fish="${esc(f.id)}" aria-label="See ${esc(f.english)}">${imageArea(f,0)}</button>
  <div class="month-content"><h3>${esc(f.english)}</h3><div class="local">${esc(f.spanish)}</div>
  <p><strong>Reported:</strong> ${esc(f.catchDate)}${f.dateNote?' — '+esc(f.dateNote):''}</p>
- <p><strong>How:</strong> ${esc(f.method)}${f.lure?' · '+esc(f.lure):''}</p>
+ <p><strong>How:</strong> ${esc(f.method)}${f.lure?' · '+esc(f.lure):''}</p><p><strong>Area:</strong> Punta Chivato</p>
  <button type="button" class="go-link" data-fish="${esc(f.id)}">View catch →</button></div></article>`).join(''):
  '<div class="empty"><h3>No catch reports added for this month yet</h3><p>This means no reports are in this guide, not that these fish are absent from local waters.</p></div>'}
  <p class="note"><strong>Interpretation:</strong> Each listing is one reported catch record, not necessarily one fish, trip, or distinct angler. Multiple photos do not establish multiple fish. September’s snook report has no confirmed year. Fishing method reports are not success rates.</p>
@@ -245,7 +263,7 @@ function sharePage(){
  <label class="field">Fishing method<select name="method"><option value="">Choose a method</option>${opts(['Shore casting','Spearfishing','Trolling','Jigging','Bottom fishing','Kayak fishing','Other / unknown'],d.method)}</select></label>
  <label class="field">Bait / lure (optional)<input name="lure" value="${v('lure')}" maxlength="120" placeholder="Feather lure, jig, bait…"></label>
  <label class="field">Number of fish (optional)<input name="fishCount" type="number" min="1" max="999" value="${v('fishCount')}" placeholder="Only if known"></label>
- <label class="field">General area (optional)<input name="area" value="${v('area')}" maxlength="120" placeholder="Only what you want shared"></label>
+ <label class="field">Area<input name="area" value="Punta Chivato" readonly aria-readonly="true"></label>
  <label class="field">Name to credit (optional)<input name="angler" value="${v('angler')}" maxlength="100" placeholder="First name or nickname"></label></div>
  <label class="field">Catch notes (optional)<textarea name="notes" maxlength="800" placeholder="Color, depth, conditions, identification uncertainty…">${v('notes')}</textarea></label>
  <label class="field">Your photos (up to five)
@@ -260,14 +278,18 @@ function dataPair(title,value){return `<div class="kv"><dt>${esc(title)}</dt><dd
 function detail(fish){
  const localImgs=Array.from({length:fish.shots},(_,i)=>fishPhoto(fish,i)).filter(Boolean).length;
  return `<button class="back" data-nav="explore" type="button">← All fish</button><section class="detail-head"><div class="eyebrow">${esc(fish.category)}</div><h1>${esc(fish.english)}</h1><p class="detail-spanish">${esc(fish.spanish)}</p><span class="tag">${esc(tag(fish))}</span></section>
- <div class="species-grid"><section><div class="gallery"><div class="gallery-track" id="galleryTrack" aria-label="${esc(fish.english)} photo gallery">${Array.from({length:fish.shots},(_,i)=>`<div class="slide" id="slide-${i}">${imageArea(fish,i)}<button class="attach" type="button" data-photo="${fish.id}" data-slot="${i}">${fishPhoto(fish,i)?'Replace this photo':`Add photo ${i+1}`}</button></div>`).join('')}</div>
+ <div class="species-grid"><section><div class="gallery"><div class="gallery-track" id="galleryTrack" aria-label="${esc(fish.english)} photo gallery">${Array.from({length:fish.shots},(_,i)=>`<div class="slide" id="slide-${i}">
+ <div class="slide-visual">${imageArea(fish,i)}<button class="attach" type="button" data-photo="${fish.id}" data-slot="${i}">${fishPhoto(fish,i)?'Replace this photo':`Add photo ${i+1}`}</button></div>
+ <div class="slide-caption"><div class="slide-caption-top"><div><span class="slide-caption-name">${esc(fish.english)}</span><span class="slide-caption-local">${esc(fish.spanish)}</span></div><span class="slide-caption-index">Photo ${i+1} / ${fish.shots}</span></div>
+ <div class="slide-caption-fields"><div><b>Reported date</b>${esc(fish.catchDate)}${fish.dateNote?' · '+esc(fish.dateNote):''}</div><div><b>How caught</b>${esc(fish.method)}${fish.lure?' · '+esc(fish.lure):''}</div><div><b>Area</b>Punta Chivato</div><div><b>Exact fishing spot</b>Not recorded</div></div>
+ <div class="slide-caption-warning">${esc(tag(fish))}${fish.id==='leopard-grouper'?' · The two photos may show different individual fish.':''}</div></div></div>`).join('')}</div>
  <div class="gallery-nav"><button type="button" data-slide="previous" aria-label="Previous photo">‹ Previous</button><div class="dots" id="galleryDots">${Array.from({length:fish.shots},(_,i)=>`<span class="dot${i===0?' active':''}" aria-hidden="true"></span>`).join('')}</div><button type="button" data-slide="next" aria-label="Next photo">Next ›</button></div>
  <div class="smallnote">Swipe the image to move between photos. ${localImgs}/${fish.shots} photos available. Adding photos here stores them on <strong>this browser only</strong>, not Render or GitHub.</div></div>
  <div class="info-card section-gap"><h2>How to recognize it</h2><ul>${fish.features.map(v=>`<li>${esc(v)}</li>`).join('')}</ul></div>
  <div class="info-card"><h2>Similar fish</h2><p>${esc(fish.similar)}</p></div></section>
  <aside><div class="info-card"><h2>Species identification</h2>${dataPair('English name',fish.english)}${dataPair('Local / Spanish',fish.spanish)}${dataPair('Scientific name',fish.scientific?`${fish.scientific} (${fish.status==='tentative'?'tentative for this catch':'reference species'})`:'Not confirmed')}
  <div class="note">${esc(fish.statusNote)}</div>${fish.other.length?`<p class="micro-title">Also searchable as</p><div class="pill-list">${fish.other.map(n=>`<span>${esc(n)}</span>`).join('')}</div>`:''}</div>
- <div class="info-card"><h2>Reported catch details</h2>${dataPair('Date',fish.catchDate)}${fish.dateNote?dataPair('Date note',fish.dateNote):''}${dataPair('Method',fish.method)}${fish.lure?dataPair('Lure',fish.lure):''}${dataPair('Exact location','Unknown')}${dataPair('Size','Unknown')}<p class="note">${esc(fish.catchNote)}</p></div>
+ <div class="info-card"><h2>Reported catch details</h2>${dataPair('Date',fish.catchDate)}${fish.dateNote?dataPair('Date note',fish.dateNote):''}${dataPair('Method',fish.method)}${fish.lure?dataPair('Lure',fish.lure):''}${dataPair('Area','Punta Chivato')}${dataPair('Exact fishing spot','Not recorded')}${dataPair('Size','Unknown')}<p class="note">${esc(fish.catchNote)}</p></div>
  <div class="info-card sources"><h2>Check the reference</h2><p>These sources describe the reference species; they do not verify this particular catch photo.</p><a target="_blank" rel="noopener noreferrer" href="${esc(fish.sourceUrl)}">${esc(fish.sourceName)} ↗</a></div></aside></div>${footer()}`;
 }
 const CHOICES={
