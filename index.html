@@ -498,7 +498,7 @@ body{
 .edibility-safety summary{color:#51665f;cursor:pointer;font-weight:700}
 .edibility-safety p{margin:8px 0;line-height:1.5}
 
-.edibility-tip{margin:12px 0 0;font-size:13px;line-height:1.55;color:#8a553a;font-weight:650}
+.edibility-tip{display:block;margin:14px 0 0;padding:12px 14px;background:#fff0cf;border-left:4px solid #d5824e;border-radius:8px;font-size:14px;line-height:1.6;color:#5c3c26}.edibility-tip strong{color:#89532a}
 </style>
 
 
@@ -867,8 +867,7 @@ const EDIBILITY_GUIDE = {
     "grade": "Excellent table fish",
     "flavor": "Firm texture.",
     "cook": "Excellent for sashimi and sushi (hamachi-style); also delicious seared or smoked.",
-    "tip": "Bleeding this fish well helps the flavor immensely.",
-    "note": "This description is for yellowtail jack in general; the photographed catch has not been verified to species.",
+    "tip": "Bleeding this fish helps the flavor immensely.",
     "source": "https://caseagrant.ucsd.edu/seafood-profiles/yellowtail"
   },
   "huachinango-pargo": {
@@ -925,7 +924,7 @@ function edibilityCard(fish){
   <p class="edibility-grade">${esc(e.grade)}</p>
   <p class="edibility-description">${esc(e.flavor)}</p>
   <p class="edibility-method"><strong>Preparation:</strong> ${esc(e.cook)}</p>
-  ${e.tip?`<p class="edibility-tip"><em>* ${esc(e.tip)}</em></p>`:""}
+  ${e.tip?`<p class="edibility-tip"><strong>Fishing tip:</strong> ${esc(e.tip)}</p>`:""}
   ${e.note?`<p class="edibility-note">${esc(e.note)}</p>`:""}
   <div class="edibility-foot"><a target="_blank" rel="noopener noreferrer" href="${esc(e.source)}">Eating-quality reference ↗</a>
    <details class="edibility-safety"><summary>Eating wild-caught fish safely</summary><p>Confirm the fish identification and check local seafood advisories. Some larger reef fish, including groupers, snappers and jacks, can carry ciguatera toxins; cooking does not remove them. Mercury can also accumulate in some fish.</p>
