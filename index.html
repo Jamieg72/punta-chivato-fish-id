@@ -983,10 +983,26 @@ async function prepareCatchFile(file){
 document.addEventListener('submit',async e=>{
  if(e.target.id!=='communityDraftForm')return;
  if(e.target.dataset.publicUpload==='yes'){
-  const files=Array.from(e.target.querySelector('#communityPhotoInput').files||[]);
-  if(files.length<1||files.length>5||files.some(f=>f.size>10000000)){
-   e.preventDefault();const status=document.getElementById('draftStatus');
-   if(status){status.textContent='Choose up to five photos, each smaller than 10 MB. Please select a smaller photo.';status.scrollIntoView({block:'center'});}
+  e.preventDefault();
+  const form=e.target,input=form.querySelector('#communityPhotoInput');
+  const photos=Array.from(input.files||[]);
+  const status=document.getElementById('draftStatus'),button=form.querySelector('button[type=submit]');
+  if(button.disabled||!form.reportValidity())return;
+  if(photos.length<1||photos.length>5){status.textContent='Please choose one to five photos.';status.scrollIntoView({block:'center'});return}
+  button.disabled=true;
+  try{
+   const batch=new DataTransfer();
+   for(let i=0;i<photos.length;i++){
+    status.textContent='Resizing photo '+(i+1)+' of '+photos.length+'…';
+    batch.items.add(await prepareCatchFile(photos[i]));
+   }
+   input.files=batch.files;
+   status.textContent='Sending your catch for review…';
+   form.submit();
+  }catch(error){
+   status.textContent='Could not prepare the photo: '+(error.message||'Please try again.');
+   status.scrollIntoView({block:'center'});
+   button.disabled=false;
   }
   return;
  }
