@@ -653,17 +653,11 @@ let localDraftPhotoURLs=[];
 function clearDraftPhotoURLs(){for(const u of localDraftPhotoURLs)URL.revokeObjectURL(u);localDraftPhotoURLs=[]}
 async function refreshDraftPhotoThumbs(){
  if(state.view!=='share')return;
- const slot=document.getElementById('draftPhotoPreview');if(!slot)return;
- const d=readCommunityDraft(),count=Math.min(Number(d.photoCount)||0,5);
- if(!count){slot.innerHTML='<p class="hint">No photos saved in this draft.</p>';return}
- const photos=[];
- for(let i=0;i<count;i++){const b=await readPhoto('community-draft-'+i);if(b&&b.type?.startsWith('image/'))photos.push(URL.createObjectURL(b))}
- if(state.view!=='share'){photos.forEach(u=>URL.revokeObjectURL(u));return}
- clearDraftPhotoURLs();localDraftPhotoURLs=photos;
- const here=document.getElementById('draftPhotoPreview');if(here)here.innerHTML=photos.length?
- '<div class="draft-thumbs">'+photos.map((u,i)=>'<img alt="Private draft photo '+(i+1)+'" src="'+esc(u)+'">').join('')+'</div><p class="hint">'+photos.length+' photo(s) from an earlier draft. Choose your photos again before submitting for review.</p>':
- '<p class="hint">Draft photo storage is unavailable in this browser.</p>';
+ clearDraftPhotoURLs();
+ const preview=document.getElementById('draftPhotoPreview');
+ if(preview)preview.innerHTML='<p class="hint">No photos selected yet. Choose your catch pictures above.</p>';
 }
+
 const app=document.getElementById('app');
 const state={view:'explore',month:'all',id:null,category:null,search:'',openWater:false,appearance:{shape:'',color:'',marking:'',tail:''},imageUrls:new Map(),idImageUrls:new Map(),categoryImageUrls:new Map(),livePhotoSlots:new Set(),currentPhoto:0};
 let dbPromise;
