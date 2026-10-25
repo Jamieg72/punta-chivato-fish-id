@@ -145,6 +145,30 @@
 @media(max-width:760px){.subcategory-grid{grid-template-columns:1fr;gap:12px}.subcategory-photo{width:38%;min-width:110px;max-width:175px}.subcategory-fish{min-height:150px}.subcategory-text strong{font-size:17px}.subcategory-text small{font-size:16px}}
 @media(max-width:380px){.subcategory-photo{min-width:95px}.subcategory-text{padding:10px}.subcategory-arrow{padding-right:10px}}
 
+
+/* Sunset photo selected by the owner for the category-homepage hero only. */
+.categories-hero{
+  background-color:#123e48;
+  background-image:
+    linear-gradient(90deg,rgba(8,35,45,.82) 0%,rgba(8,37,46,.59) 54%,rgba(8,37,46,.29) 100%),
+    url('photos/IMG_1591.jpeg');
+  background-size:cover;
+  background-position:center 54%;
+  min-height:256px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  text-shadow:0 1px 5px rgba(4,20,26,.35);
+}
+.categories-hero::after{display:none}
+.categories-hero .eyebrow,.categories-hero h1,.categories-hero p{position:relative;z-index:1}
+.categories-hero h1 em{color:#ffe5ac}
+.categories-hero p{color:#fff;max-width:510px}
+@media(max-width:700px){
+ .categories-hero{min-height:260px;background-position:50% 52%;padding:29px 23px}
+ .categories-hero h1{font-size:clamp(32px,9.5vw,42px)}
+}
+
 </style>
 
 
@@ -383,7 +407,7 @@ function sharePage(){
 }
 function groups(){
  return `<section class="hero categories-hero"><span class="eyebrow">Punta Chivato · Fish ID</span>
- <h1>Find your fish.<br><em>Busca tu pescado.</em></h1>
+ <h1>Know your fish.<br><em>Conoce tus peces.</em></h1>
  <p>Choose a fish category to browse its species and identification photos.</p></section>
  <div class="category-actions"><button type="button" class="action" data-nav="explore">⌕ Search fish by name</button><button type="button" class="action alt" data-nav="appearance">Not sure? Find by appearance</button></div>
  <div class="category-title-row"><h2 class="sectiontitle">Browse fish categories</h2><span class="hint">8 categories</span></div>
