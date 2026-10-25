@@ -444,6 +444,26 @@ body{
 @media(max-width:340px){.baja-sun-stamp{display:none}}
 @media(prefers-reduced-motion:reduce){.category-tile{transition:none}}
 
+
+/* Catch submission form — signed-off rules, simple mobile fields */
+.catch-submit-header{background:linear-gradient(120deg,#106b79,#148e91);border:2px solid rgba(255,236,195,.6)}
+.catch-rules{background:linear-gradient(140deg,#fff4dd,#fffdf8);border:2px solid #e9bd84;border-radius:18px;padding:21px 23px;margin:20px 0 14px;box-shadow:0 7px 22px rgba(102,74,42,.08)}
+.catch-rules h2{font-family:"Trebuchet MS",system-ui,sans-serif;color:#8a542a;margin:0 0 9px;font-size:21px}
+.catch-rules ol{margin:9px 0;padding-left:23px}
+.catch-rules li{padding:5px 0;line-height:1.65;color:#444b40}
+.catch-rules p{font-size:13px;line-height:1.55;color:#7c654c;margin:12px 0 0}
+.catch-draft-info{background:#e5f4f1;color:#275c5f;border-left:4px solid #17a1a3;border-radius:10px;padding:14px 17px;font-size:13px;line-height:1.6;margin:14px 0}
+.catch-agree{background:#fff4df;display:flex;align-items:flex-start;gap:13px;padding:17px;border-radius:14px;border:2px solid #e8bf87;font-size:14px;line-height:1.5;color:#60462f;margin:0 0 22px;cursor:pointer}
+.catch-agree input{flex:0 0 auto;width:24px;height:24px;margin-top:2px;accent-color:#128791}
+.catch-agree strong{display:block;font-size:16px;color:#26595d;margin-bottom:4px}
+.catch-form-title{font-family:"Trebuchet MS",system-ui,sans-serif;color:#21616c;font-size:21px;margin:0 0 18px}
+.share-form .field small{font-size:11px;font-weight:600;color:#627576}
+.share-form .field input:focus,.share-form .field select:focus,.share-form .field textarea:focus{border-color:#138e97}
+.catch-photo-label{padding-top:4px}
+.catch-photo-privacy{font-size:12px;color:#66787a;line-height:1.5}
+.share-form button[type=submit]{background:linear-gradient(120deg,#138d96,#0c737c);margin-top:12px;min-height:58px}
+@media(max-width:700px){.catch-rules{padding:16px}.catch-agree{padding:13px}.share-form{padding:16px}.catch-form-title{font-size:19px}}
+
 </style>
 
 
@@ -461,7 +481,7 @@ body{
     <button type="button" data-nav="explore"><span aria-hidden="true">⌕</span> Search</button>
     <button type="button" data-nav="appearance"><span aria-hidden="true">◎</span> Appearance</button>
     <button type="button" data-nav="months"><span aria-hidden="true">▤</span> Months</button>
-    <button type="button" data-nav="share"><span aria-hidden="true">＋</span> Share</button>
+    <button type="button" data-nav="share"><span aria-hidden="true">＋</span> Upload</button>
   </nav>
   <input id="photoInput" type="file" accept="image/*" hidden>
   <script>
@@ -716,25 +736,42 @@ function sharePage(){
  const d=readCommunityDraft();
  const v=(k)=>esc(d[k]||'');
  const opts=(a,current)=>a.map(x=>`<option value="${esc(x)}" ${current===x?'selected':''}>${esc(x)}</option>`).join('');
- return `<section class="finder-header"><span class="eyebrow">Help build the local guide</span><h1>Share your catch</h1><p>Add your fish photo and reported details by species. Public community submissions are not connected yet. This form saves a private draft on this device only.</p></section>
- <div class="note"><strong>Not a public upload yet.</strong> Your draft and selected photos are kept locally where possible. No one else can see them; they are not sent to GitHub, Render, or other users. A reviewed community submission system is the next phase.</div>
+ const today=new Date();
+ const todayLocal=[today.getFullYear(),String(today.getMonth()+1).padStart(2,'0'),String(today.getDate()).padStart(2,'0')].join('-');
+ return `<section class="finder-header catch-submit-header"><span class="eyebrow">Punta Chivato · Community catches</span><h1>Upload Your Catch</h1><p>Share your fish and how you caught it. Read the two photo rules before filling in the form.</p></section>
+ <section class="catch-rules" aria-labelledby="catchRulesTitle">
+   <h2 id="catchRulesTitle">Our catch photo rules</h2>
+   <ol>
+     <li><strong>2026 or newer.</strong> Catch photos must show fish caught on or after January 1, 2026.</li>
+     <li><strong>Punta Chivato fishing area only.</strong> Catches must be from the region around Punta Chivato, extending toward <strong>San Rosalía and Tortoga</strong> and down toward <strong>San Nicolás and Bahía Concepción near Mulegé</strong>.</li>
+   </ol>
+   <p>Only submit photos you own or have permission to share. You never need to reveal a precise fishing spot.</p>
+ </section>
+ <div class="catch-draft-info"><strong>Public uploads are not connected yet.</strong> This form currently saves a private draft on your own device. Nothing is submitted to the public gallery or site owner until an upload and review service is connected.</div>
  <form id="communityDraftForm" class="share-form">
- <div class="share-grid"><label class="field">Fish / species
- <select name="species"><option value="">Choose a species</option>${opts(FISH.map(f=>f.english+' — '+f.spanish),d.species)}<option value="Unidentified fish" ${d.species==='Unidentified fish'?'selected':''}>Unidentified fish</option><option value="Other fish" ${d.species==='Other fish'?'selected':''}>Other fish (enter a name below)</option></select></label>
- <label class="field">Other/local fish name (optional)<input name="otherName" value="${v('otherName')}" maxlength="100" placeholder="Local or suspected name"></label>
- <label class="field">Catch date (if known)<input type="date" name="date" value="${v('date')}" max="2100-12-31"></label>
- <label class="field">Fishing method<select name="method"><option value="">Choose a method</option>${opts(['Shore casting','Spearfishing','Trolling','Jigging','Bottom fishing','Kayak fishing','Other / unknown'],d.method)}</select></label>
- <label class="field">Bait / lure (optional)<input name="lure" value="${v('lure')}" maxlength="120" placeholder="Feather lure, jig, bait…"></label>
- <label class="field">Number of fish (optional)<input name="fishCount" type="number" min="1" max="999" value="${v('fishCount')}" placeholder="Only if known"></label>
- <input type="hidden" name="area" value="Punta Chivato">
- <label class="field">Name to credit (optional)<input name="angler" value="${v('angler')}" maxlength="100" placeholder="First name or nickname"></label></div>
- <label class="field">Catch notes (optional)<textarea name="notes" maxlength="800" placeholder="Color, depth, conditions, identification uncertainty…">${v('notes')}</textarea></label>
- <label class="field">Your photos (up to five)
- <input id="communityPhotoInput" type="file" accept="image/*" multiple>
- </label><div id="draftPhotoPreview" aria-live="polite"><p class="hint">Photos are for your private draft only.</p></div>
- <button type="submit" class="action">Save private draft on this device</button>
- <p id="draftStatus" role="status" class="share-status">Public submission is not yet enabled. Saving a draft is not the same as uploading or publishing.</p></form>
- <p class="muted-intro">When public participation is enabled, submissions should be checked before being shown in the guide. Contributors can provide a species name or choose unidentified, and precise catch spots are never required.</p>${footer()}`;
+ <label class="catch-agree"><input type="checkbox" name="agreeRules" value="yes" required><span><strong>I agree to both photo rules.</strong> The catch is from 2026 or later and from the Punta Chivato fishing area described above.</span></label>
+ <h2 class="catch-form-title">Your catch details</h2>
+ <div class="share-grid">
+ <label class="field">Fish / species <small>Required</small>
+ <select name="species" required><option value="">Choose your fish</option>${opts(FISH.map(f=>f.english+' — '+f.spanish),d.species)}<option value="Unidentified fish" ${d.species==='Unidentified fish'?'selected':''}>Unidentified fish</option><option value="Other fish" ${d.species==='Other fish'?'selected':''}>Other fish — name below</option></select></label>
+ <label class="field">Other or local fish name (optional)<input name="otherName" value="${v('otherName')}" maxlength="100" placeholder="Enter a name if needed"></label>
+ <label class="field">Date caught <small>2026 or later · Required</small><input type="date" name="date" value="${v('date')}" min="2026-01-01" max="${todayLocal}" required></label>
+ <label class="field">Fishing method <small>Required</small><select name="method" required><option value="">Choose a method</option>${opts(['Shore casting','Offshore jigging','Spearfishing','Trolling','Jigging','Bottom fishing','Kayak fishing','Other','Unknown'],d.method)}</select></label>
+ <label class="field">Weight (optional)<input name="weight" type="number" min="0.1" max="10000" step="0.1" value="${v('weight')}" placeholder="e.g. 9"></label>
+ <label class="field">Weight unit<select name="weightUnit">${opts(['lbs','kg'],d.weightUnit||'lbs')}</select></label>
+ <label class="field">General fishing area <small>Required · No exact GPS location</small><select name="area" required><option value="">Choose a general area</option>${opts(['Punta Chivato / nearby','San Rosalía area','Tortoga area','San Nicolás area','Bahía Concepción / Mulegé area','Other within the stated fishing area'],d.area)}</select></label>
+ <label class="field">Name or nickname (optional)<input name="angler" value="${v('angler')}" maxlength="100" placeholder="How to credit your photo"></label>
+ <label class="field">Lure / bait (optional)<input name="lure" value="${v('lure')}" maxlength="120" placeholder="Feather, jig, live bait…"></label>
+ <label class="field">Number of fish (optional)<input name="fishCount" type="number" min="1" max="999" step="1" value="${v('fishCount')}" placeholder="If known"></label>
+ </div>
+ <label class="field">Catch notes (optional)<textarea name="notes" maxlength="800" placeholder="Anything else about this fish or catch">${v('notes')}</textarea></label>
+ <label class="field catch-photo-label">Add your catch photos <small>At least one photo · Up to 5 · 20 MB each</small>
+ <input id="communityPhotoInput" type="file" accept="image/*" multiple aria-describedby="catchPhotoInfo"></label>
+ <div id="draftPhotoPreview" aria-live="polite"><p class="hint">Select one to five photos of your catch.</p></div>
+ <p id="catchPhotoInfo" class="catch-photo-privacy">Photos are stored privately in this browser during this draft stage, not posted publicly.</p>
+ <button type="submit" class="action">Save catch &amp; photos as private draft</button>
+ <p id="draftStatus" role="status" class="share-status">Not a public upload yet. Once we connect an upload service, catches can be submitted for review before appearing in the gallery.</p>
+ </form>${footer()}`;
 }
 function groups(){
  return `<section class="hero categories-hero"><span class="eyebrow">Punta Chivato · Fish ID</span>
@@ -923,12 +960,33 @@ document.getElementById('photoInput').addEventListener('change',async e=>{
 document.addEventListener('submit',e=>{
  if(e.target.id!=='communityDraftForm')return;
  e.preventDefault();
- const f=e.target, d=Object.fromEntries(new FormData(f).entries());
- delete d.files;
- const prior=readCommunityDraft();d.photoCount=prior.photoCount||0;
- const ok=writeCommunityDraft(d);
+ const f=e.target;
  const status=document.getElementById('draftStatus');
- if(status)status.textContent=ok?'Private draft saved in this browser. It has NOT been uploaded or shared with other anglers.':'Draft could not be saved in this browser. Nothing has been published.';
+ if(!f.reportValidity())return;
+ if(!f.elements.agreeRules.checked){
+  if(status)status.textContent='You must agree to both photo rules before saving your catch.';
+  return;
+ }
+ const date=f.elements.date.value;
+ const localToday=new Date();
+ const todayString=[localToday.getFullYear(),String(localToday.getMonth()+1).padStart(2,'0'),String(localToday.getDate()).padStart(2,'0')].join('-');
+ if(!/^\d{4}-\d{2}-\d{2}$/.test(date)||date<'2026-01-01'||date>todayString){
+  if(status)status.textContent='Catch date must be January 1, 2026 or later and cannot be in the future.';
+  return;
+ }
+ const prior=readCommunityDraft();
+ const photoCount=Math.min(5,Number(prior.photoCount)||0);
+ if(photoCount<1){
+  if(status)status.textContent='Please choose at least one catch photo before saving.';
+  return;
+ }
+ const d=Object.fromEntries(new FormData(f).entries());
+ delete d.agreeRules;
+ delete d.files;
+ d.photoCount=photoCount;
+ d.rulesVersion='2026-local-area-v1';
+ const ok=writeCommunityDraft(d);
+ if(status)status.textContent=ok?'Private catch draft saved with '+photoCount+' photo(s) on this device. Nothing was uploaded publicly.':'This browser could not save the catch draft. Nothing was uploaded.';
 });
 document.addEventListener('change',async e=>{
  if(e.target.id!=='communityPhotoInput')return;
