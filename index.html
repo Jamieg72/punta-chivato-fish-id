@@ -313,16 +313,15 @@ function imageArea(fish,index,opts={}){
  return src?`<img loading="lazy" src="${esc(src)}" alt="${esc(fish.english)} — ${esc(text)}">`:
  `<div class="placeholder"><span class="camera" aria-hidden="true">▧</span><strong>${esc(text)} not added yet</strong><small>Use your original photo — no stock images</small></div>`;
 }
-function tag(fish){return fish.status==='reference'?'Reference species named · photo pending verification':fish.status==='unconfirmed'?'Exact species unconfirmed':'Tentative identification'}
 function card(fish){
  const got=Array.from({length:fish.shots},(_,n)=>fishPhoto(fish,n)).filter(Boolean).length;
  return `<article class="fish-card"><button class="card-photo" type="button" data-fish="${fish.id}" aria-label="View ${esc(fish.english)} details">
- ${imageArea(fish,0,{kind:'identification'})}<span class="mini-pill">${fish.status==='reference'?'Photo ID unchecked':'ID needs verification'}</span></button>
+ ${imageArea(fish,0,{kind:'identification'})}</button>
  <div class="card-content"><h3 class="fish-title">${esc(fish.english)}</h3><p class="fish-spanish">${esc(fish.spanish)}</p>
  <div class="detail-meta"><span>${esc(fish.category)}</span><span>${esc(fish.catchDate)}</span></div>
  <div class="card-bottom"><button class="go-link" type="button" data-fish="${fish.id}">View fish details →</button><span class="photo-count">${got} / ${fish.shots} photos</span></div></div></article>`
 }
-function footer(){return `<footer class="footnote">Punta Chivato Fish ID · Independent from the beach-launch and tide project.<br>Regional reference guide, not proof of catch location. No fish lengths, exact catch locations, trip counts, angler counts or success rates have been assumed.<br>Personal photos added in this browser remain on this device until separately published with the app.</footer>`}
+function footer(){return `<footer class="footnote">Punta Chivato Fish ID · Sea of Cortez</footer>`}
 function home(){
  const q=norm(state.search);
  let matches=FISH.filter(f=>!q||norm([f.english,f.spanish,f.scientific,...f.other].join(' ')).includes(q));
@@ -343,7 +342,7 @@ function monthsPage(){
  const selected=reports.filter(r=>reportedMonth(r)>0&&(chosen==='all'||reportedMonth(r)===Number(chosen)));
  const undated=reports.filter(r=>reportedMonth(r)===0);
  const title=chosen==='all'?'All months':MONTHS[Number(chosen)-1];
- return `<section class="finder-header"><span class="eyebrow">Reported catch history</span><h1>What was caught by month?</h1><p>Browse catch reports and how the fish were caught. Reports are observations, not proof of seasonal availability or catch success rates.</p></section>
+ return `<section class="finder-header"><span class="eyebrow">Reported catch history</span><h1>What was caught by month?</h1><p>Browse catch reports and how the fish were caught. These are fish catches submitted to the guide.</p></section>
  <div class="month-picker" aria-label="Filter catch reports by month">
  <button type="button" data-month="all" class="${chosen==='all'?'selected':''}">All months<small>${reports.filter(r=>reportedMonth(r)>0).length} dated reports</small></button>
  ${MONTHS.map((name,i)=>{const count=reports.filter(r=>reportedMonth(r)===i+1).length;return `<button type="button" data-month="${i+1}" class="${chosen===String(i+1)?'selected':''}">${name.slice(0,3)}<small>${count?count+' report'+(count===1?'':'s'):'No reports'}</small></button>`}).join('')}</div>
@@ -355,7 +354,7 @@ function monthsPage(){
  ${r.catchWeight?`<p><strong>Weight:</strong> ${esc(r.catchWeight)}</p>`:''}
  <button type="button" class="go-link" data-catches="${esc(r.fish.id)}">View catch gallery →</button></div></article>`).join(''):
  '<div class="empty"><h3>No catch reports added for this month yet</h3><p>This means there are no reports in this guide, not that these fish are absent from local waters.</p></div>'}
- <p class="note">Records count distinct reported catches, not photographs, trips, or anglers. Two Dorado catches on June 20 and June 21 are separately recorded. Fishing methods do not imply success rates. ${undated.length?`${undated.length} undated record(s) are excluded from monthly counts.`:''}</p>
+ <p class="note">Records count distinct reported catches, not photographs, trips, or anglers. Two Dorado catches on June 20 and June 21 are separately recorded. Fishing methods are shown as reported. ${undated.length?`${undated.length} undated record(s) are excluded from monthly counts.`:''}</p>
  <button type="button" class="action" data-nav="share">Share a catch (private draft) →</button>${footer()}`;
 }
 function sharePage(){
@@ -380,7 +379,7 @@ function sharePage(){
  </label><div id="draftPhotoPreview" aria-live="polite"><p class="hint">Photos are for your private draft only.</p></div>
  <button type="submit" class="action">Save private draft on this device</button>
  <p id="draftStatus" role="status" class="share-status">Public submission is not yet enabled. Saving a draft is not the same as uploading or publishing.</p></form>
- <p class="muted-intro">When public participation is enabled, submissions should be checked before being shown in the guide. Identifications can remain tentative, and precise catch spots should be optional rather than assumed or required.</p>${footer()}`;
+ <p class="muted-intro">When public participation is enabled, submissions should be checked before being shown in the guide. Contributors can provide a species name or choose unidentified, and precise catch spots are never required.</p>${footer()}`;
 }
 function groups(){
  return `<section class="hero categories-hero"><span class="eyebrow">Punta Chivato · Fish ID</span>
@@ -400,7 +399,7 @@ function groups(){
      <span class="category-tile-arrow" aria-hidden="true">›</span>
    </button>`
  }).join('')}</section>
- <div class="leadpanel"><h2>Browse catches by month</h2><p>See dated reports and the methods used. These reports do not establish fishing success rates.</p><button type="button" class="action alt" data-nav="months">Browse months →</button></div>${footer()}`;
+ <div class="leadpanel"><h2>Browse catches by month</h2><p>See dated reports and the methods used. Browse the reported fishing methods.</p><button type="button" class="action alt" data-nav="months">Browse months →</button></div>${footer()}`;
 }
 function categoryPage(category){
  const fish=FISH.filter(f=>f.category===category);
@@ -413,7 +412,7 @@ function categoryPage(category){
     const image=identificationPhoto(f);
     return `<button type="button" class="subcategory-fish" data-fish="${esc(f.id)}" aria-label="Identify ${esc(f.english)} — ${esc(f.spanish)}">
       <span class="subcategory-photo">${image?`<img loading="lazy" src="${esc(image)}" alt="${esc(f.english)}">`:'<span class="subcategory-placeholder" aria-hidden="true">▧</span>'}</span>
-      <span class="subcategory-text"><strong>${esc(f.english)}</strong><small>${esc(f.spanish)}</small><span class="subcategory-status">${esc(tag(f))}</span></span>
+      <span class="subcategory-text"><strong>${esc(f.english)}</strong><small>${esc(f.spanish)}</small></span>
       <span class="subcategory-arrow" aria-hidden="true">›</span>
     </button>`
   }).join('')}
@@ -425,22 +424,22 @@ function dataPair(title,value){return `<div class="kv"><dt>${esc(title)}</dt><dd
 function detail(fish){
  const photo=identificationPhoto(fish);
  return `<button class="back" ${FISH.filter(f=>f.category===fish.category).length===1?'data-nav="groups"':`data-category="${esc(fish.category)}"`} type="button">← ${FISH.filter(f=>f.category===fish.category).length===1?'All categories':esc(fish.category)}</button>
- <section class="detail-head"><div class="eyebrow">Species identification · Punta Chivato</div><h1>${esc(fish.english)}</h1><p class="detail-spanish">${esc(fish.spanish)}</p><span class="tag">${esc(tag(fish))}</span></section>
+ <section class="detail-head"><div class="eyebrow">Species identification · Punta Chivato</div><h1>${esc(fish.english)}</h1><p class="detail-spanish">${esc(fish.spanish)}</p></section>
  <div class="id-profile">
   <section class="id-photo-section"><div class="id-photo-frame">${imageArea(fish,0,{kind:'identification'})}</div>
-  <p class="smallnote id-photo-note">${photo?'Identification photo from a reported catch. Species-level identification is not established by this photo alone.':'Identification photograph hasn’t been added yet; no stock photographs are being used.'}</p>
+  
   <button type="button" class="action id-gallery-link" data-catches="${esc(fish.id)}">Next: View ${esc(fish.spanish)} catch gallery →</button></section>
   <section class="id-info-stack">
    <div class="info-card"><h2>Species identification</h2>
     ${dataPair('English name',fish.english)}
     ${dataPair('Spanish / local name',fish.spanish)}
-    ${dataPair('Scientific name',fish.scientific?`${fish.scientific} (${fish.status==='tentative'?'tentative identification of this catch':'reference species; catch photo not verified'})`:'Not confirmed')}
-    <div class="note">${esc(fish.statusNote)}</div>
+    ${fish.scientific?dataPair(fish.status==='reference'?'Scientific name':'Possible scientific name',fish.scientific):''}
+    
     ${fish.other.length?`<p class="micro-title">Other names</p><div class="pill-list">${fish.other.map(n=>`<span>${esc(n)}</span>`).join('')}</div>`:''}
    </div>
    <div class="info-card"><h2>How to recognize it</h2><ul>${fish.features.map(v=>`<li>${esc(v)}</li>`).join('')}</ul></div>
    <div class="info-card"><h2>Similar fish</h2><p>${esc(fish.similar)}</p></div>
-   <div class="info-card sources"><h2>Check the reference</h2><p>Reference material describes the species; it does not verify the photographed catch.</p><a target="_blank" rel="noopener noreferrer" href="${esc(fish.sourceUrl)}">${esc(fish.sourceName)} ↗</a></div>
+   <div class="info-card sources"><h2>Check the reference</h2><a target="_blank" rel="noopener noreferrer" href="${esc(fish.sourceUrl)}">Open species reference ↗</a></div>
    <button type="button" class="action id-gallery-link" data-catches="${esc(fish.id)}">Next: View catch gallery →</button>
   </section>
  </div>${footer()}`;
@@ -450,21 +449,21 @@ function catchGallery(fish){
  const reports=reportsForFish(fish);
  return `<button type="button" class="back" data-fish="${esc(fish.id)}">← Back to ${esc(fish.english)} identification</button>
  <section class="detail-head"><div class="eyebrow">Reported catches · Punta Chivato</div><h1>${esc(fish.english)} catches</h1><p class="detail-spanish">${esc(fish.spanish)}</p></section>
- <p class="muted-intro">${reports.length} reported catch ${reports.length===1?'record':'records'}. Each slide has its own date, method, and weight; photos alone do not establish distinct anglers or trips.</p>
+ <p class="muted-intro">${reports.length} reported catch ${reports.length===1?'record':'records'}. Browse the photographs, dates, methods, and weights.</p>
  <div class="catches-gallery"><div class="gallery"><div class="gallery-track" id="galleryTrack" aria-label="${esc(fish.english)} catch photo gallery">
  ${Array.from({length:fish.shots},(_,i)=>{const report=reports[i]||reports[0];return `<div class="slide" id="slide-${i}">
  <div class="slide-visual">${imageArea(fish,i)}</div>
  <div class="slide-caption"><div class="slide-caption-top"><div><span class="slide-caption-name">${esc(fish.english)}</span><span class="slide-caption-local">${esc(fish.spanish)}</span></div><span class="slide-caption-index">Photo ${i+1} / ${fish.shots}</span></div>
  <div class="slide-caption-fields"><div><b>Date</b>${esc(report.catchDate)}${report.dateNote?' · '+esc(report.dateNote):''}</div><div><b>Method</b>${esc(report.method)}${report.lure?' · '+esc(report.lure):''}</div><div><b>Weight</b>${esc(report.catchWeight||'Not reported')}</div></div>
- <div class="slide-caption-warning">${esc(tag(fish))}</div>
- ${fish.catchNote?`<p class="gallery-catch-note">${esc(fish.catchNote)}</p>`:''}
+ 
+ 
  </div></div>`}).join('')}</div>
  <div class="gallery-nav"><button type="button" data-slide="previous" aria-label="Previous catch photo">‹ Previous</button>
  <div class="dots" id="galleryDots">${Array.from({length:fish.shots},(_,i)=>`<span class="dot${i===0?' active':''}" aria-hidden="true"></span>`).join('')}</div>
  <button type="button" data-slide="next" aria-label="Next catch photo">Next ›</button></div>
  <div class="smallnote">${available}/${fish.shots} photos available. Swipe when multiple photos have been published.</div>
  </div></div>
- <p class="note">Catch details are reported observations, not proof of species identification or fishing success rates.</p>
+ 
  <button class="action alt" type="button" data-fish="${esc(fish.id)}">← Back to species identification</button>${footer()}`;
 }
 const CHOICES={
@@ -480,10 +479,10 @@ function appearance(){
  let ranked=FISH.map(f=>({fish:f,score:selected.reduce((n,[k,v])=>n+(f[k]===v?1:0),0)}));
  ranked=selected.length?ranked.filter(x=>x.score>0).sort((a,b)=>b.score-a.score):ranked;
  const perfect=ranked.filter(x=>x.score===selected.length);
- return `<button type="button" class="back" data-nav="explore">← Explore fish</button><section class="finder-header"><span class="eyebrow">Visual fish finder</span><h1>Find by appearance</h1><p>Start with what you can see. Choose one or more details. Results compare only the four fish currently in this guide; they are suggestions, not verified identifications.</p></section>
- <div class="finder-fields">${choices}</div><div class="filterrow"><h2 class="sectiontitle">${selected.length?'Possible matches':'All four fish'} <span class="hint">(${ranked.length})</span></h2><button class="quiet-btn" type="button" id="clearAppearance">Clear filters</button></div>
- ${ranked.length?ranked.map(item=>`<button class="result-item" type="button" data-fish="${item.fish.id}"><div><strong>${esc(item.fish.english)} — ${esc(item.fish.spanish)}</strong><small>${esc(item.fish.category)} · ${esc(tag(item.fish))}</small></div><b>${selected.length?`${item.score}/${selected.length} features`:'View ›'}</b></button>`).join(''):`<div class="empty"><h3>No appearance matches among the four records</h3><p>This does not mean your fish isn't local. Try fewer features, or wait for more species to be added.</p></div>`}
- ${selected.length&&perfect.length===0?'<p class="note">These are partial appearance matches only, not confirmed identifications.</p>':''}${footer()}`;
+ return `<button type="button" class="back" data-nav="explore">← Explore fish</button><section class="finder-header"><span class="eyebrow">Visual fish finder</span><h1>Find by appearance</h1><p>Start with what you can see. Choose one or more details. Results compare the fish currently in this guide.</p></section>
+ <div class="finder-fields">${choices}</div><div class="filterrow"><h2 class="sectiontitle">${selected.length?'Matching fish':'All fish'} <span class="hint">(${ranked.length})</span></h2><button class="quiet-btn" type="button" id="clearAppearance">Clear filters</button></div>
+ ${ranked.length?ranked.map(item=>`<button class="result-item" type="button" data-fish="${item.fish.id}"><div><strong>${esc(item.fish.english)} — ${esc(item.fish.spanish)}</strong><small>${esc(item.fish.category)}</small></div><b>${selected.length?`${item.score}/${selected.length} features`:'View ›'}</b></button>`).join(''):`<div class="empty"><h3>No appearance matches</h3><p>Try fewer features or browse the categories.</p></div>`}
+ ${footer()}`;
 }
 function render(){
  app.innerHTML=state.view==='detail'?detail(FISH.find(f=>f.id===state.id)||FISH[0]):state.view==='catches'?catchGallery(FISH.find(f=>f.id===state.id)||FISH[0]):state.view==='appearance'?appearance():state.view==='groups'?groups():state.view==='category'?categoryPage(state.category):state.view==='months'?monthsPage():state.view==='share'?sharePage():home();
