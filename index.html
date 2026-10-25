@@ -646,7 +646,7 @@ async function refreshDraftPhotoThumbs(){
  if(state.view!=='share'){photos.forEach(u=>URL.revokeObjectURL(u));return}
  clearDraftPhotoURLs();localDraftPhotoURLs=photos;
  const here=document.getElementById('draftPhotoPreview');if(here)here.innerHTML=photos.length?
- '<div class="draft-thumbs">'+photos.map((u,i)=>'<img alt="Private draft photo '+(i+1)+'" src="'+esc(u)+'">').join('')+'</div><p class="hint">'+photos.length+' photo(s) saved only on this device. They are not public uploads.</p>':
+ '<div class="draft-thumbs">'+photos.map((u,i)=>'<img alt="Private draft photo '+(i+1)+'" src="'+esc(u)+'">').join('')+'</div><p class="hint">'+photos.length+' photo(s) from an earlier draft. Choose your photos again before submitting for review.</p>':
  '<p class="hint">Draft photo storage is unavailable in this browser.</p>';
 }
 const app=document.getElementById('app');
