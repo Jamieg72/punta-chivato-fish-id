@@ -71,6 +71,26 @@
 .slide-caption-warning{font-size:11px;color:#75502d;background:#fff5e5;border-radius:9px;margin-top:10px;padding:9px 10px;line-height:1.5}
 @media(max-width:700px){.slide-visual{height:305px}.slide-caption{padding:14px}.slide-caption-fields{gap:7px}}
 @media(max-width:380px){.slide-visual{height:245px}}
+
+/* Category-first homepage */
+.categories-hero{padding:27px 25px}
+.categories-hero h1{font-size:clamp(30px,5vw,46px)}
+.category-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:18px 0 23px}
+.category-actions .action{width:100%;text-align:center}
+.category-title-row{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:15px 0}
+.category-tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.category-tile{width:100%;background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:17px;overflow:hidden;display:grid;grid-template-columns:112px minmax(0,1fr) 15px;align-items:stretch;text-align:left;padding:0;min-height:132px}
+.category-tile:hover{border-color:#65a0a1;box-shadow:0 3px 12px #173d4017}
+.category-tile-photo{min-height:132px;background:#dce8e4;overflow:hidden}
+.category-tile-photo img{display:block;width:100%;height:100%;object-fit:cover}
+.category-tile-placeholder{display:flex;align-items:center;justify-content:center;height:100%;width:100%;color:#5f8081;font-size:35px;background:linear-gradient(135deg,#d4e4df,#eff2eb)}
+.category-tile-body{display:flex;flex-direction:column;justify-content:center;padding:13px 6px 13px 15px;min-width:0}
+.category-tile-body strong{font-size:15px;line-height:1.35;font-weight:800}
+.category-tile-desc{font-size:12px;line-height:1.5;color:var(--sub);margin-top:6px}
+.category-tile-arrow{align-self:center;color:var(--aqua);font-size:24px;padding-right:12px}
+@media(max-width:780px){.category-tiles{grid-template-columns:1fr}.category-tile{grid-template-columns:115px minmax(0,1fr) 18px}.category-actions{grid-template-columns:1fr}}
+@media(max-width:380px){.category-tile{grid-template-columns:94px minmax(0,1fr) 16px;min-height:116px}.category-tile-photo{min-height:116px}}
+
 </style>
 
 
@@ -80,13 +100,13 @@
 <body>
   <header class="masthead">
     <div class="brand"><span class="brand-mark" aria-hidden="true">◈</span><div><strong>Punta Chivato</strong><small>FISH ID · SEA OF CORTEZ</small></div></div>
-    <button class="menu-link" id="resetNav" type="button">All fish</button>
+    <button class="menu-link" id="resetNav" type="button">Categories</button>
   </header>
   <main id="app" aria-live="polite"></main>
   <nav class="bottom-nav" aria-label="Main navigation">
-    <button type="button" data-nav="explore"><span aria-hidden="true">⌕</span> Explore</button>
-    <button type="button" data-nav="appearance"><span aria-hidden="true">◎</span> Appearance</button>
     <button type="button" data-nav="groups"><span aria-hidden="true">▦</span> Categories</button>
+    <button type="button" data-nav="explore"><span aria-hidden="true">⌕</span> Search</button>
+    <button type="button" data-nav="appearance"><span aria-hidden="true">◎</span> Appearance</button>
     <button type="button" data-nav="months"><span aria-hidden="true">▤</span> Months</button>
     <button type="button" data-nav="share"><span aria-hidden="true">＋</span> Share</button>
   </nav>
@@ -110,7 +130,7 @@ const FISH = [
     other:['Cabrilla sardinera','Cabrilla rosa','Leopard grouper'],
     category:'Groupers & Sea Bass', scientific:'Mycteroperca rosacea', status:'tentative',
     statusNote:'The reference species is established, but this catch has not been independently identified from its photos. The displayed image has not yet been independently verified to species.',
-    shots:1, localPhotos:['photos/leopard-grouper-1.svg'],
+    shots:1, localPhotos:['photos/IMG_9199.png'],
     shape:'stout',color:'brown',marking:'spotted',tail:'straight',openWater:false,
     features:['Robust, elongated grouper body and large mouth','Many small brown spots on a gray-brown or green-brown body','Often darker patches along the upper back separated by pale markings','Adults generally have a nearly straight tail edge'],
     similar:'Other regional groupers, especially Gulf grouper (Mycteroperca jordani). Compare the density of spots and dark bars; confirm using clear side-on images and fin details.',
@@ -273,11 +293,30 @@ function sharePage(){
  <p id="draftStatus" role="status" class="share-status">Public submission is not yet enabled. Saving a draft is not the same as uploading or publishing.</p></form>
  <p class="muted-intro">When public participation is enabled, submissions should be checked before being shown in the guide. Identifications can remain tentative, and precise catch spots should be optional rather than assumed or required.</p>${footer()}`;
 }
-function groups(){return `<button class="back" data-nav="explore">← Explore fish</button><div class="eyebrow">Browse the guide</div><h1 class="page-heading">Eight fish categories</h1><p class="muted-intro">Categories with no catch photos are intentionally empty. We're not adding stock fish pictures.</p><div class="groups">${CATEGORIES.map(name=>{const n=FISH.filter(x=>x.category===name).length;return `<button type="button" class="group" data-category="${esc(name)}"><div><strong>${esc(name)}</strong><small>${n?`${n} fish record${n===1?'':'s'}`:'Photos haven’t been added yet'}</small></div><b>${n}</b></button>`}).join('')}</div><p class="note">Snook is grouped under “Other Reef & Bottom Fish” for navigation only; this does not imply that snook is a reef species.</p>${footer()}`}
+function groups(){
+ const filled=FISH.filter(f=>f.localPhotos.some(Boolean)).length;
+ return `<section class="hero categories-hero"><span class="eyebrow">Punta Chivato · Fish ID</span>
+ <h1>Find your fish.<br><em>Busca tu pescado.</em></h1>
+ <p>Choose a fish category to see identification photos, English and local names, and reported catches from Punta Chivato.</p></section>
+ <div class="category-actions"><button type="button" class="action" data-nav="explore">⌕ Search fish by name</button><button type="button" class="action alt" data-nav="appearance">Not sure? Find by appearance</button></div>
+ <div class="category-title-row"><h2 class="sectiontitle">Browse fish categories</h2><span class="hint">8 categories</span></div>
+ <section class="category-tiles" aria-label="Fish categories">
+ ${CATEGORIES.map(name=>{
+   const fish=FISH.filter(f=>f.category===name),example=fish[0],image=example?fishPhoto(example,0):null;
+   return `<button type="button" class="category-tile" data-category="${esc(name)}" aria-label="Open ${esc(name)} category">
+    <div class="category-tile-photo">
+     ${image?`<img loading="lazy" src="${esc(image)}" alt="${esc(example.english)} in ${esc(name)}">`:
+      `<span class="category-tile-placeholder" aria-hidden="true">${fish.length?'▧':'◇'}</span>`}
+    </div>
+    <div class="category-tile-body"><strong>${esc(name)}</strong><span class="category-tile-desc">${fish.length?`${fish.length} fish record${fish.length===1?'':'s'} · ${esc(example.english)} — ${esc(example.spanish)}`:'Photos haven’t been added yet'}</span></div>
+    <span class="category-tile-arrow" aria-hidden="true">›</span></button>`
+ }).join('')}</section>
+ <div class="leadpanel"><h2>What was caught this month?</h2><p>Browse reported catches by month and fishing method. Reports are observations, not fishing success rates.</p><button type="button" class="action alt" data-nav="months">Browse catch months →</button></div>${footer()}`;
+}
 function dataPair(title,value){return `<div class="kv"><dt>${esc(title)}</dt><dd>${esc(value)}</dd></div>`}
 function detail(fish){
  const localImgs=Array.from({length:fish.shots},(_,i)=>fishPhoto(fish,i)).filter(Boolean).length;
- return `<button class="back" data-nav="explore" type="button">← All fish</button><section class="detail-head"><div class="eyebrow">${esc(fish.category)}</div><h1>${esc(fish.english)}</h1><p class="detail-spanish">${esc(fish.spanish)}</p><span class="tag">${esc(tag(fish))}</span></section>
+ return `<button class="back" data-category="${esc(fish.category)}" type="button">← ${esc(fish.category)}</button><section class="detail-head"><div class="eyebrow">${esc(fish.category)}</div><h1>${esc(fish.english)}</h1><p class="detail-spanish">${esc(fish.spanish)}</p><span class="tag">${esc(tag(fish))}</span></section>
  <div class="species-grid"><section><div class="gallery"><div class="gallery-track" id="galleryTrack" aria-label="${esc(fish.english)} photo gallery">${Array.from({length:fish.shots},(_,i)=>`<div class="slide" id="slide-${i}">
  <div class="slide-visual">${imageArea(fish,i)}<button class="attach" type="button" data-photo="${fish.id}" data-slot="${i}">${fishPhoto(fish,i)?'Replace this photo':`Add photo ${i+1}`}</button></div>
  <div class="slide-caption"><div class="slide-caption-top"><div><span class="slide-caption-name">${esc(fish.english)}</span><span class="slide-caption-local">${esc(fish.spanish)}</span></div><span class="slide-caption-index">Photo ${i+1} / ${fish.shots}</span></div>
@@ -312,7 +351,7 @@ function appearance(){
 }
 function render(){
  app.innerHTML=state.view==='detail'?detail(FISH.find(f=>f.id===state.id)||FISH[0]):state.view==='appearance'?appearance():state.view==='groups'?groups():state.view==='months'?monthsPage():state.view==='share'?sharePage():home();
- document.querySelectorAll('[data-nav]').forEach(b=>{b.classList.toggle('active',b.dataset.nav===state.view||(state.view==='detail'&&b.dataset.nav==='explore'))});
+ document.querySelectorAll('[data-nav]').forEach(b=>{b.classList.toggle('active',b.dataset.nav===state.view||(state.view==='detail'&&b.dataset.nav==='groups')||(state.view==='explore'&&!!state.category&&b.dataset.nav==='groups'))});
  if(state.view==='detail')setupGallery();
  if(state.view==='share')refreshDraftPhotoThumbs();
 }
@@ -327,8 +366,8 @@ function fromHash(){
  const hash=decodeURIComponent(location.hash.replace(/^#/,''));
  if(hash.startsWith('fish/')&&FISH.some(x=>x.id===hash.slice(5))){state.view='detail';state.id=hash.slice(5);state.category=null}
  else if(hash.startsWith('category/')&&CATEGORIES.includes(hash.slice(9))){state.view='explore';state.category=hash.slice(9);state.id=null}
- else if(['appearance','groups','months','share'].includes(hash)){state.view=hash;state.id=null;state.category=null}
- else{state.view='explore';state.id=null;state.category=null}
+ else if(['appearance','groups','months','share','explore'].includes(hash)){state.view=hash;state.id=null;state.category=null}
+ else{state.view='groups';state.id=null;state.category=null}
  state.currentPhoto=0;render();
 }
 function setupGallery(){const track=document.getElementById('galleryTrack');if(!track)return;
@@ -403,7 +442,7 @@ document.addEventListener('change',async e=>{
  await refreshDraftPhotoThumbs();
 });
 
-document.getElementById('resetNav').addEventListener('click',()=>route('explore'));
+document.getElementById('resetNav').addEventListener('click',()=>route('groups'));
 window.addEventListener('popstate',fromHash);window.addEventListener('hashchange',fromHash);
 fromHash();preloadPhotos();
 if('serviceWorker' in navigator && location.protocol.startsWith('http'))window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js').catch(()=>{}));
