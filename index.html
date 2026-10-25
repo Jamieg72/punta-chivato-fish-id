@@ -961,7 +961,26 @@ document.getElementById('photoInput').addEventListener('change',async e=>{
  alert(saved?'Photo added on this device. To make it visible on the published website, it still needs to be added to the app files.':'Photo displayed for this session only; persistent storage is unavailable in this browser. It still must be published separately.');
 });
 
-document.addEventListener('submit',e=>{
+async function prepareCatchFile(file){
+ const url=URL.createObjectURL(file);
+ try{
+  const img=await new Promise((resolve,reject)=>{
+   const picture=new Image();
+   picture.onload=()=>resolve(picture);
+   picture.onerror=()=>reject(new Error('Cannot open the selected photo'));
+   picture.src=url;
+  });
+  const ratio=Math.min(1,1400/Math.max(img.naturalWidth,img.naturalHeight));
+  const canvas=document.createElement('canvas');
+  canvas.width=Math.round(img.naturalWidth*ratio)||1;
+  canvas.height=Math.round(img.naturalHeight*ratio)||1;
+  canvas.getContext('2d').drawImage(img,0,0,canvas.width,canvas.height);
+  const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/jpeg',0.7));
+  if(!blob)throw new Error('Photo resizing failed');
+  return new File([blob],'catch-photo.jpg',{type:'image/jpeg'});
+ }finally{URL.revokeObjectURL(url)}
+}
+document.addEventListener('submit',async e=>{
  if(e.target.id!=='communityDraftForm')return;
  if(e.target.dataset.publicUpload==='yes'){
   const files=Array.from(e.target.querySelector('#communityPhotoInput').files||[]);
