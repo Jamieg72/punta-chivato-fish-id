@@ -499,6 +499,45 @@ body{
 .edibility-safety p{margin:8px 0;line-height:1.5}
 
 .edibility-tip{display:block;margin:14px 0 0;padding:12px 14px;background:#fff0cf;border-left:4px solid #d5824e;border-radius:8px;font-size:14px;line-height:1.6;color:#5c3c26}.edibility-tip strong{color:#89532a}
+
+/* Golden Grouper feature story, above species identification */
+.golden-interesting-fact{
+  margin:18px 0 22px;
+  padding:22px 25px;
+  border-radius:19px;
+  border:2px solid #dfb466;
+  background:linear-gradient(140deg,#fff6d8,#fffdf5 65%,#eaf4e7);
+  box-shadow:0 7px 20px rgba(131,103,53,.11);
+}
+.golden-interesting-fact h2{
+  color:#986125;
+  font-family:"Trebuchet MS",system-ui,sans-serif;
+  font-weight:850;
+  font-size:21px;
+  margin:0 0 14px;
+  line-height:1.35;
+}
+.golden-interesting-fact p{
+  color:#4d5043;
+  font-size:14px;
+  line-height:1.72;
+  margin:10px 0;
+}
+.golden-interesting-fact strong{color:#70502b}
+.golden-interesting-fact .golden-fact-sources{
+  border-top:1px solid #e5d5ac;
+  padding-top:12px;
+  margin:15px 0 0;
+  font-size:12px;
+  color:#6e6d54;
+}
+.golden-interesting-fact a{color:#177f86;text-decoration:underline}
+@media(max-width:700px){
+  .golden-interesting-fact{margin:14px 0 17px;padding:17px 17px}
+  .golden-interesting-fact h2{font-size:19px}
+  .golden-interesting-fact p{font-size:13px}
+}
+
 </style>
 
 
@@ -949,6 +988,13 @@ function detail(fish){
  const photo=identificationPhoto(fish);
  return `<button class="back" ${FISH.filter(f=>f.category===fish.category).length===1?'data-nav="groups"':`data-category="${esc(fish.category)}"`} type="button">← ${FISH.filter(f=>f.category===fish.category).length===1?'All categories':esc(fish.category)}</button>
  <section class="detail-head"><div class="eyebrow">Species identification · Punta Chivato</div><h1>${esc(fish.english)}</h1><p class="detail-spanish">${esc(fish.spanish)}</p></section>
+ ${fish.id==='golden-grouper'?`<section class="golden-interesting-fact" aria-labelledby="goldenFactTitle">
+ <h2 id="goldenFactTitle">☀ Interesting Fact: The Rare Golden Grouper</h2>
+ <p><strong>About 1 in 100.</strong> The Golden Grouper is the beautiful yellow-orange <em>xanthic</em> color form of the Leopard Grouper (<em>Mycteroperca rosacea</em>) found in the Sea of Cortez. Only around 1% of Leopard Groupers have this striking golden color.</p>
+ <p><strong>How they turn gold.</strong> Some accounts describe a change around 10 inches (25 cm) and suggest a genetic trigger. Researchers have now observed brown Leopard Grouper juveniles turning golden in captivity, although the exact causes and timing are still being studied.</p>
+ <p><strong>Local lore — “La Reina” (the queen).</strong> Fishermen in Mexico sometimes call a Golden Grouper <em>La Reina</em>. Local stories portray her as a leader or decoy for the school; some anglers believe taking one brings bad luck or “bad juju.” Those are fishing traditions, not established fish behavior.</p>
+ <p class="golden-fact-sources">Read more: <a href="https://biogeodb.stri.si.edu/sftep/en/thefishes/species/1134" target="_blank" rel="noopener noreferrer">Smithsonian</a> · <a href="https://lajar.cl/index.php/rlajar/article/view/vol54-issue1-fulltext-3411" target="_blank" rel="noopener noreferrer">2026 color-change study</a> · <a href="https://www.saltwatersportsman.com/travel/fishing-for-golden-grouper-in-the-sea-of-cortez/" target="_blank" rel="noopener noreferrer">La Reina fishing lore</a></p>
+ </section>`:""}
  <div class="id-profile">
   <section class="id-photo-section"><div class="id-photo-frame">${imageArea(fish,0,{kind:'identification'})}</div>
   
