@@ -628,16 +628,16 @@ const FISH = [
   },
   {
     id:'dogtooth-snapper', english:'Dogtooth Snapper', spanish:'Pargo (nombre local sin confirmar)',
-    other:['Dogtooth snapper','Pacific dog snapper (comparison)','Pargo prieto (reference name only)'],
-    category:'Snappers', scientific:null, status:'unconfirmed',
+    other:['Pacific Dog Snapper','Pacific Cubera Snapper','Pargo prieto'],
+    category:'Snappers', scientific:'Lutjanus novemfasciatus', status:'unconfirmed',
     statusNote:'“Dogtooth Snapper” is the reported name, not a verified species identification. The Pacific dog snapper (Lutjanus novemfasciatus) occurs in the eastern Pacific, but the reddish fish pictured could also resemble a Colorado snapper (Lutjanus colorado). A clear mouth/teeth, lateral-line scale pattern and fin view would help verify it. The Spanish/local name is not yet confirmed for this catch.',
     shots:1,idPhoto:'photos/IMG_8698.jpeg',localPhotos:['photos/IMG_8698.jpeg'],
     shape:'deep',color:'orange',marking:'plain',tail:'unknown',openWater:false,
-    features:['Orange-red body with a darker gray-brown upper back in this photo','Large snapper-like head and mouth; individual teeth need closer examination','Examine the shape of the dorsal and anal fins to compare similar Pacific snappers','Confirm species with scale-row pattern above the lateral line and mouth teeth'],
-    similar:'Pacific dog snapper (Lutjanus novemfasciatus), Colorado snapper (Lutjanus colorado), and other reddish eastern Pacific Lutjanus snappers. The photo alone does not reliably distinguish these.',
+    features:['Orange-red body with a darker gray-brown upper back in this photo','Large snapper-like head and mouth with prominent canine-like teeth','Examine the shape of the dorsal and anal fins to compare similar Pacific snappers','Confirm species with scale-row pattern above the lateral line and mouth teeth'],
+    similar:'Colorado snapper (Lutjanus colorado) and other reddish eastern Pacific snappers. Compare the mouth teeth, head shape and scale rows.',
     catchDate:'September 22, 2026',dateNote:null,method:'Shore casting',lure:null,catchWeight:'Unknown',
     catchNote:'One orange-red snapper photo supplied and labeled “Dogtooth Snapper.” Reported caught September 22, 2026 by shore casting; weight unknown. Exact species identification remains unconfirmed.',
-    sourceName:'Smithsonian — Pacific dog snapper (comparison, not photo verification)',sourceUrl:'https://biogeodb.stri.si.edu/sftep/en/thefishes/species/1320'
+    sourceName:'Smithsonian — Pacific Dog Snapper / Pacific Cubera Snapper',sourceUrl:'https://biogeodb.stri.si.edu/sftep/en/thefishes/species/1320'
   },
   {
     id:'mahi-mahi',english:'Mahi-mahi',spanish:'Dorado',other:['Dolphinfish','Dolphin fish','Mahi mahi','Dolphin','Dorado'],
@@ -899,10 +899,9 @@ const EDIBILITY_GUIDE = {
     "source": "https://www.fishbase.se/FieldGuide/FieldGuideSummary.php?c_code=591&genusname=Hoplopagrus&speciesname=guentherii"
   },
   "dogtooth-snapper": {
-    "grade": "Not yet rated",
-    "flavor": "This catch is called Dogtooth Snapper, but its exact species has not been established from the photograph.",
-    "cook": "Confirm species identification before using a table-quality rating or cooking guide.",
-    "source": "https://www.fda.gov/food/consumers/advice-about-eating-fish"
+    "grade": "Excellent",
+    "cook": "Grilled, baked, or pan-seared.",
+    "source": "https://biogeodb.stri.si.edu/sftep/en/thefishes/species/1320"
   },
   "mahi-mahi": {
     "grade": "Excellent table fish",
@@ -939,7 +938,7 @@ function detail(fish){
    <div class="info-card"><h2>Species identification</h2>
     ${dataPair('English name',fish.english)}
     ${dataPair('Spanish / local name',fish.spanish)}
-    ${fish.scientific?dataPair((fish.status==='reference'||fish.id==='rosy-jack')?'Scientific name':'Possible scientific name',fish.scientific):''}
+    ${fish.scientific?dataPair((fish.status==='reference'||fish.id==='rosy-jack'||fish.id==='dogtooth-snapper')?'Scientific name':'Possible scientific name',fish.scientific):''}
     
     ${fish.other.length?`<p class="micro-title">Other names</p><div class="pill-list">${fish.other.map(n=>`<span>${esc(n)}</span>`).join('')}</div>`:''}
    </div>
