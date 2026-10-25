@@ -327,7 +327,7 @@ function groups(){
  <section class="category-tiles" aria-label="Fish categories">
  ${CATEGORIES.map(name=>{
    const fish=FISH.filter(f=>f.category===name),example=fish[0],image=example?fishPhoto(example,0):null;
-   return `<button type="button" class="category-tile" data-category="${esc(name)}" aria-label="Open ${esc(name)} category">
+   return `<button type="button" class="category-tile" data-category="${esc(name)}" aria-label="${fish.length===1?`Identify ${esc(example.english)} — ${esc(example.spanish)}`:`Open ${esc(name)} category`}">
     <div class="category-tile-photo">
      ${image?`<img loading="lazy" src="${esc(image)}" alt="${esc(example.english)} in ${esc(name)}">`:
       `<span class="category-tile-placeholder" aria-hidden="true">${fish.length?'▧':'◇'}</span>`}
@@ -340,7 +340,7 @@ function groups(){
 function dataPair(title,value){return `<div class="kv"><dt>${esc(title)}</dt><dd>${esc(value)}</dd></div>`}
 function detail(fish){
  const photo=fishPhoto(fish,0);
- return `<button class="back" data-category="${esc(fish.category)}" type="button">← ${esc(fish.category)}</button>
+ return `<button class="back" ${FISH.filter(f=>f.category===fish.category).length===1?'data-nav="groups"':`data-category="${esc(fish.category)}"`} type="button">← ${FISH.filter(f=>f.category===fish.category).length===1?'All categories':esc(fish.category)}</button>
  <section class="detail-head"><div class="eyebrow">Species identification · Punta Chivato</div><h1>${esc(fish.english)}</h1><p class="detail-spanish">${esc(fish.spanish)}</p><span class="tag">${esc(tag(fish))}</span></section>
  <div class="id-profile">
   <section class="id-photo-section"><div class="id-photo-frame">${imageArea(fish,0)}</div>
@@ -417,7 +417,11 @@ function fromHash(){
  const hash=decodeURIComponent(location.hash.replace(/^#/,''));
  if(hash.startsWith('catches/')&&FISH.some(x=>x.id===hash.slice(8))){state.view='catches';state.id=hash.slice(8);state.category=null}
  else if(hash.startsWith('fish/')&&FISH.some(x=>x.id===hash.slice(5))){state.view='detail';state.id=hash.slice(5);state.category=null}
- else if(hash.startsWith('category/')&&CATEGORIES.includes(hash.slice(9))){state.view='explore';state.category=hash.slice(9);state.id=null}
+ else if(hash.startsWith('category/')&&CATEGORIES.includes(hash.slice(9))){
+  const category=hash.slice(9),fishInCategory=FISH.filter(f=>f.category===category);
+  if(fishInCategory.length===1){state.view='detail';state.id=fishInCategory[0].id;state.category=null}
+  else{state.view='explore';state.category=category;state.id=null}
+ }
  else if(['appearance','groups','months','share','explore'].includes(hash)){state.view=hash;state.id=null;state.category=null}
  else{state.view='groups';state.id=null;state.category=null}
  state.currentPhoto=0;render();
@@ -436,7 +440,11 @@ let uploadTarget=null;
 document.addEventListener('click',e=>{
  const catchBtn=e.target.closest('[data-catches]');if(catchBtn){route('catches',catchBtn.dataset.catches);return}
  const fishBtn=e.target.closest('[data-fish]');if(fishBtn){route('detail',fishBtn.dataset.fish);return}
- const cat=e.target.closest('[data-category]');if(cat){route('explore',null,cat.dataset.category);return}
+ const cat=e.target.closest('[data-category]');if(cat){
+  const fishInCategory=FISH.filter(f=>f.category===cat.dataset.category);
+  if(fishInCategory.length===1){route('detail',fishInCategory[0].id);return}
+  route('explore',null,cat.dataset.category);return
+ }
  const month=e.target.closest('[data-month]');if(month){state.month=month.dataset.month;render();return}
  const nav=e.target.closest('[data-nav]');if(nav){route(nav.dataset.nav);return}
  const slide=e.target.closest('[data-slide]');if(slide){moveSlide(slide.dataset.slide);return}
