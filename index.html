@@ -129,6 +129,22 @@
 .category-species-name small{font-size:13px;color:var(--aqua);line-height:1.3}
 .category-empty{margin:12px 5px;font-size:13px;color:var(--sub)}
 
+
+/* Species choices get a dedicated page, not an expansion on the homepage. */
+.subcategory-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;margin:22px 0}
+.subcategory-fish{display:flex;align-items:center;background:#fff;border:1px solid var(--line);border-radius:17px;padding:0;overflow:hidden;min-height:168px;text-align:left;color:var(--ink)}
+.subcategory-fish:hover{border-color:#6ca1a0;box-shadow:0 4px 15px #173d4017}
+.subcategory-photo{width:148px;min-width:148px;align-self:stretch;display:grid;place-items:center;background:#e1ece7}
+.subcategory-photo img{width:100%;height:100%;object-fit:contain}
+.subcategory-placeholder{font-size:32px;color:#698683}
+.subcategory-text{padding:15px;display:flex;flex:1;flex-direction:column;gap:5px;min-width:0}
+.subcategory-text strong{font-size:19px;line-height:1.24}
+.subcategory-text small{font-size:17px;font-weight:700;color:var(--aqua)}
+.subcategory-status{font-size:11px;color:#766044;line-height:1.45;margin-top:5px}
+.subcategory-arrow{font-size:26px;color:var(--aqua);padding:0 14px 0 0}
+@media(max-width:760px){.subcategory-grid{grid-template-columns:1fr;gap:12px}.subcategory-photo{width:38%;min-width:110px;max-width:175px}.subcategory-fish{min-height:150px}.subcategory-text strong{font-size:17px}.subcategory-text small{font-size:16px}}
+@media(max-width:380px){.subcategory-photo{min-width:95px}.subcategory-text{padding:10px}.subcategory-arrow{padding-right:10px}}
+
 </style>
 
 
@@ -244,7 +260,7 @@ async function refreshDraftPhotoThumbs(){
  '<p class="hint">Draft photo storage is unavailable in this browser.</p>';
 }
 const app=document.getElementById('app');
-const state={view:'explore',month:'all',expandedCategory:null,id:null,category:null,search:'',openWater:false,appearance:{shape:'',color:'',marking:'',tail:''},imageUrls:new Map(),idImageUrls:new Map(),livePhotoSlots:new Set(),currentPhoto:0};
+const state={view:'explore',month:'all',id:null,category:null,search:'',openWater:false,appearance:{shape:'',color:'',marking:'',tail:''},imageUrls:new Map(),idImageUrls:new Map(),livePhotoSlots:new Set(),currentPhoto:0};
 let dbPromise;
 const reqStore='fish-photos-v1';
 function openDB(){
@@ -353,33 +369,41 @@ function sharePage(){
 function groups(){
  return `<section class="hero categories-hero"><span class="eyebrow">Punta Chivato · Fish ID</span>
  <h1>Find your fish.<br><em>Busca tu pescado.</em></h1>
- <p>Choose a fish category to see identification photos, English and local names, and reported catches from Punta Chivato.</p></section>
+ <p>Choose a fish category to browse its species and identification photos.</p></section>
  <div class="category-actions"><button type="button" class="action" data-nav="explore">⌕ Search fish by name</button><button type="button" class="action alt" data-nav="appearance">Not sure? Find by appearance</button></div>
  <div class="category-title-row"><h2 class="sectiontitle">Browse fish categories</h2><span class="hint">8 categories</span></div>
  <section class="category-tiles" aria-label="Fish categories">
  ${CATEGORIES.map(name=>{
    const fish=FISH.filter(f=>f.category===name),example=fish[0],image=example?identificationPhoto(example):null;
-   const expanded=state.expandedCategory===name;
-   return `<div class="category-entry">
-    <button type="button" class="category-tile" ${fish.length===1?`data-fish="${esc(example.id)}"`:`data-category="${esc(name)}" aria-expanded="${expanded}"`} aria-label="${fish.length===1?`Identify ${esc(example.english)} — ${esc(example.spanish)}`:`Browse ${esc(name)} category`}">
-     <div class="category-tile-photo">
-     ${image?`<img loading="lazy" src="${esc(image)}" alt="${esc(example.english)} in ${esc(name)}">`:
-      `<span class="category-tile-placeholder" aria-hidden="true">${fish.length?'▧':'◇'}</span>`}
-     </div>
-     <div class="category-tile-body"><strong>${esc(name)}</strong><span class="category-tile-desc">${fish.length?`${fish.length} fish records`:'Photos haven’t been added yet'}</span></div>
-     <span class="category-tile-arrow" aria-hidden="true">${fish.length!==1&&expanded?'⌄':'›'}</span>
-    </button>
-    ${expanded&&fish.length!==1?`<div class="category-expanded">
-     ${fish.length?fish.map(f=>{
-       const pic=identificationPhoto(f);
-       return `<button class="category-species" type="button" data-fish="${esc(f.id)}">
-        <span class="category-species-image">${pic?`<img loading="lazy" src="${esc(pic)}" alt="${esc(f.english)}">`:'▧'}</span>
-        <span class="category-species-name"><strong>${esc(f.english)}</strong><small>${esc(f.spanish)}</small></span><span aria-hidden="true">›</span>
-       </button>`}).join(''):'<p class="category-empty">Photos haven’t been added yet.</p>'}
-    </div>`:''}
-   </div>`
+   return `<button type="button" class="category-tile" ${fish.length===1?`data-fish="${esc(example.id)}"`:`data-category="${esc(name)}"`} aria-label="${fish.length===1?`Identify ${esc(example.english)} — ${esc(example.spanish)}`:`Open ${esc(name)} category page`}">
+     <span class="category-tile-photo">
+       ${image?`<img loading="lazy" src="${esc(image)}" alt="${esc(example.english)} identification photo">`:
+       `<span class="category-tile-placeholder" aria-hidden="true">◇</span>`}
+     </span>
+     <span class="category-tile-body"><strong>${esc(name)}</strong><span class="category-tile-desc">${fish.length?`${fish.length} species in the guide`:'Photos haven’t been added yet'}</span></span>
+     <span class="category-tile-arrow" aria-hidden="true">›</span>
+   </button>`
  }).join('')}</section>
- <div class="leadpanel"><h2>Browse catches by month</h2><p>See dated reports and their fishing methods. Reports alone are not seasonal abundance or success-rate statistics.</p><button type="button" class="action alt" data-nav="months">Browse months →</button></div>${footer()}`;
+ <div class="leadpanel"><h2>Browse catches by month</h2><p>See dated reports and the methods used. These reports do not establish fishing success rates.</p><button type="button" class="action alt" data-nav="months">Browse months →</button></div>${footer()}`;
+}
+function categoryPage(category){
+ const fish=FISH.filter(f=>f.category===category);
+ return `<button type="button" class="back" data-nav="groups">← All fish categories</button>
+ <div class="eyebrow">Browse species · Punta Chivato</div>
+ <h1 class="page-heading">${esc(category)}</h1>
+ <p class="muted-intro">Select a fish to see its identification picture, English and local names, and identifying features.</p>
+ ${fish.length?`<section class="subcategory-grid" aria-label="${esc(category)} species">
+  ${fish.map(f=>{
+    const image=identificationPhoto(f);
+    return `<button type="button" class="subcategory-fish" data-fish="${esc(f.id)}" aria-label="Identify ${esc(f.english)} — ${esc(f.spanish)}">
+      <span class="subcategory-photo">${image?`<img loading="lazy" src="${esc(image)}" alt="${esc(f.english)}">`:'<span class="subcategory-placeholder" aria-hidden="true">▧</span>'}</span>
+      <span class="subcategory-text"><strong>${esc(f.english)}</strong><small>${esc(f.spanish)}</small><span class="subcategory-status">${esc(tag(f))}</span></span>
+      <span class="subcategory-arrow" aria-hidden="true">›</span>
+    </button>`
+  }).join('')}
+ </section>`:
+ '<div class="empty"><h3>Photos haven’t been added yet</h3><p>This category is ready for future local fish identification records.</p></div>'}
+ ${footer()}`;
 }
 function dataPair(title,value){return `<div class="kv"><dt>${esc(title)}</dt><dd>${esc(value)}</dd></div>`}
 function detail(fish){
@@ -445,15 +469,15 @@ function appearance(){
  ${selected.length&&perfect.length===0?'<p class="note">These are partial appearance matches only, not confirmed identifications.</p>':''}${footer()}`;
 }
 function render(){
- app.innerHTML=state.view==='detail'?detail(FISH.find(f=>f.id===state.id)||FISH[0]):state.view==='catches'?catchGallery(FISH.find(f=>f.id===state.id)||FISH[0]):state.view==='appearance'?appearance():state.view==='groups'?groups():state.view==='months'?monthsPage():state.view==='share'?sharePage():home();
- document.querySelectorAll('[data-nav]').forEach(b=>{b.classList.toggle('active',b.dataset.nav===state.view||((state.view==='detail'||state.view==='catches')&&b.dataset.nav==='groups')||(state.view==='explore'&&!!state.category&&b.dataset.nav==='groups'))});
+ app.innerHTML=state.view==='detail'?detail(FISH.find(f=>f.id===state.id)||FISH[0]):state.view==='catches'?catchGallery(FISH.find(f=>f.id===state.id)||FISH[0]):state.view==='appearance'?appearance():state.view==='groups'?groups():state.view==='category'?categoryPage(state.category):state.view==='months'?monthsPage():state.view==='share'?sharePage():home();
+ document.querySelectorAll('[data-nav]').forEach(b=>{b.classList.toggle('active',b.dataset.nav===state.view||((state.view==='detail'||state.view==='catches'||state.view==='category')&&b.dataset.nav==='groups')||(state.view==='explore'&&!!state.category&&b.dataset.nav==='groups'))});
  if(state.view==='catches')setupGallery();
  if(state.view==='share')refreshDraftPhotoThumbs();
 }
 function route(view,id=null,category=null,keepSearch=false){
  state.view=view;state.id=id;state.category=category;state.currentPhoto=0;
  if(!keepSearch)state.search='';state.openWater=false;
- const hash=view==='detail'?`#fish/${id}`:view==='catches'?`#catches/${id}`:view==='explore'&&category?`#category/${encodeURIComponent(category)}`:`#${view}`;
+ const hash=view==='detail'?`#fish/${id}`:view==='catches'?`#catches/${id}`:view==='category'&&category?`#category/${encodeURIComponent(category)}`:view==='explore'&&category?`#category/${encodeURIComponent(category)}`:`#${view}`;
  if(location.hash!==hash)history.pushState(null,'',hash);
  render();window.scrollTo(0,0);
 }
@@ -464,7 +488,7 @@ function fromHash(){
  else if(hash.startsWith('category/')&&CATEGORIES.includes(hash.slice(9))){
   const category=hash.slice(9),fishInCategory=FISH.filter(f=>f.category===category);
   if(fishInCategory.length===1){state.view='detail';state.id=fishInCategory[0].id;state.category=null;history.replaceState(null,'',`#fish/${fishInCategory[0].id}`)}
-  else{state.view='groups';state.expandedCategory=category;state.category=null;state.id=null;history.replaceState(null,'','#groups')}
+  else{state.view='category';state.category=category;state.id=null}
  }
  else if(['appearance','groups','months','share','explore'].includes(hash)){state.view=hash;state.id=null;state.category=null}
  else{state.view='groups';state.id=null;state.category=null}
@@ -487,9 +511,7 @@ document.addEventListener('click',e=>{
  const cat=e.target.closest('[data-category]');if(cat){
   const name=cat.dataset.category,fishInCategory=FISH.filter(f=>f.category===name);
   if(fishInCategory.length===1){route('detail',fishInCategory[0].id);return}
-  state.expandedCategory=state.expandedCategory===name&&state.view==='groups'?null:name;
-  if(state.view==='groups')render();
-  else route('groups');
+  route('category',null,name);
   return
  }
  const month=e.target.closest('[data-month]');if(month){state.month=month.dataset.month;render();return}
