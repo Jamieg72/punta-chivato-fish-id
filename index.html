@@ -233,16 +233,25 @@ const FISH = [
     id:'mahi-mahi',english:'Mahi-mahi',spanish:'Dorado',other:['Dolphinfish','Dolphin fish','Mahi mahi','Dolphin','Dorado'],
     category:'Dorado & Billfish',scientific:'Coryphaena hippurus',status:'reference',
     statusNote:'The scientific name is verified for the species called mahi-mahi/dorado. The identification of the particular pictured catch has not yet been checked against the original photo.',
-    shots:1,idPhoto:'photos/8dbe660f-4861-4295-90fb-92594a4bddcf.jpeg',localPhotos:['photos/8fce7f5a-c7b0-4489-a11c-0a5292b2a03e.jpeg'],shape:'slender',color:'bright',marking:'spotted',tail:'forked',openWater:true,
+    shots:2,idPhoto:'photos/8dbe660f-4861-4295-90fb-92594a4bddcf.jpeg',localPhotos:['photos/8fce7f5a-c7b0-4489-a11c-0a5292b2a03e.jpeg','photos/b4e11246-4f77-4b76-968c-967b4cabf6f0.jpeg'],
+    catchSlides:[{date:'June 21, 2026',method:'Trolling',weight:'22 lbs'},{date:'June 20, 2026',method:'Trolling',weight:'27.9 lbs'}],shape:'slender',color:'bright',marking:'spotted',tail:'forked',openWater:true,
     features:['Long body with brilliant green, blue and gold coloration','Long, continuous dorsal fin extending toward the tail','Deeply forked tail','Often blue speckles; colors may fade after capture'],
     similar:'Pompano dolphinfish (Coryphaena equiselis) is a similar species. Accurate comparison needs body depth and other anatomy.',
     catchDate:'June 21, 2026',dateNote:null,method:'Trolling',lure:null,catchWeight:'22 lbs',
-    catchNote:'One reported Dorado catch dated June 21, 2026, weighing 22 lbs, caught by trolling. Species-identification photo and catch-gallery photo are provided separately.',
+    catchNote:'Two separate reported Dorado catches: June 21, 2026 (22 lbs, trolling) and June 20, 2026 (27.9 lbs, trolling). Two gallery photographs show two different catches; the species-identification photo is a separate image.',
     sourceName:'NOAA Fisheries — Pacific mahimahi',sourceUrl:'https://www.fisheries.noaa.gov/species/pacific-mahimahi'
   }
 ];
 const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
-function reportedMonth(f){return MONTHS.findIndex(m=>f.catchDate.startsWith(m))+1}
+function reportedMonth(item){return MONTHS.findIndex(m=>(item.catchDate||'').startsWith(m))+1}
+function reportsForFish(fish){
+ if(fish.catchSlides?.length){
+  return fish.catchSlides.map((slide,index)=>({fish,photoIndex:index,catchDate:slide.date,method:slide.method,catchWeight:slide.weight||null,lure:slide.lure||null,dateNote:slide.dateNote||null}));
+ }
+ return [{fish,photoIndex:0,catchDate:fish.catchDate,dateNote:fish.dateNote,method:fish.method,lure:fish.lure,catchWeight:fish.catchWeight||null}];
+}
+function allCatchReports(){return FISH.flatMap(reportsForFish)}
+
 const COMMUNITY_DRAFT_KEY='punta-chivato-community-draft-v1';
 function readCommunityDraft(){try{const v=JSON.parse(localStorage.getItem(COMMUNITY_DRAFT_KEY)||'{}');return v&&typeof v==='object'?v:{}}catch(_){return {}}}
 function writeCommunityDraft(v){try{localStorage.setItem(COMMUNITY_DRAFT_KEY,JSON.stringify(v));return true}catch(_){return false}}
@@ -330,21 +339,23 @@ function home(){
 
 function monthsPage(){
  const chosen=state.month;
- const selected=FISH.filter(f=>reportedMonth(f)>0&&(chosen==='all'||reportedMonth(f)===Number(chosen)));
- const undated=FISH.filter(f=>reportedMonth(f)===0);
+ const reports=allCatchReports();
+ const selected=reports.filter(r=>reportedMonth(r)>0&&(chosen==='all'||reportedMonth(r)===Number(chosen)));
+ const undated=reports.filter(r=>reportedMonth(r)===0);
  const title=chosen==='all'?'All months':MONTHS[Number(chosen)-1];
- return `<section class="finder-header"><span class="eyebrow">Community catch history</span><h1>What was caught by month?</h1><p>Browse dated catch reports and see how each fish was caught. This is a small sample of reported catches, not proof of what is normally or most commonly caught in a month.</p></section>
+ return `<section class="finder-header"><span class="eyebrow">Reported catch history</span><h1>What was caught by month?</h1><p>Browse catch reports and how the fish were caught. Reports are observations, not proof of seasonal availability or catch success rates.</p></section>
  <div class="month-picker" aria-label="Filter catch reports by month">
- <button type="button" data-month="all" class="${chosen==='all'?'selected':''}">All months<small>${FISH.filter(f=>reportedMonth(f)>0).length} dated reports</small></button>
- ${MONTHS.map((name,i)=>{const count=FISH.filter(f=>reportedMonth(f)===i+1).length;return `<button type="button" data-month="${i+1}" class="${chosen===String(i+1)?'selected':''}">${name.slice(0,3)}<small>${count?count+' report'+(count===1?'':'s'):'No reports'}</small></button>`}).join('')}</div>
+ <button type="button" data-month="all" class="${chosen==='all'?'selected':''}">All months<small>${reports.filter(r=>reportedMonth(r)>0).length} dated reports</small></button>
+ ${MONTHS.map((name,i)=>{const count=reports.filter(r=>reportedMonth(r)===i+1).length;return `<button type="button" data-month="${i+1}" class="${chosen===String(i+1)?'selected':''}">${name.slice(0,3)}<small>${count?count+' report'+(count===1?'':'s'):'No reports'}</small></button>`}).join('')}</div>
  <h2 class="sectiontitle">${title} <span class="hint">(${selected.length} reported catch record${selected.length===1?'':'s'})</span></h2>
- ${selected.length?selected.map(f=>`<article class="month-report"><button type="button" class="month-image" data-fish="${esc(f.id)}" aria-label="See ${esc(f.english)}">${imageArea(f,0)}</button>
- <div class="month-content"><h3>${esc(f.english)}</h3><div class="local">${esc(f.spanish)}</div>
- <p><strong>Reported:</strong> ${esc(f.catchDate)}${f.dateNote?' — '+esc(f.dateNote):''}</p>
- <p><strong>How:</strong> ${esc(f.method)}${f.lure?' · '+esc(f.lure):''}</p>
- <button type="button" class="go-link" data-fish="${esc(f.id)}">View catch →</button></div></article>`).join(''):
- '<div class="empty"><h3>No catch reports added for this month yet</h3><p>This means no reports are in this guide, not that these fish are absent from local waters.</p></div>'}
- <p class="note"><strong>Interpretation:</strong> Each listing is one reported catch record, not necessarily one fish, trip, or distinct angler. Multiple photos do not establish multiple fish. The Róbalo report is dated September 22, 2026. Fishing method reports are not success rates. ${undated.length?`${undated.length} undated photo record(s) are kept out of month counts until the catch date is known.`:''}</p>
+ ${selected.length?selected.map(r=>`<article class="month-report"><button type="button" class="month-image" data-catches="${esc(r.fish.id)}" aria-label="See ${esc(r.fish.english)} catches">${imageArea(r.fish,r.photoIndex)}</button>
+ <div class="month-content"><h3>${esc(r.fish.english)}</h3><div class="local">${esc(r.fish.spanish)}</div>
+ <p><strong>Date:</strong> ${esc(r.catchDate)}${r.dateNote?' — '+esc(r.dateNote):''}</p>
+ <p><strong>Method:</strong> ${esc(r.method)}${r.lure?' · '+esc(r.lure):''}</p>
+ ${r.catchWeight?`<p><strong>Weight:</strong> ${esc(r.catchWeight)}</p>`:''}
+ <button type="button" class="go-link" data-catches="${esc(r.fish.id)}">View catch gallery →</button></div></article>`).join(''):
+ '<div class="empty"><h3>No catch reports added for this month yet</h3><p>This means there are no reports in this guide, not that these fish are absent from local waters.</p></div>'}
+ <p class="note">Records count distinct reported catches, not photographs, trips, or anglers. Two Dorado catches on June 20 and June 21 are separately recorded. Fishing methods do not imply success rates. ${undated.length?`${undated.length} undated record(s) are excluded from monthly counts.`:''}</p>
  <button type="button" class="action" data-nav="share">Share a catch (private draft) →</button>${footer()}`;
 }
 function sharePage(){
@@ -436,17 +447,18 @@ function detail(fish){
 }
 function catchGallery(fish){
  const available=Array.from({length:fish.shots},(_,i)=>fishPhoto(fish,i)).filter(Boolean).length;
+ const reports=reportsForFish(fish);
  return `<button type="button" class="back" data-fish="${esc(fish.id)}">← Back to ${esc(fish.english)} identification</button>
  <section class="detail-head"><div class="eyebrow">Reported catches · Punta Chivato</div><h1>${esc(fish.english)} catches</h1><p class="detail-spanish">${esc(fish.spanish)}</p></section>
- <p class="muted-intro">Currently showing one reported catch record. Multiple photos of one catch, if added later, do not mean multiple fish or anglers.</p>
+ <p class="muted-intro">${reports.length} reported catch ${reports.length===1?'record':'records'}. Each slide has its own date, method, and weight; photos alone do not establish distinct anglers or trips.</p>
  <div class="catches-gallery"><div class="gallery"><div class="gallery-track" id="galleryTrack" aria-label="${esc(fish.english)} catch photo gallery">
- ${Array.from({length:fish.shots},(_,i)=>`<div class="slide" id="slide-${i}">
+ ${Array.from({length:fish.shots},(_,i)=>{const report=reports[i]||reports[0];return `<div class="slide" id="slide-${i}">
  <div class="slide-visual">${imageArea(fish,i)}</div>
  <div class="slide-caption"><div class="slide-caption-top"><div><span class="slide-caption-name">${esc(fish.english)}</span><span class="slide-caption-local">${esc(fish.spanish)}</span></div><span class="slide-caption-index">Photo ${i+1} / ${fish.shots}</span></div>
- <div class="slide-caption-fields"><div><b>Date</b>${esc(fish.catchDate)}${fish.dateNote?' · '+esc(fish.dateNote):''}</div><div><b>Method</b>${esc(fish.method)}${fish.lure?' · '+esc(fish.lure):''}</div><div><b>Weight</b>${esc(fish.catchWeight||'Not reported')}</div></div>
+ <div class="slide-caption-fields"><div><b>Date</b>${esc(report.catchDate)}${report.dateNote?' · '+esc(report.dateNote):''}</div><div><b>Method</b>${esc(report.method)}${report.lure?' · '+esc(report.lure):''}</div><div><b>Weight</b>${esc(report.catchWeight||'Not reported')}</div></div>
  <div class="slide-caption-warning">${esc(tag(fish))}</div>
  ${fish.catchNote?`<p class="gallery-catch-note">${esc(fish.catchNote)}</p>`:''}
- </div></div>`).join('')}</div>
+ </div></div>`}).join('')}</div>
  <div class="gallery-nav"><button type="button" data-slide="previous" aria-label="Previous catch photo">‹ Previous</button>
  <div class="dots" id="galleryDots">${Array.from({length:fish.shots},(_,i)=>`<span class="dot${i===0?' active':''}" aria-hidden="true"></span>`).join('')}</div>
  <button type="button" data-slide="next" aria-label="Next catch photo">Next ›</button></div>
