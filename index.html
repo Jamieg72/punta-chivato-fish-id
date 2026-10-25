@@ -464,6 +464,10 @@ body{
 .share-form button[type=submit]{background:linear-gradient(120deg,#138d96,#0c737c);margin-top:12px;min-height:58px}
 @media(max-width:700px){.catch-rules{padding:16px}.catch-agree{padding:13px}.share-form{padding:16px}.catch-form-title{font-size:19px}}
 
+
+.catch-form-title small{font-size:13px;color:#5a8587;font-weight:650;white-space:nowrap}
+.catch-voluntary-intro{margin:0 0 20px;color:#4f6d6d;background:#ebf7f4;border-left:4px solid #15a2a3;padding:13px 15px;border-radius:9px;font-size:13px;line-height:1.55}
+
 </style>
 
 
@@ -738,30 +742,30 @@ function sharePage(){
  const opts=(a,current)=>a.map(x=>`<option value="${esc(x)}" ${current===x?'selected':''}>${esc(x)}</option>`).join('');
  const today=new Date();
  const todayLocal=[today.getFullYear(),String(today.getMonth()+1).padStart(2,'0'),String(today.getDate()).padStart(2,'0')].join('-');
- return `<section class="finder-header catch-submit-header"><span class="eyebrow">Punta Chivato · Community catches</span><h1>Upload Your Catch</h1><p>Share your fish and how you caught it. Read the two photo rules before filling in the form.</p></section>
+ return `<section class="finder-header catch-submit-header"><span class="eyebrow">Punta Chivato · Community catches</span><h1>Upload Your Catch</h1><p>Share your catch photo—your fishing method, lure, weight, and other details are entirely voluntary. Keep your fishing secrets to yourself if you prefer!</p></section>
  <section class="catch-rules" aria-labelledby="catchRulesTitle">
    <h2 id="catchRulesTitle">Our catch photo rules</h2>
    <ol>
      <li><strong>2026 or newer.</strong> Catch photos must show fish caught on or after January 1, 2026.</li>
      <li><strong>Punta Chivato fishing area only.</strong> Catches must be from the region around Punta Chivato, extending toward <strong>Santa Rosalía and Tortoga</strong> and down toward <strong>San Nicolás and Bahía Concepción near Mulegé</strong>.</li>
    </ol>
-   <p>Only submit photos you own or have permission to share. You never need to reveal a precise fishing spot.</p>
+   <p>Only submit photos you own or have permission to share. No fishing technique, lure, or specific fishing location needs to be disclosed.</p>
  </section>
  <div class="catch-draft-info"><strong>Public uploads are not connected yet.</strong> This form currently saves a private draft on your own device. Nothing is submitted to the public gallery or site owner until an upload and review service is connected.</div>
  <form id="communityDraftForm" class="share-form">
  <label class="catch-agree"><input type="checkbox" name="agreeRules" value="yes" required><span><strong>I agree to both photo rules.</strong> The catch is from 2026 or later and from the Punta Chivato fishing area described above.</span></label>
- <h2 class="catch-form-title">Your catch details</h2>
+ <h2 class="catch-form-title">Your catch details <small>(voluntary)</small></h2><p class="catch-voluntary-intro">Only the photo, catch date, and agreement to the two rules are required. Every other question is optional, including species, fishing method, lure, weight, and general fishing area.</p>
  <div class="share-grid">
- <label class="field">Fish / species <small>Required</small>
- <select name="species" required><option value="">Choose your fish</option>${opts(FISH.map(f=>f.english+' — '+f.spanish),d.species)}<option value="Unidentified fish" ${d.species==='Unidentified fish'?'selected':''}>Unidentified fish</option><option value="Other fish" ${d.species==='Other fish'?'selected':''}>Other fish — name below</option></select></label>
+ <label class="field">Fish / species <small>Optional</small>
+ <select name="species"><option value="Unidentified fish" ${!d.species||d.species==='Unidentified fish'?'selected':''}>Unidentified / prefer not to say</option>${opts(FISH.map(f=>f.english+' — '+f.spanish),d.species)}<option value="Other fish" ${d.species==='Other fish'?'selected':''}>Other fish — name below</option></select></label>
  <label class="field">Other or local fish name (optional)<input name="otherName" value="${v('otherName')}" maxlength="100" placeholder="Enter a name if needed"></label>
  <label class="field">Date caught <small>2026 or later · Required</small><input type="date" name="date" value="${v('date')}" min="2026-01-01" max="${todayLocal}" required></label>
- <label class="field">Fishing method <small>Required</small><select name="method" required><option value="">Choose a method</option>${opts(['Shore casting','Offshore jigging','Spearfishing','Trolling','Jigging','Bottom fishing','Kayak fishing','Other','Unknown'],d.method)}</select></label>
+ <label class="field">Fishing method <small>Optional</small><select name="method"><option value="">Prefer not to say</option>${opts(['Shore casting','Offshore jigging','Spearfishing','Trolling','Jigging','Bottom fishing','Kayak fishing','Other','Unknown'],d.method)}</select></label>
  <label class="field">Weight (optional)<input name="weight" type="number" min="0.1" max="10000" step="0.1" value="${v('weight')}" placeholder="e.g. 9"></label>
  <label class="field">Weight unit<select name="weightUnit">${opts(['lbs','kg'],d.weightUnit||'lbs')}</select></label>
- <label class="field">General fishing area <small>Required · No exact GPS location</small><select name="area" required><option value="">Choose a general area</option>${opts(['Punta Chivato / nearby','Santa Rosalía area','Tortoga area','San Nicolás area','Bahía Concepción / Mulegé area','Other within the stated fishing area'],d.area)}</select></label>
+ <label class="field">General fishing area <small>Optional · no exact GPS location</small><select name="area"><option value="">Prefer not to say</option>${opts(['Punta Chivato / nearby','Santa Rosalía area','Tortoga area','San Nicolás area','Bahía Concepción / Mulegé area','Other within the stated fishing area'],d.area)}</select></label>
  <label class="field">Name or nickname (optional)<input name="angler" value="${v('angler')}" maxlength="100" placeholder="How to credit your photo"></label>
- <label class="field">Lure / bait (optional)<input name="lure" value="${v('lure')}" maxlength="120" placeholder="Feather, jig, live bait…"></label>
+ <label class="field">Lure / bait <small>Optional · your fishing secrets stay yours!</small><input name="lure" value="${v('lure')}" maxlength="120" placeholder="Leave blank if you prefer"></label>
  <label class="field">Number of fish (optional)<input name="fishCount" type="number" min="1" max="999" step="1" value="${v('fishCount')}" placeholder="If known"></label>
  </div>
  <label class="field">Catch notes (optional)<textarea name="notes" maxlength="800" placeholder="Anything else about this fish or catch">${v('notes')}</textarea></label>
