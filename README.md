@@ -24,3 +24,19 @@ PWA manifest and service worker are included as a starting point. Test **Add to 
 Smithsonian Tropical Eastern Pacific Fishes: https://biogeodb.stri.si.edu/sftep/ ; NOAA Pacific mahimahi: https://www.fisheries.noaa.gov/species/pacific-mahimahi. Reference species names are not photo verification.
 
 When catch logging is added later, separately count fish, trips, and distinct anglers. Reports by method do not themselves measure success rates.
+
+## Month-by-month reported catch history (version 1.1)
+
+The **Months** tab shows reports by month, including the fish name, Spanish/local name, report date, fishing method, and lure where known. Empty months display "No catch reports added for this month yet." A single fish record with two photos is **not** counted as two fish. The snook's report date is September 22 with the year unknown; the month filter includes it but does not assign a year.
+
+These are **reported observations**, not seasonal prevalence, success rates, or conclusions about fish abundance. As submissions accumulate, future seasonal reporting must distinguish catch-record counts, verified fish counts, unique fishing trips, and unique anglers. Data quality, fishing effort, and geographic coverage matter.
+
+## Community sharing: prototype versus public posting
+
+The **Share** tab now has a mobile-friendly form for species (including unverified/other), date, fishing method, bait/lure, optional fish count, general area, optional display name, notes, and up to five photos.
+
+**This is a local-only draft feature.** Text is stored in browser localStorage; selected images are stored in IndexedDB where supported. It does **not** submit to any server, Render, GitHub, or public gallery. The data is device/browser-specific and may disappear if the browser clears storage. There is no real multi-user upload feature yet.
+
+A production community sharing system needs server-side submission APIs, persistent database, object storage for images, spam and size limits, optional contact/attribution privacy controls, moderation, and a clear distinction between unreviewed species labels and verified IDs. A Render **Static Site** alone cannot receive or persist community uploads.
+
+Attribution/name and general catch area should remain optional. Never publish precise locations from uploaded image metadata without contributor consent; strip EXIF location by default during public photo processing. Species review should not imply an angler or catch is verified if only a tentative ID was reported.
