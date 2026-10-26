@@ -562,7 +562,7 @@ body{
 /* Punta Chivato Fish ID — original, independent fish guide. No catch data is inferred. */
 'use strict';
 // Category artwork can be an illustrative user photo without adding a species or catch record.
-const CATEGORY_PHOTOS = {'Small Fish & Baitfish':'photos/2714c27f-3313-4d2d-899f-1a27f3b05641.jpeg','Snappers':'photos/IMG_8698.jpeg','Groupers & Sea Bass':'photos/IMG_2518.png'};
+const CATEGORY_PHOTOS = {'Small Fish & Baitfish':'photos/2714c27f-3313-4d2d-899f-1a27f3b05641.jpeg','Snappers':'photos/IMG_8698.jpeg','Groupers & Sea Bass':'photos/IMG_2518.png','Sharks & Rays':'photos/IMG_9216.jpeg'};
 const CATEGORIES = [
   'Jacks & Roosterfish',
   'Groupers & Sea Bass',
@@ -574,6 +574,19 @@ const CATEGORIES = [
   'Small Fish & Baitfish'
 ];
 const FISH = [
+  {
+    id:'pacific-sharpnose-shark',english:'Pacific Sharpnose Shark',spanish:'Cazón bironche',
+    other:['Pacific sharp-nosed shark','Cazón picudo del Pacífico','Tiburón cazón bironche'],
+    category:'Sharks & Rays',scientific:'Rhizoprionodon longurio',status:'reference',
+    statusNote:'The species name is documented in ichthyological references. This catch was submitted as a Pacific sharpnose shark; the individual shark in the image has not been independently verified.',
+    shots:1,idPhoto:'photos/IMG_9216.jpeg',localPhotos:['photos/IMG_9216.jpeg'],
+    shape:'slender',color:'silver',marking:'plain',tail:'forked',openWater:false,
+    features:['Slender, gray or gray-brown shark with a pale underside','Long, pointed snout and large, round eyes','A long, distinct groove at the rear of the upper lip','First dorsal fin relatively small, starting roughly above the rear of the pectoral fins','Upper tail fin with a dark trailing edge and tip'],
+    similar:'Other small coastal sharks. Compare the pointed snout, conspicuous upper-lip grooves, the position of the second dorsal fin and the dark edging of the tail.',
+    catchDate:'April 6, 2026',dateNote:null,method:'Trolling',lure:null,catchWeight:'Unknown',
+    catchNote:'Catch submitted for the Punta Chivato area on April 6, 2026. Reported method: trolling. Weight not reported.',
+    sourceName:'Smithsonian — Pacific sharpnose shark',sourceUrl:'https://biogeodb.stri.si.edu/sftep/en/thefishes/species/111'
+  },
   {
     id:'golden-grouper',english:'Golden Grouper',spanish:'Cabrilla sardinera (dorada)',
     other:['Golden Leopard Grouper','Golden-phase Leopard Grouper','Leopard Grouper','Cabrilla dorada'],
