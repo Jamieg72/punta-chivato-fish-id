@@ -640,19 +640,19 @@ const FISH = [
     sourceName:'Smithsonian — Leopard Grouper (rare golden color form)',sourceUrl:'https://biogeodb.stri.si.edu/sftep/en/thefishes/species/1134'
   },
   {
-    id:'rosy-jack', english:'Rose Amberjack', spanish:'Pez Fuerte',
-    other:['Rosey Jack','Rosy Jack','Pez Fuerte'],
-    category:'Jacks & Roosterfish',scientific:null,status:'unconfirmed',
-    statusNote:'Rosy Jack is the name reported with this catch. The exact scientific species is not established from the photograph or common name.',
+    id:'rosy-jack', english:'Fortune Jack', spanish:'Pez Fuerte',
+    other:['Darkfin Amberjack','Medregal fortuno','Pez Fuerte'],
+    category:'Jacks & Roosterfish',scientific:'Seriola peruana',status:'unconfirmed',
+    statusNote:'Fortune Jack is the reported identification. The photograph has not been independently verified to species.',
     shots:1,idPhoto:'photos/f6f3d811-891b-406e-9717-c3ae37e1d80a.jpeg',
     localPhotos:['photos/f6f3d811-891b-406e-9717-c3ae37e1d80a.jpeg'],
     catchSlides:[{date:'January 6, 2026',method:'Offshore jigging',weight:'Unknown'}],
     shape:'slender',color:'silver',marking:'plain',tail:'forked',openWater:true,
-    features:['A deep-bodied jack with a taller profile and a strongly sickle-shaped second dorsal fin.','Coloration: Usually olive-bronze to dusky brown, sometimes with a faint rose or lavender cast.','Key marking: A dark diagonal band runs from the snout, through the eye, toward the dorsal fin.','Notes: This fish is thicker and deeper-bodied than a yellowtail and has a more pronounced dark eye bar.'],
-    similar:'Other amberjacks can look similar; compare the deeper body, tall sickle-shaped second dorsal fin, and pronounced dark eye bar.',
+    features:['Elongated, compressed body with a short, rounded snout.','Olive to blue back with silvery or slightly bronze sides and dusky fins.','Typically no bars or stripes on the head or body.','Forked tail and relatively short pectoral fins.'],
+    similar:'Other amberjacks and yellowtail can look similar. Compare the rounded snout, dusky fins and absence of bars or stripes; identification from a photograph can be uncertain.',
     catchDate:'January 6, 2026',dateNote:null,method:'Offshore jigging',lure:null,catchWeight:'Unknown',
-    catchNote:'One photographed catch called Rosy Jack, dated January 6, 2026. Method: offshore jigging. Weight unknown.',
-    sourceName:'Smithsonian — Eastern Pacific fish identification',sourceUrl:'https://biogeodb.stri.si.edu/sftep/en/findafish/dofind'
+    catchNote:'One reported Fortune Jack catch, dated January 6, 2026. Method: offshore jigging. Weight unknown.',
+    sourceName:'Smithsonian — Fortune Jack',sourceUrl:'https://biogeodb.stri.si.edu/sftep/en/thefishes/species/1282'
   },
   {
     id:'yellowtail-jack',english:'Yellowtail',spanish:'Jurel de Castilla',
@@ -1078,7 +1078,7 @@ function detail(fish){
    <div class="info-card"><h2>Species identification</h2>
     ${dataPair('English name',fish.english)}
     ${dataPair('Spanish / local name',fish.spanish)}
-    ${fish.scientific?dataPair((fish.status==='reference'||fish.id==='rosy-jack'||fish.id==='dogtooth-snapper')?'Scientific name':'Possible scientific name',fish.scientific):''}
+    ${fish.scientific?dataPair((fish.status==='reference'||fish.id==='dogtooth-snapper')?'Scientific name':'Possible scientific name',fish.scientific):''}
     
     ${fish.other.length?`<p class="micro-title">Other names</p><div class="pill-list">${fish.other.map(n=>`<span>${esc(n)}</span>`).join('')}</div>`:''}
    </div>
