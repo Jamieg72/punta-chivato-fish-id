@@ -575,6 +575,17 @@ const CATEGORIES = [
 ];
 const FISH = [
   {
+    id:'almaco-amberjack',english:'Almaco Amberjack',spanish:'Pez Fuerte',
+    other:['Almaco Jack','Pacific Amberjack'],category:'Jacks & Roosterfish',scientific:'Seriola rivoliana',status:'unconfirmed',
+    statusNote:'Almaco Amberjack is the reported identification; the photograph has not been independently confirmed to species.',
+    shots:0,idPhoto:'photos/IMG_9245.jpeg',localPhotos:[],
+    shape:'slender',color:'silver',marking:'plain',tail:'forked',openWater:true,
+    features:['Relatively deep, elongated body with a steep upper head profile.','Long, pointed snout and a strongly forked tail.','Long, curved front lobes on the second dorsal and anal fins.','A dark diagonal band may run from the snout through the eye toward the dorsal fin.'],
+    similar:'Fortune Jack and other amberjacks can look similar. Compare the head profile, snout and long fin lobes.',
+    catchDate:null,dateNote:null,method:'Not reported',lure:null,catchWeight:null,catchNote:'',
+    sourceName:'Smithsonian — Almaco Jack',sourceUrl:'https://biogeodb.stri.si.edu/sftep/en/thefishes/species/1283'
+  },
+  {
     id:'roosterfish',english:'Roosterfish',spanish:'Pez Gallo',
     other:['Gallo'],category:'Jacks & Roosterfish',scientific:'Nematistius pectoralis',status:'reference',
     statusNote:'A distinctive sportfish recognized by its long, comb-like dorsal fin.',
@@ -763,6 +774,7 @@ const FISH = [
 const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
 function reportedMonth(item){return MONTHS.findIndex(m=>(item.catchDate||'').startsWith(m))+1}
 function reportsForFish(fish){
+ if(!fish.shots && !fish.catchDate && !fish.catchSlides?.length)return [];
  if(fish.catchSlides?.length){
   return fish.catchSlides.map((slide,index)=>({fish,photoIndex:index,catchDate:slide.date,method:slide.method,catchWeight:slide.weight||null,lure:slide.lure||null,dateNote:slide.dateNote||null,area:slide.area||null,angler:slide.angler||null,fishCount:slide.fishCount||null,note:slide.note||null}));
  }
@@ -969,6 +981,7 @@ function categoryPage(category){
 function dataPair(title,value){return `<div class="kv"><dt>${esc(title)}</dt><dd>${esc(value)}</dd></div>`}
 /* Species eating-quality descriptions and reference sources. */
 const EDIBILITY_GUIDE = {
+  "almaco-amberjack": { "grade": "Good food fish", "cook": "Especially good for sashimi or searing.", "tip": "Bleeding the fish well soon after catching can improve its flavor and quality.", "note": "For sashimi, use fish handled appropriately for raw consumption." },
   "roosterfish": { "grade": "Generally not good eating", "note": "Great sportfish." },
   "sierra-mackerel": {
     "grade": "Excellent food fish",
