@@ -690,9 +690,10 @@ const FISH = [
     other:['Golden Jack','Mojarra dorada','Pámpano rayado','Jurel arenoso'],
     category:'Jacks & Roosterfish',scientific:'Gnathanodon speciosus',status:'reference',
     statusNote:'The fish pictured is consistent with Golden Trevally; the name and diagnostic features are supported by the Smithsonian eastern Pacific fishes reference.',
-    shots:1,idPhoto:'photos/212CD261-3EC9-44F4-9684-689BDF1B561B.jpeg',
+    shots:2,idPhoto:'photos/212CD261-3EC9-44F4-9684-689BDF1B561B.jpeg',
     categoryPhoto:'photos/IMG_9252.jpeg',
-    localPhotos:['photos/212CD261-3EC9-44F4-9684-689BDF1B561B.jpeg'],
+    localPhotos:['photos/212CD261-3EC9-44F4-9684-689BDF1B561B.jpeg','photos/IMG_9252.jpeg'],
+    catchSlides:[{date:'June 24, 2026',method:'Shore casting',weight:'9 lbs'},{date:'October 26, 2026',method:'Spearfishing',weight:null,lure:'Good aim',area:'Punta Chivato / nearby',fishCount:1,note:'Sashimi!'}],
     shape:'deep',color:'bright',marking:'bars',tail:'forked',openWater:false,
     features:['Golden-silver, deep and flattened body','Dark vertical bands and scattered black spots on young fish','Strongly forked tail often with darker tips','Long pectoral fins and notably thick, fleshy lips'],
     similar:'Other trevallies and jacks can have a similar body shape. Look for the combination of golden color, vertical bars, black spots and thick lips.',
@@ -1107,6 +1108,7 @@ function catchGallery(fish){
  ${fish.id==='sierra-mackerel'?`<p class="gallery-catch-note">${esc(fish.catchNote)}</p>`:''}
  ${fish.id==='roosterfish'?`<p class="gallery-catch-note">Area: ${esc(report.area)}<br>Anglers: ${esc(report.angler)}</p>`:''}
  ${fish.id==='leopard-grouper'&&report.angler?`<p class="gallery-catch-note">Area: ${esc(report.area)}<br>Angler: ${esc(report.angler)}<br>Fish count: ${esc(report.fishCount)}</p>`:''}
+ ${fish.id==='golden-trevally'&&report.note?`<p class="gallery-catch-note">Area: ${esc(report.area)}<br>Fish count: ${esc(report.fishCount)}<br>Notes: ${esc(report.note)}</p>`:''}
  
  
  </div></div>`}).join('')}</div>
