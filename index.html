@@ -704,7 +704,8 @@ const FISH = [
     other:['Cabrilla sardinera','Cabrilla rosa','Leopard grouper'],
     category:'Groupers & Sea Bass', scientific:'Mycteroperca rosacea', status:'tentative',
     statusNote:'The reference species is established, but this catch has not been independently identified from its photos. The displayed image has not yet been independently verified to species.',
-    shots:1, idPhoto:'photos/IMG_9199.png',localPhotos:['photos/IMG_9199.png'],
+    shots:2, idPhoto:'photos/IMG_9199.png',localPhotos:['photos/IMG_9199.png','photos/IMG_9251.jpeg'],
+    catchSlides:[{date:'October 12, 2026',method:'Spearfishing',weight:'6.84 lbs'},{date:'October 26, 2026',method:'Spearfishing',weight:null,lure:'A deep breath',area:'Punta Chivato / nearby',angler:'Brian',fishCount:1}],
     shape:'stout',color:'brown',marking:'spotted',tail:'straight',openWater:false,
     features:['Robust, elongated grouper body and large mouth','Many small brown spots on a gray-brown or green-brown body','Often darker patches along the upper back separated by pale markings','Adults generally have a nearly straight tail edge'],
     similar:'Other regional groupers, especially Gulf grouper (Mycteroperca jordani). Compare the density of spots and dark bars; confirm using clear side-on images and fin details.',
@@ -1104,6 +1105,7 @@ function catchGallery(fish){
  ${fish.id==='rosy-jack'&&report.note?`<p class="gallery-catch-note">${report.area?'Area: '+esc(report.area)+' · ':''}${report.fishCount?'Fish count: '+esc(report.fishCount)+' · ':''}Notes: ${esc(report.note)}</p>`:''}
  ${fish.id==='sierra-mackerel'?`<p class="gallery-catch-note">${esc(fish.catchNote)}</p>`:''}
  ${fish.id==='roosterfish'?`<p class="gallery-catch-note">Area: ${esc(report.area)}<br>Anglers: ${esc(report.angler)}</p>`:''}
+ ${fish.id==='leopard-grouper'&&report.angler?`<p class="gallery-catch-note">Area: ${esc(report.area)}<br>Angler: ${esc(report.angler)}<br>Fish count: ${esc(report.fishCount)}</p>`:''}
  
  
  </div></div>`}).join('')}</div>
