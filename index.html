@@ -575,6 +575,19 @@ const CATEGORIES = [
 ];
 const FISH = [
   {
+    id:'sierra-mackerel',english:'Sierra Mackerel',spanish:'Sierra del Pacífico',
+    other:['Pacific Sierra','Mexican Sierra','Sierra','Sierra común','Macarela sierra','Sierra mackerel','Macarela'],
+    category:'Tunas, Bonitos & Mackerels',scientific:'Scomberomorus sierra',status:'reference',
+    statusNote:'The yellow-gold round spots on a sleek silver fish with a blue-green back are consistent with Pacific Sierra (Scomberomorus sierra).',
+    shots:1,idPhoto:'photos/IMG_9241.png',localPhotos:['photos/IMG_9241.png'],
+    shape:'slender',color:'silver',marking:'spotted',tail:'forked',openWater:true,
+    features:['Long, streamlined, laterally compressed mackerel-shaped body','Blue-green back and bright silver sides','Several rows of round yellow to orange spots along the flanks','Deeply forked tail and pointed head with strong, sharp teeth'],
+    similar:'Other Scomberomorus mackerels, including Gulf Sierra (Scomberomorus concolor), and spotted mackerels. The Pacific Sierra has conspicuous rows of round spots.',
+    catchDate:'Not reported',dateNote:null,method:'Not reported',lure:null,catchWeight:'Unknown',
+    catchNote:'Owner-submitted photograph used for species identification and the photo gallery. Catch date, weight and method have not been reported.',
+    sourceName:'Smithsonian — Pacific Sierra',sourceUrl:'https://biogeodb.stri.si.edu/sftep/en/thefishes/spe/2215'
+  },
+  {
     id:'giant-hawkfish',english:'Giant Hawkfish',spanish:'Chino mero',
     other:['Halcón mero','Mero chino','Hieroglyphic Hawkfish','Carabalí'],
     category:'Groupers & Sea Bass',scientific:'Cirrhitus rivulatus',status:'reference',
@@ -936,6 +949,14 @@ function categoryPage(category){
 function dataPair(title,value){return `<div class="kv"><dt>${esc(title)}</dt><dd>${esc(value)}</dd></div>`}
 /* Species eating-quality descriptions and reference sources. */
 const EDIBILITY_GUIDE = {
+  "sierra-mackerel": {
+    "grade": "Excellent food fish",
+    "flavor": "Offers a firm yet juicy texture.",
+    "cook": "Great grilled, baked, or prepared as sashimi.",
+    "cevicheNote": "Widely regarded as the top fish in Mexico for ceviche due to its clean, mild, and delicate flavor.",
+    "note": "For sashimi, use fish handled appropriately for raw consumption; ceviche marinade is not a substitute for proper handling.",
+    "source": "https://www.fishbase.se/Fieldguide/FieldGuideSummary.php?c_code=340&genusname=Scomberomorus&speciesname=sierra"
+  },
   "giant-hawkfish": {
     "grade": "Good food fish",
     "cook": "Grilled, baked, or pan-seared.",
@@ -1007,6 +1028,7 @@ function edibilityCard(fish){
   <p class="edibility-grade">${esc(e.grade)}</p>
   ${e.flavor?`<p class="edibility-description">${esc(e.flavor)}</p>`:""}
   ${e.cook?`<p class="edibility-method"><strong>Preparation:</strong> ${esc(e.cook)}</p>`:""}
+  ${e.cevicheNote?`<p class="edibility-tip"><strong>★ Ceviche note:</strong> ${esc(e.cevicheNote)}</p>`:""}
   ${e.tip?`<p class="edibility-tip"><strong>Fishing tip:</strong> ${esc(e.tip)}</p>`:""}
   ${e.note?`<p class="edibility-note">${esc(e.note)}</p>`:""}
   ${fish.id==='rosy-jack'?'':`<div class="edibility-foot"><a target="_blank" rel="noopener noreferrer" href="${esc(e.source)}">Eating-quality reference ↗</a>
