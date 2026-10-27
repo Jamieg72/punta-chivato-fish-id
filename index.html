@@ -1064,7 +1064,7 @@ function edibilityCard(fish){
 
 function detail(fish){
  const photo=identificationPhoto(fish);
- return `<button class="back" ${FISH.filter(f=>f.category===fish.category).length===1?'data-nav="groups"':`data-category="${esc(fish.category)}"`} type="button">← ${FISH.filter(f=>f.category===fish.category).length===1?'All categories':esc(fish.category)}</button>
+ return `<button class="back" data-back-category="${esc(fish.category)}" type="button">← Back to ${esc(fish.category)}</button>
  <section class="detail-head"><div class="eyebrow">Species identification · Punta Chivato</div><h1>${esc(fish.english)}</h1><p class="detail-spanish">${esc(fish.spanish)}</p></section>
  ${fish.id==='golden-grouper'?`<section class="golden-interesting-fact" aria-labelledby="goldenFactTitle">
  <h2 id="goldenFactTitle">☀ Interesting Fact: The Rare Golden Grouper</h2>
@@ -1090,6 +1090,7 @@ function detail(fish){
    <div class="info-card"><h2>Similar fish</h2><p>${esc(fish.similar)}</p></div>
    <div class="info-card sources"><h2>Check the reference</h2><a target="_blank" rel="noopener noreferrer" href="${esc(fish.sourceUrl)}">Open species reference ↗</a></div>
    <button type="button" class="action id-gallery-link" data-catches="${esc(fish.id)}">Next: View catch gallery →</button>
+   <button type="button" class="back" data-back-category="${esc(fish.category)}">← Back to ${esc(fish.category)}</button>
   </section>
  </div>${footer()}`;
 }
@@ -1178,6 +1179,7 @@ let uploadTarget=null;
 document.addEventListener('click',e=>{
  const catchBtn=e.target.closest('[data-catches]');if(catchBtn){route('catches',catchBtn.dataset.catches);return}
  const fishBtn=e.target.closest('[data-fish]');if(fishBtn){route('detail',fishBtn.dataset.fish);return}
+ const backCategory=e.target.closest('[data-back-category]');if(backCategory){route('category',null,backCategory.dataset.backCategory);return}
  const cat=e.target.closest('[data-category]');if(cat){
   const name=cat.dataset.category,fishInCategory=FISH.filter(f=>f.category===name);
   if(fishInCategory.length===1){route('detail',fishInCategory[0].id);return}
