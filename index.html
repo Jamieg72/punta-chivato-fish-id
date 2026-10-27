@@ -691,6 +691,7 @@ const FISH = [
     category:'Jacks & Roosterfish',scientific:'Gnathanodon speciosus',status:'reference',
     statusNote:'The fish pictured is consistent with Golden Trevally; the name and diagnostic features are supported by the Smithsonian eastern Pacific fishes reference.',
     shots:1,idPhoto:'photos/212CD261-3EC9-44F4-9684-689BDF1B561B.jpeg',
+    categoryPhoto:'photos/IMG_9252.jpeg',
     localPhotos:['photos/212CD261-3EC9-44F4-9684-689BDF1B561B.jpeg'],
     shape:'deep',color:'bright',marking:'bars',tail:'forked',openWater:false,
     features:['Golden-silver, deep and flattened body','Dark vertical bands and scattered black spots on young fish','Strongly forked tail often with darker tips','Long pectoral fins and notably thick, fleshy lips'],
@@ -956,7 +957,7 @@ function categoryPage(category){
  <p class="muted-intro">Select a fish to see its identification picture, English and local names, and identifying features.</p>
  ${fish.length?`<section class="subcategory-grid" aria-label="${esc(category)} species">
   ${fish.map(f=>{
-    const image=identificationPhoto(f);
+    const image=f.categoryPhoto||identificationPhoto(f);
     return `<button type="button" class="subcategory-fish" data-fish="${esc(f.id)}" aria-label="Identify ${esc(f.english)} — ${esc(f.spanish)}">
       <span class="subcategory-photo">${image?`<img loading="lazy" src="${esc(image)}" alt="${esc(f.english)}">`:'<span class="subcategory-placeholder" aria-hidden="true">▧</span>'}</span>
       <span class="subcategory-text"><strong>${esc(f.english)}</strong><small>${esc(f.spanish)}</small></span>
