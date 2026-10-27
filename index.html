@@ -578,7 +578,8 @@ const FISH = [
     id:'roosterfish',english:'Roosterfish',spanish:'Pez Gallo',
     other:['Gallo'],category:'Jacks & Roosterfish',scientific:'Nematistius pectoralis',status:'reference',
     statusNote:'A distinctive sportfish recognized by its long, comb-like dorsal fin.',
-    shots:0,idPhoto:'photos/IMG_9248.jpeg',localPhotos:[],
+    shots:1,idPhoto:'photos/IMG_9248.jpeg',localPhotos:['photos/IMG_9248.jpeg'],
+    catchSlides:[{date:'October 20, 2026',method:'Trolling',weight:'52 lbs',lure:'X-rap',area:'Punta Chivato / nearby',angler:'Neil Farley & Mark Fontenot'}],
     shape:'slender',color:'silver',marking:'bars',tail:'forked',openWater:true,
     features:['Seven long dorsal fin rays form a distinctive rooster-comb crest.','Silver body with dark curved bars along the sides.','Deeply forked tail and long, powerful body.'],
     similar:'The tall comb-like dorsal fin separates roosterfish from most jacks.',
@@ -763,7 +764,7 @@ const MONTHS=['January','February','March','April','May','June','July','August',
 function reportedMonth(item){return MONTHS.findIndex(m=>(item.catchDate||'').startsWith(m))+1}
 function reportsForFish(fish){
  if(fish.catchSlides?.length){
-  return fish.catchSlides.map((slide,index)=>({fish,photoIndex:index,catchDate:slide.date,method:slide.method,catchWeight:slide.weight||null,lure:slide.lure||null,dateNote:slide.dateNote||null,area:slide.area||null,fishCount:slide.fishCount||null,note:slide.note||null}));
+  return fish.catchSlides.map((slide,index)=>({fish,photoIndex:index,catchDate:slide.date,method:slide.method,catchWeight:slide.weight||null,lure:slide.lure||null,dateNote:slide.dateNote||null,area:slide.area||null,angler:slide.angler||null,fishCount:slide.fishCount||null,note:slide.note||null}));
  }
  return [{fish,photoIndex:0,catchDate:fish.catchDate,dateNote:fish.dateNote,method:fish.method,lure:fish.lure,catchWeight:fish.catchWeight||null}];
 }
@@ -1102,6 +1103,7 @@ function catchGallery(fish){
  <div class="slide-caption-fields"><div><b>Date</b>${esc(report.catchDate)}${report.dateNote?' · '+esc(report.dateNote):''}</div><div><b>Method</b>${esc(report.method)}${report.lure&&fish.id!=='rosy-jack'?' · '+esc(report.lure):''}</div><div><b>Weight</b>${esc(report.catchWeight||'Not reported')}</div>${fish.id==='rosy-jack'&&report.lure?`<div><b>Lure used</b>${esc(report.lure)}</div>`:''}</div>
  ${fish.id==='rosy-jack'&&report.note?`<p class="gallery-catch-note">${report.area?'Area: '+esc(report.area)+' · ':''}${report.fishCount?'Fish count: '+esc(report.fishCount)+' · ':''}Notes: ${esc(report.note)}</p>`:''}
  ${fish.id==='sierra-mackerel'?`<p class="gallery-catch-note">${esc(fish.catchNote)}</p>`:''}
+ ${fish.id==='roosterfish'?`<p class="gallery-catch-note">Area: ${esc(report.area)}<br>Anglers: ${esc(report.angler)}</p>`:''}
  
  
  </div></div>`}).join('')}</div>
