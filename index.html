@@ -578,7 +578,8 @@ const FISH = [
     id:'almaco-amberjack',english:'Almaco Amberjack',spanish:'Pez Fuerte',
     other:['Almaco Jack','Pacific Amberjack'],category:'Jacks & Roosterfish',scientific:'Seriola rivoliana',status:'unconfirmed',
     statusNote:'Almaco Amberjack is the reported identification; the photograph has not been independently confirmed to species.',
-    shots:0,idPhoto:'photos/IMG_9245.jpeg',localPhotos:[],
+    shots:1,idPhoto:'photos/IMG_9245.jpeg',localPhotos:['photos/IMG_9245.jpeg'],
+    catchSlides:[{date:'May 13, 2026',method:'Spearfishing',weight:null,lure:'A deep breath',area:'Punta Chivato / nearby',fishCount:1,note:'Pez Fuerte'}],
     shape:'slender',color:'silver',marking:'plain',tail:'forked',openWater:true,
     features:['Relatively deep, elongated body with a steep upper head profile.','Long, pointed snout and a strongly forked tail.','Long, curved front lobes on the second dorsal and anal fins.','A dark diagonal band may run from the snout through the eye toward the dorsal fin.'],
     similar:'Fortune Jack and other amberjacks can look similar. Compare the head profile, snout and long fin lobes.',
@@ -1120,6 +1121,7 @@ function catchGallery(fish){
  ${fish.id==='roosterfish'?`<p class="gallery-catch-note">Area: ${esc(report.area)}<br>Anglers: ${esc(report.angler)}</p>`:''}
  ${fish.id==='leopard-grouper'&&report.angler?`<p class="gallery-catch-note">Area: ${esc(report.area)}<br>Angler: ${esc(report.angler)}<br>Fish count: ${esc(report.fishCount)}</p>`:''}
  ${fish.id==='golden-trevally'&&report.note?`<p class="gallery-catch-note">Area: ${esc(report.area)}<br>Fish count: ${esc(report.fishCount)}<br>Notes: ${esc(report.note)}</p>`:''}
+ ${fish.id==='almaco-amberjack'&&report.note?`<p class="gallery-catch-note">Area: ${esc(report.area)}<br>Fish count: ${esc(report.fishCount)}<br>Notes: ${esc(report.note)}</p>`:''}
  
  
  </div></div>`}).join('')}</div>
