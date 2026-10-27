@@ -1,5 +1,5 @@
 /* App shell caching for the fish guide. Offline use is not yet verified on iPhone. */
-const CACHE='punta-chivato-fish-id-v45';
+const CACHE='punta-chivato-fish-id-v46';
 const SHELL=['./','./index.html','./manifest.webmanifest','./icon.svg'];
 self.addEventListener('install',event=>event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(SHELL)).then(()=>self.skipWaiting())));
 self.addEventListener('activate',event=>event.waitUntil(Promise.all([self.clients.claim(),caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('punta-chivato-fish-id-')&&k!==CACHE).map(k=>caches.delete(k))))])));
