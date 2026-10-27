@@ -575,6 +575,17 @@ const CATEGORIES = [
 ];
 const FISH = [
   {
+    id:'roosterfish',english:'Roosterfish',spanish:'Pez Gallo',
+    other:['Gallo'],category:'Jacks & Roosterfish',scientific:'Nematistius pectoralis',status:'reference',
+    statusNote:'A distinctive sportfish recognized by its long, comb-like dorsal fin.',
+    shots:0,idPhoto:'photos/IMG_9248.jpeg',localPhotos:[],
+    shape:'slender',color:'silver',marking:'bars',tail:'forked',openWater:true,
+    features:['Seven long dorsal fin rays form a distinctive rooster-comb crest.','Silver body with dark curved bars along the sides.','Deeply forked tail and long, powerful body.'],
+    similar:'The tall comb-like dorsal fin separates roosterfish from most jacks.',
+    catchDate:null,dateNote:null,method:'Not reported',lure:null,catchWeight:'Unknown',
+    catchNote:'Great sportfish.',sourceName:'Smithsonian — Eastern Pacific fish identification',sourceUrl:'https://biogeodb.stri.si.edu/sftep/en/findafish/dofind'
+  },
+  {
     id:'sierra-mackerel',english:'Sierra Mackerel',spanish:'Sierra del Pacífico',
     other:['Pacific Sierra','Mexican Sierra','Sierra','Sierra común','Macarela sierra','Sierra mackerel','Macarela'],
     category:'Tunas, Bonitos & Mackerels',scientific:'Scomberomorus sierra',status:'reference',
@@ -957,6 +968,7 @@ function categoryPage(category){
 function dataPair(title,value){return `<div class="kv"><dt>${esc(title)}</dt><dd>${esc(value)}</dd></div>`}
 /* Species eating-quality descriptions and reference sources. */
 const EDIBILITY_GUIDE = {
+  "roosterfish": { "grade": "Generally not good eating", "note": "Great sportfish." },
   "sierra-mackerel": {
     "grade": "Excellent food fish",
     "flavor": "Offers a firm yet juicy texture.",
