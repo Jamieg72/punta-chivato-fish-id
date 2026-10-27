@@ -632,8 +632,12 @@ const FISH = [
     other:['Rosey Jack','Rosy Jack','Jurel (nombre genérico)'],
     category:'Jacks & Roosterfish',scientific:'Seriola rivoliana',status:'unconfirmed',
     statusNote:'Rosy Jack is the name reported with this catch. The exact scientific species is not established from the photograph or common name.',
-    shots:1,idPhoto:'photos/IMG_9245.jpeg',
-    localPhotos:['photos/f6f3d811-891b-406e-9717-c3ae37e1d80a.jpeg'],
+    shots:2,idPhoto:'photos/IMG_9245.jpeg',
+    localPhotos:['photos/f6f3d811-891b-406e-9717-c3ae37e1d80a.jpeg','photos/IMG_9245.jpeg'],
+    catchSlides:[
+      {date:'January 6, 2026',method:'Offshore jigging',weight:'Unknown'},
+      {date:'May 13, 2026',method:'Spearfishing',weight:'Unknown',lure:'One deep breath',area:'Punta Chivato / nearby',fishCount:1,note:'Pez Fuerte'}
+    ],
     shape:'slender',color:'silver',marking:'plain',tail:'forked',openWater:true,
     features:['A deep-bodied jack with a taller profile and a strongly sickle-shaped second dorsal fin.','Coloration: Usually olive-bronze to dusky brown, sometimes with a faint rose or lavender cast.','Key marking: A dark diagonal band runs from the snout, through the eye, toward the dorsal fin.','Notes: This fish is thicker and deeper-bodied than a yellowtail and has a more pronounced dark eye bar.'],
     similar:'Other amberjacks can look similar; compare the deeper body, tall sickle-shaped second dorsal fin, and pronounced dark eye bar.',
@@ -748,7 +752,7 @@ const MONTHS=['January','February','March','April','May','June','July','August',
 function reportedMonth(item){return MONTHS.findIndex(m=>(item.catchDate||'').startsWith(m))+1}
 function reportsForFish(fish){
  if(fish.catchSlides?.length){
-  return fish.catchSlides.map((slide,index)=>({fish,photoIndex:index,catchDate:slide.date,method:slide.method,catchWeight:slide.weight||null,lure:slide.lure||null,dateNote:slide.dateNote||null}));
+  return fish.catchSlides.map((slide,index)=>({fish,photoIndex:index,catchDate:slide.date,method:slide.method,catchWeight:slide.weight||null,lure:slide.lure||null,dateNote:slide.dateNote||null,area:slide.area||null,fishCount:slide.fishCount||null,note:slide.note||null}));
  }
  return [{fish,photoIndex:0,catchDate:fish.catchDate,dateNote:fish.dateNote,method:fish.method,lure:fish.lure,catchWeight:fish.catchWeight||null}];
 }
@@ -1083,7 +1087,8 @@ function catchGallery(fish){
  ${Array.from({length:fish.shots},(_,i)=>{const report=reports[i]||reports[0];return `<div class="slide" id="slide-${i}">
  <div class="slide-visual">${imageArea(fish,i)}</div>
  <div class="slide-caption"><div class="slide-caption-top"><div><span class="slide-caption-name">${esc(fish.english)}</span><span class="slide-caption-local">${esc(fish.spanish)}</span></div><span class="slide-caption-index">Photo ${i+1} / ${fish.shots}</span></div>
- <div class="slide-caption-fields"><div><b>Date</b>${esc(report.catchDate)}${report.dateNote?' · '+esc(report.dateNote):''}</div><div><b>Method</b>${esc(report.method)}${report.lure?' · '+esc(report.lure):''}</div><div><b>Weight</b>${esc(report.catchWeight||'Not reported')}</div></div>
+ <div class="slide-caption-fields"><div><b>Date</b>${esc(report.catchDate)}${report.dateNote?' · '+esc(report.dateNote):''}</div><div><b>Method</b>${esc(report.method)}${report.lure&&fish.id!=='rosy-jack'?' · '+esc(report.lure):''}</div><div><b>Weight</b>${esc(report.catchWeight||'Not reported')}</div>${fish.id==='rosy-jack'&&report.lure?`<div><b>Lure used</b>${esc(report.lure)}</div>`:''}</div>
+ ${fish.id==='rosy-jack'&&report.note?`<p class="gallery-catch-note">${report.area?'Area: '+esc(report.area)+' · ':''}${report.fishCount?'Fish count: '+esc(report.fishCount)+' · ':''}Notes: ${esc(report.note)}</p>`:''}
  ${fish.id==='sierra-mackerel'?`<p class="gallery-catch-note">${esc(fish.catchNote)}</p>`:''}
  
  
