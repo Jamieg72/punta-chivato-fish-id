@@ -800,6 +800,10 @@ async function preloadPhotos(){
   if(fish.idPhoto && await bundledExists(fish.idPhoto))state.idImageUrls.set(fish.id,fish.idPhoto);
   for(let n=0;n<fish.shots;n++){
    const key=`${fish.id}-${n}`;
+   // For the published Sierra catch, always use the reviewed website gallery photo.
+   // An older private browser photo must not override its updated gallery.
+   const preferredPublishedPhoto=fish.id==='sierra-mackerel'&&fish.localPhotos[n]&&await bundledExists(fish.localPhotos[n]);
+   if(preferredPublishedPhoto){state.imageUrls.set(key,fish.localPhotos[n]);continue;}
    const blob=await readPhoto(key);
    if(blob){state.imageUrls.set(key,URL.createObjectURL(blob));state.livePhotoSlots.add(key)}
    else if(fish.localPhotos[n] && await bundledExists(fish.localPhotos[n]))state.imageUrls.set(key,fish.localPhotos[n]);
