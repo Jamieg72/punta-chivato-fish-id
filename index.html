@@ -578,7 +578,8 @@ const FISH = [
     id:'yellow-snapper',english:'Yellow Snapper',spanish:'Pargo Amarillo',
     other:['Amarillo Snapper'],category:'Snappers',scientific:'Lutjanus argentiventris',status:'reference',
     statusNote:'Yellow Snapper is the reported identification.',
-    shots:0,idPhoto:'photos/IMG_9496.jpeg',localPhotos:[],
+    shots:1,idPhoto:'photos/IMG_9496.jpeg',localPhotos:['photos/IMG_9496.jpeg'],
+    catchSlides:[{date:'October 20, 2026',method:'Jigging',weight:'4 lbs',area:'Punta Chivato / nearby',angler:'Neil Farley'}],
     shape:'stout',color:'bright',marking:'plain',tail:'straight',openWater:false,
     features:['Pink to reddish head and front, with a bright yellow to orange body and fins.','A blue line runs below the eye.','Pointed snout, relatively large mouth, and prominent front teeth.','Tail edge is approximately straight.'],
     similar:'Other snappers may have yellow coloring; compare the reddish front and blue line beneath the eye.',
@@ -993,6 +994,7 @@ function categoryPage(category){
 function dataPair(title,value){return `<div class="kv"><dt>${esc(title)}</dt><dd>${esc(value)}</dd></div>`}
 /* Species eating-quality descriptions and reference sources. */
 const EDIBILITY_GUIDE = {
+  "yellow-snapper": { "grade": "Highly edible and widely considered one of the best-tasting table fish", "flavor": "Delicate, mildly sweet, and exceptionally clean.", "cook": "Baked, pan-fried, or grilled." },
   "almaco-amberjack": { "grade": "Good food fish", "cook": "Especially good for sashimi or searing.", "tip": "Bleeding the fish well soon after catching can improve its flavor and quality.", "note": "For sashimi, use fish handled appropriately for raw consumption." },
   "roosterfish": { "grade": "Generally not good eating", "note": "Great sportfish." },
   "sierra-mackerel": {
@@ -1131,6 +1133,7 @@ function catchGallery(fish){
  ${fish.id==='sierra-mackerel'?`<p class="gallery-catch-note">${esc(fish.catchNote)}</p>`:''}
  ${fish.id==='roosterfish'?`<p class="gallery-catch-note">Area: ${esc(report.area)}<br>Anglers: ${esc(report.angler)}</p>`:''}
  ${fish.id==='leopard-grouper'&&report.angler?`<p class="gallery-catch-note">Area: ${esc(report.area)}<br>Angler: ${esc(report.angler)}<br>Fish count: ${esc(report.fishCount)}</p>`:''}
+ ${fish.id==='yellow-snapper'&&report.angler?`<p class="gallery-catch-note">Area: ${esc(report.area)}<br>Angler: ${esc(report.angler)}</p>`:''}
  ${fish.id==='golden-trevally'&&report.note?`<p class="gallery-catch-note">${report.area?'Area: '+esc(report.area)+'<br>':''}${report.angler?'Angler: '+esc(report.angler)+'<br>':''}${report.fishCount?'Fish count: '+esc(report.fishCount)+'<br>':''}Notes: ${esc(report.note)}</p>`:''}
  ${fish.id==='almaco-amberjack'&&report.note?`<p class="gallery-catch-note">Area: ${esc(report.area)}<br>Fish count: ${esc(report.fishCount)}<br>Notes: ${esc(report.note)}</p>`:''}
  
