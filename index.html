@@ -538,6 +538,21 @@ body{
   .golden-interesting-fact p{font-size:13px}
 }
 
+
+/* Recently added species on the category homepage; independent from category cover photos. */
+.recent-fish{margin:8px 0 27px}
+.recent-fish-heading{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin-bottom:13px}
+.recent-fish-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.recent-fish-card{display:flex;flex-direction:column;overflow:hidden;padding:0;border:1px solid var(--line);border-radius:16px;background:white;color:var(--ink);text-align:left;min-width:0}
+.recent-fish-card:hover{border-color:var(--aqua);box-shadow:0 5px 18px #173d4016}
+.recent-fish-photo{height:145px;width:100%;background:#e2ece7;display:block;overflow:hidden}
+.recent-fish-photo img{height:100%;width:100%;object-fit:cover;display:block}
+.recent-fish-photo .category-tile-placeholder{display:grid;place-items:center;height:100%}
+.recent-fish-info{display:flex;flex-direction:column;gap:3px;padding:11px 12px}
+.recent-fish-info strong{font-size:15px;line-height:1.25}
+.recent-fish-info small{color:var(--aqua);font-size:12px}
+@media(max-width:520px){.recent-fish-grid{gap:8px}.recent-fish-photo{height:94px}.recent-fish-info{padding:8px}.recent-fish-info strong{font-size:12px}.recent-fish-info small{font-size:11px}}
+
 </style>
 
 
@@ -948,6 +963,22 @@ function sharePage(){
  <p id="draftStatus" role="status" class="share-status">Your catch will be emailed to the owner for review. You'll see a confirmation after submitting.</p>
  </form>${footer()}`;
 }
+
+/* Ordered newest first. Add the ID of each newly published species to the front of this list. */
+const RECENT_SPECIES_IDS = ['yellow-snapper','roosterfish','almaco-amberjack'];
+function recentlyAdded(){
+ const latest=RECENT_SPECIES_IDS.map(id=>FISH.find(f=>f.id===id)).filter(Boolean).slice(0,3);
+ return `<section class="recent-fish" aria-label="Recently added fish">
+ <div class="recent-fish-heading"><h2 class="sectiontitle">🐟 Recently Added</h2><span class="hint">New to the guide</span></div>
+ <div class="recent-fish-grid">${latest.map(f=>{
+   const photo=identificationPhoto(f);
+   return `<button type="button" class="recent-fish-card" data-fish="${esc(f.id)}" aria-label="View ${esc(f.english)} identification">
+     <span class="recent-fish-photo">${photo?`<img loading="lazy" src="${esc(photo)}" alt="${esc(f.english)}">`:'<span class="category-tile-placeholder" aria-hidden="true">◇</span>'}</span>
+     <span class="recent-fish-info"><strong>${esc(f.english)}</strong><small>${esc(f.spanish)}</small></span>
+   </button>`;
+ }).join('')}</div></section>`;
+}
+
 function groups(){
  return `<section class="hero categories-hero"><span class="eyebrow">Punta Chivato · Fish ID</span>
  <h1>Know your fish.<br><em>Conoce tus peces.</em></h1>
@@ -957,6 +988,7 @@ function groups(){
  <svg viewBox="0 0 1200 48" preserveAspectRatio="none" focusable="false"><path fill="#d3eee6" d="M0,19 C90,42 165,0 266,23 S443,44 544,22 S734,1 846,20 S1048,45 1200,18 L1200,48 L0,48 Z"/><path fill="#f8f0e0" d="M0,32 C118,8 183,46 305,31 S475,6 604,30 S810,46 928,28 S1114,9 1200,30 L1200,48 L0,48 Z"/><path d="M0 30 C118 7 183 45 305 29 S475 5 604 29 S810 43 928 27 S1114 7 1200 29" stroke="#e4a271" stroke-width="2.5" fill="none" opacity=".7"/></svg>
  </div>
  <div class="category-actions"><button type="button" class="action" data-nav="explore">⌕ Search fish by name</button><button type="button" class="action alt" data-nav="appearance">Not sure? Find by appearance</button><button type="button" class="action upload-catch-action" data-nav="share">＋ Upload Your Catch!</button></div>
+ ${recentlyAdded()}
  <div class="category-title-row"><h2 class="sectiontitle"><span class="category-heading-sun" aria-hidden="true">☀</span> Browse fish categories</h2><span class="hint">8 categories</span></div>
  <section class="category-tiles" aria-label="Fish categories">
  ${CATEGORIES.map(name=>{
