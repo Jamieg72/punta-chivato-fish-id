@@ -551,6 +551,8 @@ body{
 .recent-fish-info{display:flex;flex-direction:column;gap:3px;padding:11px 12px}
 .recent-fish-info strong{font-size:15px;line-height:1.25}
 .recent-fish-info small{color:var(--aqua);font-size:12px}
+.recent-fish-type{font-size:11px;font-weight:800;text-transform:uppercase;color:#996a28}
+.recent-view-all{margin-top:13px;border:1px solid var(--aqua);background:white;color:var(--aqua);border-radius:11px;padding:11px 15px;font-weight:750;cursor:pointer}
 @media(max-width:520px){.recent-fish-grid{gap:8px}.recent-fish-photo{height:94px}.recent-fish-info{padding:8px}.recent-fish-info strong{font-size:12px}.recent-fish-info small{font-size:11px}}
 
 </style>
@@ -964,19 +966,36 @@ function sharePage(){
  </form>${footer()}`;
 }
 
-/* Ordered newest first. Add the ID of each newly published species to the front of this list. */
-const RECENT_SPECIES_IDS = ['yellow-snapper','roosterfish','almaco-amberjack'];
+/* Published additions, newest first. Add new IDs or catches to the front when publishing. */
+const RECENT_ADDITIONS = [
+ {type:'catch',id:'yellow-snapper'},
+ {type:'species',id:'yellow-snapper'},
+ {type:'catch',id:'golden-trevally'},
+ {type:'catch',id:'almaco-amberjack'},
+ {type:'catch',id:'roosterfish'},
+ {type:'species',id:'roosterfish'},
+ {type:'species',id:'almaco-amberjack'},
+ {type:'species',id:'golden-grouper'}
+];
+function recentEntryCard(item){
+ const f=FISH.find(f=>f.id===item.id);
+ if(!f)return '';
+ const isCatch=item.type==='catch',photo=isCatch?fishPhoto(f,0):identificationPhoto(f);
+ return `<button type="button" class="recent-fish-card" ${isCatch?'data-catches':'data-fish'}="${esc(f.id)}" aria-label="View ${esc(f.english)} ${isCatch?'catch gallery':'identification'}">
+ <span class="recent-fish-photo">${photo?`<img loading="lazy" src="${esc(photo)}" alt="${esc(f.english)}">`:'<span class="category-tile-placeholder" aria-hidden="true">◇</span>'}</span>
+ <span class="recent-fish-info"><span class="recent-fish-type">${isCatch?'New catch':'New fish ID'}</span><strong>${esc(f.english)}</strong><small>${esc(f.spanish)}</small></span></button>`;
+}
 function recentlyAdded(){
- const latest=RECENT_SPECIES_IDS.map(id=>FISH.find(f=>f.id===id)).filter(Boolean).slice(0,3);
- return `<section class="recent-fish" aria-label="Recently added fish">
- <div class="recent-fish-heading"><h2 class="sectiontitle">🐟 Recently Added</h2><span class="hint">New to the guide</span></div>
- <div class="recent-fish-grid">${latest.map(f=>{
-   const photo=identificationPhoto(f);
-   return `<button type="button" class="recent-fish-card" data-fish="${esc(f.id)}" aria-label="View ${esc(f.english)} identification">
-     <span class="recent-fish-photo">${photo?`<img loading="lazy" src="${esc(photo)}" alt="${esc(f.english)}">`:'<span class="category-tile-placeholder" aria-hidden="true">◇</span>'}</span>
-     <span class="recent-fish-info"><strong>${esc(f.english)}</strong><small>${esc(f.spanish)}</small></span>
-   </button>`;
- }).join('')}</div></section>`;
+ const latest=RECENT_ADDITIONS.filter(item=>FISH.some(f=>f.id===item.id)).slice(0,5);
+ return `<section class="recent-fish" aria-label="Recently added fish and catches">
+ <div class="recent-fish-heading"><h2 class="sectiontitle">🐟 Recently Added Fish</h2><span class="hint">Fish IDs &amp; catches</span></div>
+ <div class="recent-fish-grid">${latest.map(recentEntryCard).join('')}</div>
+ <button type="button" class="recent-view-all" data-nav="recent">View All Recently Added →</button></section>`;
+}
+function recentPage(){
+ return `<button type="button" class="back" data-nav="groups">← All categories</button>
+ <section class="finder-header"><span class="eyebrow">Latest published additions</span><h1>Recently Added Fish</h1><p>New fish identification pages and newly shared catches, together in one place.</p></section>
+ <section class="recent-fish-grid" aria-label="All recent fish and catches">${RECENT_ADDITIONS.filter(item=>FISH.some(f=>f.id===item.id)).map(recentEntryCard).join('')}</section>${footer()}`;
 }
 
 function groups(){
@@ -1198,7 +1217,7 @@ function appearance(){
  ${footer()}`;
 }
 function render(){
- app.innerHTML=state.view==='detail'?detail(FISH.find(f=>f.id===state.id)||FISH[0]):state.view==='catches'?catchGallery(FISH.find(f=>f.id===state.id)||FISH[0]):state.view==='appearance'?appearance():state.view==='groups'?groups():state.view==='category'?categoryPage(state.category):state.view==='months'?monthsPage():state.view==='share'?sharePage():home();
+ app.innerHTML=state.view==='detail'?detail(FISH.find(f=>f.id===state.id)||FISH[0]):state.view==='catches'?catchGallery(FISH.find(f=>f.id===state.id)||FISH[0]):state.view==='appearance'?appearance():state.view==='groups'?groups():state.view==='recent'?recentPage():state.view==='category'?categoryPage(state.category):state.view==='months'?monthsPage():state.view==='share'?sharePage():home();
  document.querySelectorAll('[data-nav]').forEach(b=>{b.classList.toggle('active',b.dataset.nav===state.view||((state.view==='detail'||state.view==='catches'||state.view==='category')&&b.dataset.nav==='groups')||(state.view==='explore'&&!!state.category&&b.dataset.nav==='groups'))});
  if(state.view==='catches')setupGallery();
  if(state.view==='share')refreshDraftPhotoThumbs();
@@ -1219,7 +1238,7 @@ function fromHash(){
   if(fishInCategory.length===1){state.view='detail';state.id=fishInCategory[0].id;state.category=null;history.replaceState(null,'',`#fish/${fishInCategory[0].id}`)}
   else{state.view='category';state.category=category;state.id=null}
  }
- else if(['appearance','groups','months','share','explore'].includes(hash)){state.view=hash;state.id=null;state.category=null}
+ else if(['appearance','groups','months','share','explore','recent'].includes(hash)){state.view=hash;state.id=null;state.category=null}
  else{state.view='groups';state.id=null;state.category=null}
  state.currentPhoto=0;render();
 }
