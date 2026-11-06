@@ -995,7 +995,7 @@ function recentlyAdded(){
 function recentPage(){
  return `<button type="button" class="back" data-nav="groups">← All categories</button>
  <section class="finder-header"><span class="eyebrow">Latest published additions</span><h1>Recently Added Fish</h1><p>New fish identification pages and newly shared catches, together in one place.</p></section>
- <section class="recent-fish-grid" aria-label="All recent fish and catches">${RECENT_ADDITIONS.filter(item=>FISH.some(f=>f.id===item.id)).map(recentEntryCard).join('')}</section>${footer()}`;
+ <section class="recent-fish-grid" aria-label="All recent fish and catches">${RECENT_ADDITIONS.filter(item=>FISH.some(f=>f.id===item.id)).slice(0,20).map(recentEntryCard).join('')}</section>${footer()}`;
 }
 
 function groups(){
