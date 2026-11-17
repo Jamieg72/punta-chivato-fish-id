@@ -592,7 +592,7 @@ const CATEGORIES = [
 ];
 const FISH = [
   {
-    id:'pacific-crevalle-jack',english:'Pacific Crevalle Jack',spanish:'Jurel toro',
+    id:'pacific-crevalle-jack',english:'Pacific Crevalle Jack',spanish:'Toro',
     other:['Crevalle Jack','Jack Crevalle','Toro','Jurel'],category:'Jacks & Roosterfish',
     scientific:'Caranx caninus',status:'reference',
     statusNote:'The large silver jack, robust body, pronounced forehead and strongly forked tail are consistent with Pacific Crevalle Jack.',
@@ -1093,7 +1093,7 @@ function categoryPage(category){
 function dataPair(title,value){return `<div class="kv"><dt>${esc(title)}</dt><dd>${esc(value)}</dd></div>`}
 /* Species eating-quality descriptions and reference sources. */
 const EDIBILITY_GUIDE = {
-  "pacific-crevalle-jack": { "grade": "Edible; quality varies with handling", "flavor": "Strongly flavored, firm flesh compared with many reef fish.", "cook": "Grilled, smoked or pan-seared; bleed and chill promptly for best quality.", "note": "Confirm identification and follow local seafood advisories.", "source": "https://biogeodb.stri.si.edu/sftep/" },
+  "pacific-crevalle-jack": { "grade": "Not good eating", "flavor": "Strong-flavored flesh; generally not considered a desirable table fish.", "note": "Known primarily as a powerful sportfish.", "source": "https://biogeodb.stri.si.edu/sftep/" },
   "hookthroat-bass": { "grade": "Good eating", "cook": "Excellent pan-seared.", "note": "Handle and chill promptly after catching.", "source": "https://biogeodb.stri.si.edu/sftep/" },
   "stone-scorpionfish": { "grade": "Good eating — use extreme caution handling", "flavor": "White flesh of excellent reported quality.", "cook": "Grilled, baked or pan-seared after safe removal of venomous spines.", "note": "WARNING: Venomous spines can cause extremely painful injuries. Do not handle or clean without appropriate protection and expertise.", "source": "https://www.fishbase.se/summary/scorpaena-mystes" },
   "yellow-snapper": { "grade": "Highly edible and widely considered one of the best-tasting table fish", "flavor": "Delicate, mildly sweet, and exceptionally clean.", "cook": "Baked, pan-fried, or grilled." },
