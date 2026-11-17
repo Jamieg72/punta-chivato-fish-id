@@ -592,6 +592,20 @@ const CATEGORIES = [
 ];
 const FISH = [
   {
+    id:'hookthroat-bass',english:'Hookthroat Bass',spanish:'Cabrilla doncella',
+    other:['Damsel Bass','Hookthroat Seabass','Doncella'],category:'Groupers & Sea Bass',
+    scientific:'Hemanthias signifer',status:'reference',
+    statusNote:'The submitted fish has the large eye, pink-red body, yellow-edged fins and extended dorsal filament characteristic of Hookthroat Bass.',
+    shots:1,idPhoto:'photos/IMG_9826.jpeg',localPhotos:['photos/IMG_9826.jpeg'],
+    catchSlides:[{date:'November 15, 2026',method:'Jigging',weight:null,area:'Punta Chivato / nearby',angler:'Neil Farley',fishCount:1}],
+    shape:'stout',color:'bright',marking:'plain',tail:'forked',openWater:false,
+    features:['Bright pink-to-red body with yellow and orange highlights.','Very large eye, often prominent in fish brought up from deep water.','Tall dorsal fin with an elongated yellow filament.','Yellow-edged dorsal, anal and tail fins.','Large mouth and somewhat deep body.'],
+    similar:'Other deep-water anthias and related serranids are pink or red. The long dorsal filament, fin colors and body shape help distinguish this species.',
+    catchDate:'November 15, 2026',dateNote:null,method:'Jigging',lure:null,catchWeight:null,
+    catchNote:'Neil Farley reported this catch on November 15, 2026 while jigging. Weight and lure not reported. Same photo used for species identification and catch gallery.',
+    sourceName:'Smithsonian — Tropical Eastern Pacific Fishes',sourceUrl:'https://biogeodb.stri.si.edu/sftep/'
+  },
+  {
     id:'stone-scorpionfish',english:'Stone Scorpionfish',spanish:'Escorpión roquero',
     other:['Pacific Spotted Scorpionfish','Pez diablo','Pez escorpión'],category:'Other Reef & Bottom Fish',
     scientific:'Scorpaena mystes',status:'reference',
@@ -982,6 +996,8 @@ function sharePage(){
 
 /* Published additions, newest first. Add new IDs or catches to the front when publishing. */
 const RECENT_ADDITIONS = [
+ {type:'catch',id:'hookthroat-bass'},
+ {type:'species',id:'hookthroat-bass'},
  {type:'catch',id:'stone-scorpionfish'},
  {type:'species',id:'stone-scorpionfish'},
  {type:'catch',id:'yellow-snapper'},
@@ -1061,6 +1077,7 @@ function categoryPage(category){
 function dataPair(title,value){return `<div class="kv"><dt>${esc(title)}</dt><dd>${esc(value)}</dd></div>`}
 /* Species eating-quality descriptions and reference sources. */
 const EDIBILITY_GUIDE = {
+  "hookthroat-bass": { "grade": "Edible; eating quality not yet established here", "cook": "If kept for food, cook thoroughly using standard fish preparation methods.", "note": "This catch has not been assessed for food quality. Handle and chill promptly.", "source": "https://biogeodb.stri.si.edu/sftep/" },
   "stone-scorpionfish": { "grade": "Good eating — use extreme caution handling", "flavor": "White flesh of excellent reported quality.", "cook": "Grilled, baked or pan-seared after safe removal of venomous spines.", "note": "WARNING: Venomous spines can cause extremely painful injuries. Do not handle or clean without appropriate protection and expertise.", "source": "https://www.fishbase.se/summary/scorpaena-mystes" },
   "yellow-snapper": { "grade": "Highly edible and widely considered one of the best-tasting table fish", "flavor": "Delicate, mildly sweet, and exceptionally clean.", "cook": "Baked, pan-fried, or grilled." },
   "almaco-amberjack": { "grade": "Good food fish", "cook": "Especially good for sashimi or searing.", "tip": "Bleeding the fish well soon after catching can improve its flavor and quality.", "note": "For sashimi, use fish handled appropriately for raw consumption." },
