@@ -592,6 +592,20 @@ const CATEGORIES = [
 ];
 const FISH = [
   {
+    id:'stone-scorpionfish',english:'Stone Scorpionfish',spanish:'Escorpión roquero',
+    other:['Pacific Spotted Scorpionfish','Pez diablo','Pez escorpión'],category:'Other Reef & Bottom Fish',
+    scientific:'Scorpaena mystes',status:'reference',
+    statusNote:'The submitted photograph is consistent with Stone Scorpionfish (Scorpaena mystes).',
+    shots:1,idPhoto:'photos/IMG_9863.png',localPhotos:['photos/IMG_9863.png'],
+    catchSlides:[{date:'November 10, 2026',method:'Trolling',weight:'1 lb',lure:'XRap',area:'Punta Chivato / nearby',angler:'Mark Fontenot',fishCount:1,note:'Wasn’t much bigger than the lure.'}],
+    shape:'stout',color:'brown',marking:'mottled',tail:'straight',openWater:false,
+    features:['Broad, heavily armored head and large upward-facing mouth.','Irregular mottled brown and tan markings help it blend into rocks and reefs.','Prominent venomous spines in the dorsal fin; avoid touching any spines.','Rough skin, fleshy projections and wide pectoral fins.','Typically rests camouflaged on rocky or sandy reef bottoms.'],
+    similar:'Other scorpionfish can look similar. Compare the broad spiny head, irregular mottling and fin shapes. Treat all scorpionfish as potentially venomous.',
+    catchDate:'November 10, 2026',dateNote:null,method:'Trolling',lure:'XRap',catchWeight:'1 lb',
+    catchNote:'Mark Fontenot caught one fish on November 10, 2026 near Punta Chivato while trolling with an XRap. Wasn’t much bigger than the lure.',
+    sourceName:'EncicloVida — Escorpión roquero',sourceUrl:'https://enciclovida.mx/especies/30370-scorpaena-mystes'
+  },
+  {
     id:'yellow-snapper',english:'Yellow Snapper',spanish:'Pargo Amarillo',
     other:['Amarillo Snapper'],category:'Snappers',scientific:'Lutjanus argentiventris',status:'reference',
     statusNote:'Yellow Snapper is the reported identification.',
@@ -968,6 +982,8 @@ function sharePage(){
 
 /* Published additions, newest first. Add new IDs or catches to the front when publishing. */
 const RECENT_ADDITIONS = [
+ {type:'catch',id:'stone-scorpionfish'},
+ {type:'species',id:'stone-scorpionfish'},
  {type:'catch',id:'yellow-snapper'},
  {type:'species',id:'yellow-snapper'},
  {type:'catch',id:'golden-trevally'},
@@ -1045,6 +1061,7 @@ function categoryPage(category){
 function dataPair(title,value){return `<div class="kv"><dt>${esc(title)}</dt><dd>${esc(value)}</dd></div>`}
 /* Species eating-quality descriptions and reference sources. */
 const EDIBILITY_GUIDE = {
+  "stone-scorpionfish": { "grade": "Good eating — use extreme caution handling", "flavor": "White flesh of excellent reported quality.", "cook": "Grilled, baked or pan-seared after safe removal of venomous spines.", "note": "WARNING: Venomous spines can cause extremely painful injuries. Do not handle or clean without appropriate protection and expertise.", "source": "https://www.fishbase.se/summary/scorpaena-mystes" },
   "yellow-snapper": { "grade": "Highly edible and widely considered one of the best-tasting table fish", "flavor": "Delicate, mildly sweet, and exceptionally clean.", "cook": "Baked, pan-fried, or grilled." },
   "almaco-amberjack": { "grade": "Good food fish", "cook": "Especially good for sashimi or searing.", "tip": "Bleeding the fish well soon after catching can improve its flavor and quality.", "note": "For sashimi, use fish handled appropriately for raw consumption." },
   "roosterfish": { "grade": "Generally not good eating", "note": "Great sportfish." },
