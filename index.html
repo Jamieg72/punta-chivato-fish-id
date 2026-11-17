@@ -592,6 +592,20 @@ const CATEGORIES = [
 ];
 const FISH = [
   {
+    id:'pacific-crevalle-jack',english:'Pacific Crevalle Jack',spanish:'Jurel toro',
+    other:['Crevalle Jack','Jack Crevalle','Toro','Jurel'],category:'Jacks & Roosterfish',
+    scientific:'Caranx caninus',status:'reference',
+    statusNote:'The large silver jack, robust body, pronounced forehead and strongly forked tail are consistent with Pacific Crevalle Jack.',
+    shots:1,idPhoto:'photos/IMG_9835.jpeg',localPhotos:['photos/IMG_9835.jpeg'],
+    catchSlides:[{date:'Not reported',method:'Not reported',weight:null,area:'Punta Chivato / nearby',note:'Angler, catch date, fishing method and weight have not yet been supplied.'}],
+    shape:'stout',color:'silver',marking:'plain',tail:'forked',openWater:true,
+    features:['Large, deep-bodied, powerful silver jack with a robust head.','Strongly forked tail and narrow tail base suited for fast swimming.','Pectoral fins are long and curved, extending back along the body.','Dark spot near the upper edge of the gill cover may be visible.','Long lateral line with hard scutes toward the tail.'],
+    similar:'Other Caranx jacks, especially horse-eye and bigeye trevallies, may look similar; compare body proportions, gill-cover spot, eye and lateral-line scutes.',
+    catchDate:null,dateNote:null,method:'Not reported',lure:null,catchWeight:null,
+    catchNote:'Submitted photograph used for both ID and Catch Gallery. Catch date, angler, weight and fishing method have not yet been reported.',
+    sourceName:'Smithsonian — Tropical Eastern Pacific Fishes',sourceUrl:'https://biogeodb.stri.si.edu/sftep/'
+  },
+  {
     id:'hookthroat-bass',english:'Hookthroat Bass',spanish:'Cabrilla doncella',
     other:['Damsel Bass','Hookthroat Seabass','Doncella'],category:'Groupers & Sea Bass',
     scientific:'Hemanthias signifer',status:'reference',
@@ -996,6 +1010,8 @@ function sharePage(){
 
 /* Published additions, newest first. Add new IDs or catches to the front when publishing. */
 const RECENT_ADDITIONS = [
+ {type:'catch',id:'pacific-crevalle-jack'},
+ {type:'species',id:'pacific-crevalle-jack'},
  {type:'catch',id:'hookthroat-bass'},
  {type:'species',id:'hookthroat-bass'},
  {type:'catch',id:'stone-scorpionfish'},
@@ -1077,6 +1093,7 @@ function categoryPage(category){
 function dataPair(title,value){return `<div class="kv"><dt>${esc(title)}</dt><dd>${esc(value)}</dd></div>`}
 /* Species eating-quality descriptions and reference sources. */
 const EDIBILITY_GUIDE = {
+  "pacific-crevalle-jack": { "grade": "Edible; quality varies with handling", "flavor": "Strongly flavored, firm flesh compared with many reef fish.", "cook": "Grilled, smoked or pan-seared; bleed and chill promptly for best quality.", "note": "Confirm identification and follow local seafood advisories.", "source": "https://biogeodb.stri.si.edu/sftep/" },
   "hookthroat-bass": { "grade": "Good eating", "cook": "Excellent pan-seared.", "note": "Handle and chill promptly after catching.", "source": "https://biogeodb.stri.si.edu/sftep/" },
   "stone-scorpionfish": { "grade": "Good eating — use extreme caution handling", "flavor": "White flesh of excellent reported quality.", "cook": "Grilled, baked or pan-seared after safe removal of venomous spines.", "note": "WARNING: Venomous spines can cause extremely painful injuries. Do not handle or clean without appropriate protection and expertise.", "source": "https://www.fishbase.se/summary/scorpaena-mystes" },
   "yellow-snapper": { "grade": "Highly edible and widely considered one of the best-tasting table fish", "flavor": "Delicate, mildly sweet, and exceptionally clean.", "cook": "Baked, pan-fried, or grilled." },
