@@ -596,8 +596,8 @@ const FISH = [
     other:['Crevalle Jack','Jack Crevalle','Toro','Jurel'],category:'Jacks & Roosterfish',
     scientific:'Caranx caninus',status:'reference',
     statusNote:'The large silver jack, robust body, pronounced forehead and strongly forked tail are consistent with Pacific Crevalle Jack.',
-    shots:1,idPhoto:'photos/IMG_9835.jpeg',localPhotos:['photos/IMG_9835.jpeg'],
-    catchSlides:[{date:'November 15, 2026',method:'Jigging',weight:null,area:'Punta Chivato / nearby',angler:'Neil Farley',fishCount:1}],
+    shots:2,idPhoto:'photos/IMG_9835.jpeg',localPhotos:['photos/IMG_9835.jpeg','photos/IMG_9890.jpeg'],
+    catchSlides:[{date:'November 15, 2026',method:'Jigging',weight:null,area:'Punta Chivato / nearby',angler:'Neil Farley',fishCount:1},{date:'November 17, 2026',method:'Shore casting',weight:'6 lbs',area:'Punta Chivato / nearby',angler:'Mark Fontenot',fishCount:1}],
     shape:'stout',color:'silver',marking:'plain',tail:'forked',openWater:true,
     features:['Large, deep-bodied, powerful silver jack with a robust head.','Strongly forked tail and narrow tail base suited for fast swimming.','Pectoral fins are long and curved, extending back along the body.','Dark spot near the upper edge of the gill cover may be visible.','Long lateral line with hard scutes toward the tail.'],
     similar:'Other Caranx jacks, especially horse-eye and bigeye trevallies, may look similar; compare body proportions, gill-cover spot, eye and lateral-line scutes.',
@@ -1010,6 +1010,7 @@ function sharePage(){
 
 /* Published additions, newest first. Add new IDs or catches to the front when publishing. */
 const RECENT_ADDITIONS = [
+ {type:'catch',id:'pacific-crevalle-jack',photoIndex:1},
  {type:'catch',id:'pacific-crevalle-jack'},
  {type:'species',id:'pacific-crevalle-jack'},
  {type:'catch',id:'hookthroat-bass'},
@@ -1028,7 +1029,7 @@ const RECENT_ADDITIONS = [
 function recentEntryCard(item){
  const f=FISH.find(f=>f.id===item.id);
  if(!f)return '';
- const isCatch=item.type==='catch',photo=isCatch?fishPhoto(f,0):identificationPhoto(f);
+ const isCatch=item.type==='catch',photo=isCatch?fishPhoto(f,item.photoIndex??0):identificationPhoto(f);
  return `<button type="button" class="recent-fish-card" ${isCatch?'data-catches':'data-fish'}="${esc(f.id)}" aria-label="View ${esc(f.english)} ${isCatch?'catch gallery':'identification'}">
  <span class="recent-fish-photo">${photo?`<img loading="lazy" src="${esc(photo)}" alt="${esc(f.english)}">`:'<span class="category-tile-placeholder" aria-hidden="true">◇</span>'}</span>
  <span class="recent-fish-info"><span class="recent-fish-type">${isCatch?'New catch':'New fish ID'}</span><strong>${esc(f.english)}</strong><small>${esc(f.spanish)}</small></span></button>`;
