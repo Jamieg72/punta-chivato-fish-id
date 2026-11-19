@@ -1110,6 +1110,7 @@ function categoryPage(category){
 function dataPair(title,value){return `<div class="kv"><dt>${esc(title)}</dt><dd>${esc(value)}</dd></div>`}
 /* Species eating-quality descriptions and reference sources. */
 const EDIBILITY_GUIDE = {
+  "needlefish": { "grade": "Generally not good eating", "source": "https://biogeodb.stri.si.edu/sftep/" },
   "pacific-crevalle-jack": { "grade": "Not good eating", "flavor": "Strong-flavored flesh; generally not considered a desirable table fish.", "note": "Known primarily as a powerful sportfish.", "source": "https://biogeodb.stri.si.edu/sftep/" },
   "hookthroat-bass": { "grade": "Good eating", "cook": "Excellent pan-seared.", "note": "Handle and chill promptly after catching.", "source": "https://biogeodb.stri.si.edu/sftep/" },
   "stone-scorpionfish": { "grade": "Good eating — use extreme caution handling", "flavor": "White flesh of excellent reported quality.", "cook": "Grilled, baked or pan-seared after safe removal of venomous spines.", "note": "WARNING: Venomous spines can cause extremely painful injuries. Do not handle or clean without appropriate protection and expertise.", "source": "https://www.fishbase.se/summary/scorpaena-mystes" },
