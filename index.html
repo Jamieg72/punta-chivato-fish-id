@@ -592,6 +592,20 @@ const CATEGORIES = [
 ];
 const FISH = [
   {
+    id:'needlefish',english:'Needlefish',spanish:'Agujón',
+    other:['Agujon','Needle fish'],category:'Other Reef & Bottom Fish',
+    scientific:'Belonidae (family)',status:'reference',
+    statusNote:'The elongated upper and lower jaws and slender silver body are consistent with needlefish. Exact species is not established from this photograph.',
+    shots:1,idPhoto:'photos/IMG_9897.png',localPhotos:['photos/IMG_9897.png'],
+    catchSlides:[{date:'November 19, 2026',method:'Trolling',weight:'1.5 lbs',lure:'Krocodile',area:'Punta Chivato / nearby',angler:'Mark Fontenot',fishCount:1}],
+    shape:'slender',color:'silver',marking:'plain',tail:'forked',openWater:true,
+    features:['Long, narrow, silver body.','Both jaws extend into a long pointed beak armed with sharp teeth.','Typically swims and hunts close to the water surface.','Dorsal and anal fins are positioned toward the rear of the body.'],
+    similar:'Halfbeaks typically have an elongated lower jaw only. Several needlefish species occur in the Sea of Cortez; the tail and other diagnostic features are not clearly visible in this photo.',
+    catchDate:'November 19, 2026',dateNote:null,method:'Trolling',lure:'Krocodile',catchWeight:'1.5 lbs',
+    catchNote:'Mark Fontenot caught one needlefish on November 19, 2026 while trolling a Krocodile lure.',
+    sourceName:'Smithsonian — Tropical Eastern Pacific Fishes',sourceUrl:'https://biogeodb.stri.si.edu/sftep/'
+  },
+  {
     id:'pacific-crevalle-jack',english:'Pacific Crevalle Jack',spanish:'Toro',
     other:['Crevalle Jack','Jack Crevalle','Toro','Jurel'],category:'Jacks & Roosterfish',
     scientific:'Caranx caninus',status:'reference',
@@ -1010,6 +1024,8 @@ function sharePage(){
 
 /* Published additions, newest first. Add new IDs or catches to the front when publishing. */
 const RECENT_ADDITIONS = [
+ {type:'catch',id:'needlefish'},
+ {type:'species',id:'needlefish'},
  {type:'catch',id:'pacific-crevalle-jack',photoIndex:1},
  {type:'catch',id:'pacific-crevalle-jack'},
  {type:'species',id:'pacific-crevalle-jack'},
