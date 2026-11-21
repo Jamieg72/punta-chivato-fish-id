@@ -1049,10 +1049,12 @@ const RECENT_ADDITIONS = [
 function recentEntryCard(item){
  const f=FISH.find(f=>f.id===item.id);
  if(!f)return '';
- const isCatch=item.type==='catch',photo=isCatch?fishPhoto(f,item.photoIndex??0):identificationPhoto(f);
- return `<button type="button" class="recent-fish-card" ${isCatch?'data-catches':'data-fish'}="${esc(f.id)}" aria-label="View ${esc(f.english)} ${isCatch?'catch gallery':'identification'}">
+ const isCatch=item.type==='catch',index=item.photoIndex??0;
+ const photo=isCatch?fishPhoto(f,index):identificationPhoto(f);
+ const report=isCatch?reportsForFish(f)[index]:null;
+ return `<button type="button" class="recent-fish-card" ${isCatch?`data-catches="${esc(f.id)}" data-photo-index="${index}"`:`data-fish="${esc(f.id)}"`} aria-label="View ${esc(f.english)} ${isCatch?'catch gallery':'identification'}${report?.angler?' caught by '+esc(report.angler):''}">
  <span class="recent-fish-photo">${photo?`<img loading="lazy" src="${esc(photo)}" alt="${esc(f.english)}">`:'<span class="category-tile-placeholder" aria-hidden="true">◇</span>'}</span>
- <span class="recent-fish-info"><span class="recent-fish-type">${isCatch?'New catch':'New fish ID'}</span><strong>${esc(f.english)}</strong><small>${esc(f.spanish)}</small></span></button>`;
+ <span class="recent-fish-info"><span class="recent-fish-type">${isCatch?'New catch':'New fish ID'}</span><strong>${esc(f.english)}</strong><small>${esc(f.spanish)}</small>${report?.angler?`<small>${esc(report.angler)}</small>`:''}</span></button>`;
 }
 function recentlyAdded(){
  const latest=RECENT_ADDITIONS.filter(item=>FISH.some(f=>f.id===item.id)).slice(0,5);
@@ -1327,7 +1329,18 @@ function moveSlide(direction){const track=document.getElementById('galleryTrack'
 }
 let uploadTarget=null;
 document.addEventListener('click',e=>{
- const catchBtn=e.target.closest('[data-catches]');if(catchBtn){route('catches',catchBtn.dataset.catches);return}
+ const catchBtn=e.target.closest('[data-catches]');if(catchBtn){
+  route('catches',catchBtn.dataset.catches);
+  if(catchBtn.dataset.photoIndex!==undefined){
+   const track=document.getElementById('galleryTrack'),index=Number(catchBtn.dataset.photoIndex);
+   if(track&&Number.isInteger(index)&&index>=0&&index<track.children.length){
+    track.scrollLeft=track.clientWidth*index;
+    state.currentPhoto=index;
+    document.querySelectorAll('#galleryDots .dot').forEach((d,i)=>d.classList.toggle('active',i===index));
+   }
+  }
+  return
+ }
  const fishBtn=e.target.closest('[data-fish]');if(fishBtn){route('detail',fishBtn.dataset.fish);return}
  const backCategory=e.target.closest('[data-back-category]');if(backCategory){route('category',null,backCategory.dataset.backCategory);return}
  const cat=e.target.closest('[data-category]');if(cat){
